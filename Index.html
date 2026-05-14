@@ -1,0 +1,2490 @@
+<html lang="sv"><head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sommarserien 2026 – Hooks Golfklubb</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&amp;family=DM+Sans:wght@300;400;500&amp;display=swap" rel="stylesheet">
+<style>
+  :root {
+    --green-deep: #0a1f0e;
+    --green-mid: #1a3d1f;
+    --green-bright: #2d6a35;
+    --gold: #c9a84c;
+    --gold-light: #e8c97a;
+    --cream: #f5f0e8;
+    --text-muted: #8a9e8d;
+    --card-bg: rgba(255,255,255,0.04);
+    --border: rgba(201,168,76,0.2);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--green-deep);
+    color: var(--cream);
+    font-family: 'DM Sans', sans-serif;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* Background texture */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background:
+      radial-gradient(ellipse 80% 60% at 50% -10%, rgba(45,106,53,0.35) 0%, transparent 60%),
+      radial-gradient(ellipse 40% 40% at 90% 80%, rgba(201,168,76,0.08) 0%, transparent 50%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* NAV */
+  nav {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(10,31,14,0.92);
+    backdrop-filter: blur(16px);
+    border-bottom: 1px solid var(--border);
+    padding: 0 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 64px;
+  }
+  .nav-logo {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--gold);
+    letter-spacing: 0.05em;
+  }
+  .nav-tabs {
+    display: flex;
+    gap: 0.25rem;
+  }
+  .nav-tab {
+    background: none;
+    border: none;
+    color: var(--text-muted);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.85rem;
+    font-weight: 500;
+    padding: 0.45rem 0.9rem;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.2s;
+    letter-spacing: 0.02em;
+    white-space: nowrap;
+  }
+  .nav-tab:hover { color: var(--cream); background: rgba(255,255,255,0.06); }
+  .nav-tab.active { color: var(--gold); background: rgba(201,168,76,0.12); }
+
+  /* PAGES */
+  .page { display: none; animation: fadeIn 0.4s ease; }
+  .page.active { display: block; }
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+
+  /* HERO */
+  .hero {
+    position: relative;
+    z-index: 1;
+    text-align: center;
+    padding: 5rem 2rem 3.5rem;
+  }
+  .hero-badge {
+    display: inline-block;
+    border: 1px solid var(--gold);
+    color: var(--gold);
+    font-size: 0.7rem;
+    font-weight: 500;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    padding: 0.35rem 1rem;
+    border-radius: 100px;
+    margin-bottom: 1.5rem;
+    opacity: 0.9;
+  }
+  .hero h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2.8rem, 7vw, 5.5rem);
+    font-weight: 900;
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+    margin-bottom: 0.5rem;
+  }
+  .hero h1 span { color: var(--gold); }
+  .hero-sub {
+    color: var(--text-muted);
+    font-size: 1rem;
+    font-weight: 300;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+  .hero-divider {
+    width: 60px;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--gold), transparent);
+    margin: 2rem auto;
+  }
+
+  /* STATS ROW */
+  .stats-row {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    justify-content: center;
+    gap: 1px;
+    max-width: 700px;
+    margin: 0 auto 3.5rem;
+    background: var(--border);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    overflow: hidden;
+  }
+  .stat-item {
+    flex: 1;
+    padding: 1.2rem 1.5rem;
+    background: var(--card-bg);
+    text-align: center;
+    backdrop-filter: blur(8px);
+  }
+  .stat-item + .stat-item { border-left: 1px solid var(--border); }
+  .stat-value {
+    font-family: 'Playfair Display', serif;
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--gold-light);
+    display: block;
+  }
+  .stat-label {
+    font-size: 0.7rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-top: 0.2rem;
+  }
+
+  /* SECTION WRAPPER */
+  .section {
+    position: relative;
+    z-index: 1;
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 0 1.5rem 4rem;
+  }
+
+  /* SECTION TITLE */
+  .section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.6rem;
+    font-weight: 700;
+    margin-bottom: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+  .section-title::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+  }
+
+  /* LEADERBOARD TABLE */
+  .leaderboard-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    overflow: hidden;
+  }
+  .leaderboard-table thead tr {
+    background: rgba(201,168,76,0.08);
+    border-bottom: 1px solid var(--border);
+  }
+  .leaderboard-table th {
+    font-size: 0.68rem;
+    font-weight: 500;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    padding: 0.9rem 1rem;
+    text-align: right;
+  }
+  .leaderboard-table th:first-child { text-align: left; }
+  .leaderboard-table th.player-col { text-align: left; }
+  .leaderboard-table td {
+    padding: 0.85rem 1rem;
+    font-size: 0.92rem;
+    border-bottom: 1px solid rgba(201,168,76,0.07);
+    vertical-align: middle;
+  }
+  .leaderboard-table td:not(:first-child):not(.player-col) { text-align: right; }
+  .leaderboard-table tbody tr:last-child td { border-bottom: none; }
+  .leaderboard-table tbody tr { transition: background 0.15s; }
+  .leaderboard-table tbody tr:hover { background: rgba(255,255,255,0.03); }
+
+  /* TOP 5 rows */
+  .rank-1 td { background: rgba(201,168,76,0.1); }
+  .rank-2 td { background: rgba(192,192,192,0.07); }
+  .rank-3 td { background: rgba(184,115,51,0.06); }
+  .rank-4 td { background: rgba(100,180,120,0.06); }
+  .rank-5 td { background: rgba(100,160,180,0.05); }
+
+  .rank-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    font-size: 0.8rem;
+    font-weight: 700;
+    font-family: 'Playfair Display', serif;
+  }
+  .rank-1 .rank-badge { background: var(--gold); color: var(--green-deep); }
+  .rank-2 .rank-badge { background: #b0b0b0; color: var(--green-deep); }
+  .rank-3 .rank-badge { background: #b47333; color: #fff; }
+  .rank-4 .rank-badge { background: rgba(100,180,120,0.25); color: #7ecf96; border: 1px solid rgba(100,180,120,0.4); }
+  .rank-5 .rank-badge { background: rgba(100,160,180,0.2); color: #7ab8cc; border: 1px solid rgba(100,160,180,0.35); }
+  .rank-other .rank-badge { background: rgba(255,255,255,0.07); color: var(--text-muted); }
+
+  .player-name {
+    font-weight: 500;
+    color: var(--cream);
+  }
+  .player-name.top-3 { font-weight: 600; }
+  .player-name.top-5 { font-weight: 550; }
+
+  .points-value {
+    font-family: 'Playfair Display', serif;
+    font-weight: 700;
+    font-size: 1rem;
+    color: var(--gold-light);
+  }
+  .cash-value { color: #6dba7f; font-weight: 500; }
+  .no-points { color: var(--text-muted); font-size: 0.8rem; }
+
+  /* ROUNDS GRID */
+  .rounds-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1rem;
+  }
+  .round-card {
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    background: var(--card-bg);
+    padding: 1.4rem 1.5rem;
+    cursor: pointer;
+    transition: all 0.2s;
+    position: relative;
+    overflow: hidden;
+  }
+  .round-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 3px; height: 100%;
+    background: var(--green-bright);
+    opacity: 0;
+    transition: opacity 0.2s;
+  }
+  .round-card.major::before { background: var(--gold); }
+  .round-card:hover { border-color: rgba(201,168,76,0.4); transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,0,0,0.3); }
+  .round-card:hover::before { opacity: 1; }
+  .round-tag {
+    display: inline-block;
+    font-size: 0.62rem;
+    font-weight: 600;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    padding: 0.2rem 0.6rem;
+    border-radius: 100px;
+    margin-bottom: 0.7rem;
+  }
+  .round-tag.deltavling { background: rgba(45,106,53,0.3); color: #6dba7f; border: 1px solid rgba(45,106,53,0.4); }
+  .round-tag.major { background: rgba(201,168,76,0.15); color: var(--gold); border: 1px solid var(--border); }
+  .round-name {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.1rem;
+    font-weight: 700;
+    margin-bottom: 0.3rem;
+    color: var(--cream);
+  }
+  .round-course {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+  }
+  .round-points-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+  }
+  .round-top-prize {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: var(--gold-light);
+  }
+  .round-top-prize-label { font-size: 0.68rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.1em; }
+  .round-status-pill {
+    font-size: 0.65rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 0.25rem 0.7rem;
+    border-radius: 100px;
+    background: rgba(109,186,127,0.12);
+    color: #6dba7f;
+    border: 1px solid rgba(109,186,127,0.25);
+  }
+  .round-status-pill.upcoming {
+    background: rgba(255,255,255,0.05);
+    color: var(--text-muted);
+    border-color: var(--border);
+  }
+  .round-status-pill.active-round {
+    background: rgba(201,168,76,0.18);
+    color: var(--gold);
+    border: 1px solid rgba(201,168,76,0.45);
+    animation: pulse-gold 2s infinite;
+  }
+  @keyframes pulse-gold {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(201,168,76,0.3); }
+    50% { box-shadow: 0 0 0 5px rgba(201,168,76,0); }
+  }
+  .round-card.active-card {
+    border-color: rgba(201,168,76,0.5);
+    box-shadow: 0 0 0 1px rgba(201,168,76,0.2), 0 4px 20px rgba(0,0,0,0.3);
+  }
+  .round-card.active-card::before { opacity: 1; background: var(--gold); }
+  .round-card.no-results {
+    opacity: 0.5;
+    cursor: default;
+  }
+  .round-card.no-results:hover { transform: none; box-shadow: none; border-color: var(--border); }
+  .round-card.no-results:hover::before { opacity: 0; }
+
+  /* RESULT PANEL */
+  .result-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.7);
+    z-index: 200;
+    backdrop-filter: blur(4px);
+    animation: fadeIn 0.2s ease;
+  }
+  .result-overlay.open { display: flex; align-items: center; justify-content: center; padding: 1.5rem; }
+  .result-panel {
+    background: #0f2813;
+    border: 1px solid rgba(201,168,76,0.3);
+    border-radius: 16px;
+    width: 100%;
+    max-width: 620px;
+    max-height: 85vh;
+    overflow-y: auto;
+    box-shadow: 0 24px 60px rgba(0,0,0,0.6);
+    animation: slideUp 0.25s ease;
+  }
+  @keyframes slideUp { from { opacity:0; transform:translateY(20px); } to { opacity:1; transform:translateY(0); } }
+  .result-panel-header {
+    padding: 1.5rem 1.5rem 1rem;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    position: sticky;
+    top: 0;
+    background: #0f2813;
+    z-index: 1;
+    border-radius: 16px 16px 0 0;
+  }
+  .result-panel-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: var(--cream);
+  }
+  .result-panel-sub {
+    font-size: 0.78rem;
+    color: var(--text-muted);
+    margin-top: 0.2rem;
+  }
+  .result-close {
+    background: rgba(255,255,255,0.08);
+    border: none;
+    color: var(--cream);
+    width: 32px; height: 32px;
+    border-radius: 50%;
+    font-size: 1.1rem;
+    cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    transition: background 0.15s;
+    flex-shrink: 0;
+  }
+  .result-close:hover { background: rgba(255,255,255,0.15); }
+  .result-panel-body { padding: 1rem 1.5rem 1.5rem; }
+  .result-table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  .result-table thead tr {
+    border-bottom: 1px solid var(--border);
+  }
+  .result-table th {
+    font-size: 0.65rem;
+    font-weight: 500;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    padding: 0.5rem 0.6rem 0.75rem;
+    text-align: left;
+  }
+  .result-table th:not(:nth-child(2)) { text-align: right; }
+  .result-table td {
+    padding: 0.65rem 0.6rem;
+    font-size: 0.88rem;
+    border-bottom: 1px solid rgba(201,168,76,0.06);
+    vertical-align: middle;
+  }
+  .result-table td:not(:nth-child(2)) { text-align: right; }
+  .result-table tbody tr:last-child td { border-bottom: none; }
+  .result-table tbody tr:hover { background: rgba(255,255,255,0.025); }
+  .result-rank { color: var(--text-muted); font-family: 'Playfair Display', serif; font-weight: 700; }
+  .result-rank.r1 { color: var(--gold); }
+  .result-rank.r2 { color: #b0b0b0; }
+  .result-rank.r3 { color: #b47333; }
+  .result-pts { font-family: 'Playfair Display', serif; font-weight: 700; color: var(--gold-light); }
+  .result-hcp { color: var(--text-muted); }
+  .result-score { color: var(--cream); font-weight: 500; }
+
+  /* PRIZE TABLE */
+  .prize-section { margin-bottom: 2.5rem; }
+  .prize-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--gold);
+    margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid var(--border);
+  }
+  .prize-table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  .prize-table tr { border-bottom: 1px solid rgba(201,168,76,0.08); }
+  .prize-table tr:last-child { border-bottom: none; }
+  .prize-table td {
+    padding: 0.65rem 0.8rem;
+    font-size: 0.88rem;
+  }
+  .prize-table td:last-child { text-align: right; font-weight: 600; color: #6dba7f; }
+  .prize-pos { color: var(--text-muted); font-family: 'Playfair Display', serif; }
+  .prize-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
+  @media (max-width: 600px) { .prize-grid { grid-template-columns: 1fr; } }
+
+  .points-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
+  @media (max-width: 600px) { .points-grid { grid-template-columns: 1fr; } }
+
+
+  /* ADMIN BUTTON */
+  .admin-btn {
+    background: none;
+    border: 1px solid rgba(201,168,76,0.3);
+    color: var(--text-muted);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.75rem;
+    font-weight: 500;
+    padding: 0.35rem 0.75rem;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.2s;
+    letter-spacing: 0.05em;
+  }
+  .admin-btn:hover { color: var(--gold); border-color: var(--gold); }
+
+  /* ADMIN OVERLAY */
+  .admin-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.8);
+    z-index: 300;
+    backdrop-filter: blur(6px);
+    animation: fadeIn 0.2s ease;
+    align-items: flex-start;
+    justify-content: center;
+    padding: 1.5rem;
+    overflow-y: auto;
+  }
+  .admin-overlay.open { display: flex; }
+  .admin-panel {
+    background: #0c1f10;
+    border: 1px solid rgba(201,168,76,0.35);
+    border-radius: 16px;
+    width: 100%;
+    max-width: 700px;
+    box-shadow: 0 32px 80px rgba(0,0,0,0.7);
+    animation: slideUp 0.25s ease;
+    margin: auto;
+  }
+  .admin-panel-header {
+    padding: 1.5rem;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-radius: 16px 16px 0 0;
+    background: rgba(201,168,76,0.06);
+  }
+  .admin-panel-title { font-family: 'Playfair Display', serif; font-size: 1.2rem; font-weight: 700; color: var(--gold); }
+  .admin-panel-body { padding: 1.5rem; display: flex; flex-direction: column; gap: 1.5rem; }
+  .admin-login { display: flex; flex-direction: column; gap: 1rem; }
+  .admin-login p { color: var(--text-muted); font-size: 0.85rem; }
+  .admin-section { border: 1px solid var(--border); border-radius: 10px; overflow: hidden; }
+  .admin-section-title {
+    background: rgba(201,168,76,0.07);
+    border-bottom: 1px solid var(--border);
+    padding: 0.75rem 1rem;
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--gold);
+  }
+  .admin-section-body { padding: 1rem; display: flex; flex-direction: column; gap: 0.75rem; }
+  .admin-label { font-size: 0.75rem; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-muted); margin-bottom: 0.3rem; display: block; }
+  .admin-input, .admin-select {
+    width: 100%;
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.12);
+    border-radius: 7px;
+    color: var(--cream);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.88rem;
+    padding: 0.6rem 0.8rem;
+    outline: none;
+    transition: border-color 0.15s;
+  }
+  .admin-input:focus, .admin-select:focus { border-color: var(--gold); }
+  .admin-select option { background: #0c1f10; }
+  .admin-row { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; }
+  @media(max-width:500px) { .admin-row { grid-template-columns: 1fr; } }
+  .admin-results-table { width: 100%; border-collapse: collapse; }
+  .admin-results-table th { font-size: 0.65rem; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text-muted); padding: 0.4rem 0.5rem; text-align: left; border-bottom: 1px solid var(--border); }
+  .admin-results-table td { padding: 0.35rem 0.4rem; vertical-align: middle; }
+  .admin-results-table .admin-input { padding: 0.4rem 0.6rem; font-size: 0.82rem; }
+  .admin-results-table .row-num { color: var(--text-muted); font-family: 'Playfair Display', serif; font-size: 0.85rem; text-align: center; width: 28px; }
+  .admin-btn-primary {
+    background: var(--gold); color: var(--green-deep); border: none; border-radius: 8px;
+    font-family: 'DM Sans', sans-serif; font-size: 0.88rem; font-weight: 700;
+    padding: 0.75rem 1.5rem; cursor: pointer; transition: all 0.15s; letter-spacing: 0.03em;
+  }
+  .admin-btn-primary:hover { background: var(--gold-light); transform: translateY(-1px); }
+  .admin-btn-secondary {
+    background: rgba(255,255,255,0.07); color: var(--cream); border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 8px; font-family: 'DM Sans', sans-serif; font-size: 0.88rem; font-weight: 500;
+    padding: 0.75rem 1.5rem; cursor: pointer; transition: all 0.15s;
+  }
+  .admin-btn-secondary:hover { background: rgba(255,255,255,0.12); }
+  .admin-btn-row { display: flex; gap: 0.75rem; justify-content: flex-end; flex-wrap: wrap; }
+  .admin-toast {
+    position: fixed; bottom: 2rem; left: 50%; transform: translateX(-50%) translateY(10px);
+    background: #1a3d1f; border: 1px solid rgba(109,186,127,0.4); color: #6dba7f;
+    font-size: 0.85rem; font-weight: 500; padding: 0.7rem 1.5rem; border-radius: 100px;
+    z-index: 400; opacity: 0; transition: all 0.3s; pointer-events: none;
+  }
+  .admin-toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+  .status-badge { display: inline-block; font-size: 0.7rem; font-weight: 600; padding: 0.15rem 0.5rem; border-radius: 100px; margin-left: 0.5rem; }
+  .status-done { background: rgba(109,186,127,0.15); color: #6dba7f; }
+  .status-active { background: rgba(201,168,76,0.15); color: var(--gold); }
+  .status-upcoming { background: rgba(255,255,255,0.07); color: var(--text-muted); }
+
+
+  /* STATS PAGE */
+  .stats-section { margin-bottom: 2.5rem; }
+  .stats-card {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 1.4rem 1.5rem;
+    margin-bottom: 1rem;
+  }
+  .stats-card-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--gold);
+    margin-bottom: 1.2rem;
+    padding-bottom: 0.6rem;
+    border-bottom: 1px solid var(--border);
+  }
+  /* Hole difficulty bar chart */
+  .hole-bars { display: flex; align-items: flex-end; gap: 6px; height: 120px; margin-bottom: 0.5rem; }
+  .hole-bar-wrap { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 4px; }
+  .hole-bar {
+    width: 100%;
+    border-radius: 4px 4px 0 0;
+    min-height: 4px;
+    transition: height 0.4s ease;
+    position: relative;
+  }
+  .hole-bar.easy  { background: linear-gradient(180deg, #4caf74, #2d6a35); }
+  .hole-bar.hard  { background: linear-gradient(180deg, #c97a4c, #8b3a1a); }
+  .hole-bar.par   { background: linear-gradient(180deg, #8a9e8d, #5a7a5d); }
+  .hole-bar-label { font-size: 0.6rem; color: var(--text-muted); }
+  .hole-bar-val   { font-size: 0.62rem; font-weight: 600; color: var(--cream); }
+  .hole-bar-num   { font-size: 0.65rem; color: var(--text-muted); margin-top: 2px; }
+  /* Par comparison bars */
+  .par-split-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+  @media(max-width:500px) { .par-split-grid { grid-template-columns: 1fr; } }
+  .par-split-card {
+    background: rgba(255,255,255,0.03);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 1rem 1.2rem;
+    text-align: center;
+  }
+  .par-split-label { font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--text-muted); margin-bottom: 0.4rem; }
+  .par-split-value { font-family: 'Playfair Display', serif; font-size: 2rem; font-weight: 700; }
+  .par-split-value.over  { color: #e07070; }
+  .par-split-value.under { color: #6dba7f; }
+  .par-split-value.even  { color: var(--gold-light); }
+  .par-split-sub { font-size: 0.72rem; color: var(--text-muted); margin-top: 0.2rem; }
+  /* Frequency */
+  .freq-bar-row { display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.5rem; }
+  .freq-name { font-size: 0.82rem; width: 140px; flex-shrink: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .freq-bar-bg { flex: 1; background: rgba(255,255,255,0.06); border-radius: 100px; height: 8px; overflow: hidden; }
+  .freq-bar-fill { height: 100%; border-radius: 100px; background: linear-gradient(90deg, var(--green-bright), var(--gold)); transition: width 0.5s ease; }
+  .freq-count { font-size: 0.75rem; color: var(--text-muted); width: 30px; text-align: right; }
+  .stats-round-select { margin-bottom: 1.5rem; }
+  .no-data-msg { color: var(--text-muted); font-size: 0.85rem; font-style: italic; text-align: center; padding: 1.5rem 0; }
+
+  /* FOOTER */
+  footer {
+    position: relative;
+    z-index: 1;
+    border-top: 1px solid var(--border);
+    text-align: center;
+    padding: 2rem;
+    color: var(--text-muted);
+    font-size: 0.78rem;
+    letter-spacing: 0.05em;
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-logo">⛳ Sommarserien 2026</div>
+  <div class="nav-tabs">
+    <button class="nav-tab active" onclick="showPage('leaderboard', this)">Ledartavla</button>
+    <button class="nav-tab" onclick="showPage('rounds', this)">Tävlingar</button>
+    <button class="nav-tab" onclick="showPage('prizes', this)">Priser &amp; Poäng</button>
+    <button class="nav-tab" onclick="showPage('stats', this)">Statistik</button>
+  </div>
+  <button class="admin-btn" onclick="openAdmin()">⚙ Admin</button>
+</nav>
+
+<!-- ==================== LEADERBOARD PAGE ==================== -->
+<div class="page active" id="page-leaderboard">
+  <div class="hero">
+    <div class="hero-badge">Säsong 2026</div>
+    <h1>Sommar<span>serien</span></h1>
+    <div class="hero-sub">Hooks Golfklubb &nbsp;·&nbsp; Hook</div>
+    <div class="hero-divider"></div>
+  </div>
+
+  <div class="stats-row">
+    <div class="stat-item">
+      <span class="stat-value">25</span>
+      <span class="stat-label">Deltagare</span>
+    </div>
+    <div class="stat-item">
+      <span class="stat-value">5</span>
+      <span class="stat-label">Deltävlingar</span>
+    </div>
+    <div class="stat-item">
+      <span class="stat-value">2</span>
+      <span class="stat-label">Majors</span>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Ledartavla</div>
+    <table class="leaderboard-table">
+      <thead>
+        <tr>
+          <th style="width:52px;">#</th>
+          <th class="player-col">Spelare</th>
+          <th>Poäng</th>
+          <th>Cash</th>
+        </tr>
+      </thead>
+      <tbody id="leaderboard-body"><tr class="rank-1">
+      <td><span class="rank-badge">1</span></td>
+      <td class="player-col"><span class="player-name top-3">Anton Edman</span></td>
+      <td><span class="no-points">–</span></td>
+      <td><span class="no-points">–</span></td>
+    </tr><tr class="rank-2">
+      <td><span class="rank-badge">2</span></td>
+      <td class="player-col"><span class="player-name top-3">Daniel Lindh</span></td>
+      <td><span class="no-points">–</span></td>
+      <td><span class="no-points">–</span></td>
+    </tr><tr class="rank-3">
+      <td><span class="rank-badge">3</span></td>
+      <td class="player-col"><span class="player-name top-3">David Ärleskog</span></td>
+      <td><span class="no-points">–</span></td>
+      <td><span class="no-points">–</span></td>
+    </tr><tr class="rank-4">
+      <td><span class="rank-badge">4</span></td>
+      <td class="player-col"><span class="player-name top-5">Dennis Berg</span></td>
+      <td><span class="no-points">–</span></td>
+      <td><span class="no-points">–</span></td>
+    </tr><tr class="rank-5">
+      <td><span class="rank-badge">5</span></td>
+      <td class="player-col"><span class="player-name top-5">Felix Björklind</span></td>
+      <td><span class="no-points">–</span></td>
+      <td><span class="no-points">–</span></td>
+    </tr><tr class="rank-other">
+      <td><span class="rank-badge">6</span></td>
+      <td class="player-col"><span class="player-name">Henrik Jönsson</span></td>
+      <td><span class="no-points">–</span></td>
+      <td><span class="no-points">–</span></td>
+    </tr><tr class="rank-other">
+      <td><span class="rank-badge">7</span></td>
+      <td class="player-col"><span class="player-name">Jacob Andersson</span></td>
+      <td><span class="no-points">–</span></td>
+      <td><span class="no-points">–</span></td>
+    </tr><tr class="rank-other">
+      <td><span class="rank-badge">8</span></td>
+      <td class="player-col"><span class="player-name">Jens Williamsson</span></td>
+      <td><span class="no-points">–</span></td>
+      <td><span class="no-points">–</span></td>
+    </tr><tr class="rank-other">
+      <td><span class="rank-badge">9</span></td>
+      <td class="player-col"><span class="player-name">Jesper Williamsson</span></td>
+      <td><span class="no-points">–</span></td>
+      <td><span class="no-points">–</span></td>
+    </tr><tr class="rank-other">
+      <td><span class="rank-badge">10</span></td>
+      <td class="player-col"><span class="player-name">Joacim Lovén</span></td>
+      <td><span class="no-points">–</span></td>
+      <td><span class="no-points">–</span></td>
+    </tr><tr class="rank-other">
+      <td><span class="rank-badge">11</span></td>
+      <td class="player-col"><span class="player-name">Joel Ström</span></td>
+      <td><span class="no-points">–</span></td>
+      <td><span class="no-points">–</span></td>
+    </tr><tr class="rank-other">
+      <td><span class="rank-badge">12</span></td>
+      <td class="player-col"><span class="player-name">John Falk</span></td>
+      <td><span class="no-points">–</span></td>
+      <td><span class="no-points">–</span></td>
+    </tr><tr class="rank-other">
+      <td><span class="rank-badge">13</span></td>
+      <td class="player-col"><span class="player-name">Marcus Göth</span></td>
+      <td><span class="no-points">–</span></td>
+      <td><span class="no-points">–</span></td>
+    </tr><tr class="rank-other">
+      <td><span class="rank-badge">14</span></td>
+      <td class="player-col"><span class="player-name">Markus Nyberg</span></td>
+      <td><span class="no-points">–</span></td>
+      <td><span class="no-points">–</span></td>
+    </tr><tr class="rank-other">
+      <td><span class="rank-badge">15</span></td>
+      <td class="player-col"><span class="player-name">Martin Jönsson</span></td>
+      <td><span class="no-points">–</span></td>
+      <td><span class="no-points">–</span></td>
+    </tr><tr class="rank-other">
+      <td><span class="rank-badge">16</span></td>
+      <td class="player-col"><span class="player-name">Martin Svensson</span></td>
+      <td><span class="no-points">–</span></td>
+      <td><span class="no-points">–</span></td>
+    </tr><tr class="rank-other">
+      <td><span class="rank-badge">17</span></td>
+      <td class="player-col"><span class="player-name">Oliver Ekbladh</span></td>
+      <td><span class="no-points">–</span></td>
+      <td><span class="no-points">–</span></td>
+    </tr><tr class="rank-other">
+      <td><span class="rank-badge">18</span></td>
+      <td class="player-col"><span class="player-name">Oliver Gustavsson</span></td>
+      <td><span class="no-points">–</span></td>
+      <td><span class="no-points">–</span></td>
+    </tr><tr class="rank-other">
+      <td><span class="rank-badge">19</span></td>
+      <td class="player-col"><span class="player-name">Oscar Wareborn</span></td>
+      <td><span class="no-points">–</span></td>
+      <td><span class="no-points">–</span></td>
+    </tr><tr class="rank-other">
+      <td><span class="rank-badge">20</span></td>
+      <td class="player-col"><span class="player-name">Petter Johansson</span></td>
+      <td><span class="no-points">–</span></td>
+      <td><span class="no-points">–</span></td>
+    </tr><tr class="rank-other">
+      <td><span class="rank-badge">21</span></td>
+      <td class="player-col"><span class="player-name">Robin Lindholm</span></td>
+      <td><span class="no-points">–</span></td>
+      <td><span class="no-points">–</span></td>
+    </tr><tr class="rank-other">
+      <td><span class="rank-badge">22</span></td>
+      <td class="player-col"><span class="player-name">Sebastian Tiderman</span></td>
+      <td><span class="no-points">–</span></td>
+      <td><span class="no-points">–</span></td>
+    </tr><tr class="rank-other">
+      <td><span class="rank-badge">23</span></td>
+      <td class="player-col"><span class="player-name">Simon Wermelin</span></td>
+      <td><span class="no-points">–</span></td>
+      <td><span class="no-points">–</span></td>
+    </tr><tr class="rank-other">
+      <td><span class="rank-badge">24</span></td>
+      <td class="player-col"><span class="player-name">Victor Strand</span></td>
+      <td><span class="no-points">–</span></td>
+      <td><span class="no-points">–</span></td>
+    </tr><tr class="rank-other">
+      <td><span class="rank-badge">25</span></td>
+      <td class="player-col"><span class="player-name">Zimon Karlsson</span></td>
+      <td><span class="no-points">–</span></td>
+      <td><span class="no-points">–</span></td>
+    </tr></tbody>
+    </table>
+  </div>
+</div>
+
+<!-- ==================== ROUNDS PAGE ==================== -->
+<div class="page" id="page-rounds">
+  <div class="hero" style="padding-bottom:2rem;">
+    <div class="hero-badge">Tävlingsschema</div>
+    <h1 style="font-size:clamp(2rem,5vw,3.5rem);">Tävlings<span>kalender</span></h1>
+    <div class="hero-divider"></div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Deltävlingar</div>
+    <div class="rounds-grid" id="rounds-deltavling"><div class="round-card active-card" onclick="openResult(1)">
+      <span class="round-tag deltavling">Deltävling</span>
+      <div class="round-name">Maj – Deltävling 1</div>
+      <div class="round-course">⛳ Skogsbanan</div>
+      <div class="round-points-info">
+        <div>
+          <div class="round-top-prize-label">1:a plats</div>
+          <div class="round-top-prize">500 p</div>
+        </div>
+        <span class="round-status-pill active-round">● Pågår nu</span>
+      </div>
+    </div><div class="round-card no-results" style="cursor:default">
+      <span class="round-tag deltavling">Deltävling</span>
+      <div class="round-name">Juni – Deltävling 2</div>
+      <div class="round-course">⛳ Parkbanan</div>
+      <div class="round-points-info">
+        <div>
+          <div class="round-top-prize-label">1:a plats</div>
+          <div class="round-top-prize">500 p</div>
+        </div>
+        <span class="round-status-pill upcoming">Kommande</span>
+      </div>
+    </div><div class="round-card no-results" style="cursor:default">
+      <span class="round-tag deltavling">Deltävling</span>
+      <div class="round-name">Juli – Deltävling 3</div>
+      <div class="round-course">⛳ Skogsbanan</div>
+      <div class="round-points-info">
+        <div>
+          <div class="round-top-prize-label">1:a plats</div>
+          <div class="round-top-prize">500 p</div>
+        </div>
+        <span class="round-status-pill upcoming">Kommande</span>
+      </div>
+    </div><div class="round-card no-results" style="cursor:default">
+      <span class="round-tag deltavling">Deltävling</span>
+      <div class="round-name">Augusti – Deltävling 4</div>
+      <div class="round-course">⛳ Parkbanan</div>
+      <div class="round-points-info">
+        <div>
+          <div class="round-top-prize-label">1:a plats</div>
+          <div class="round-top-prize">500 p</div>
+        </div>
+        <span class="round-status-pill upcoming">Kommande</span>
+      </div>
+    </div><div class="round-card no-results" style="cursor:default">
+      <span class="round-tag deltavling">Deltävling</span>
+      <div class="round-name">September – Deltävling 5</div>
+      <div class="round-course">⛳ Skogsbanan</div>
+      <div class="round-points-info">
+        <div>
+          <div class="round-top-prize-label">1:a plats</div>
+          <div class="round-top-prize">500 p</div>
+        </div>
+        <span class="round-status-pill upcoming">Kommande</span>
+      </div>
+    </div></div>
+
+    <div class="section-title" style="margin-top:2.5rem;">Major-tävlingar</div>
+    <div class="rounds-grid" id="rounds-major"><div class="round-card major no-results" style="cursor:default">
+      <span class="round-tag major">Major</span>
+      <div class="round-name">Juni – Major 1</div>
+      <div class="round-course">⛳ Skogsbanan&nbsp;&nbsp;·&nbsp;&nbsp;📅 27 juni</div>
+      <div class="round-points-info">
+        <div>
+          <div class="round-top-prize-label">1:a plats</div>
+          <div class="round-top-prize">700 p</div>
+        </div>
+        <span class="round-status-pill upcoming">Kommande</span>
+      </div>
+    </div><div class="round-card major no-results" style="cursor:default">
+      <span class="round-tag major">Major</span>
+      <div class="round-name">September – Final Major</div>
+      <div class="round-course">⛳ Parkbanan&nbsp;&nbsp;·&nbsp;&nbsp;📅 26 september</div>
+      <div class="round-points-info">
+        <div>
+          <div class="round-top-prize-label">1:a plats</div>
+          <div class="round-top-prize">700 p</div>
+        </div>
+        <span class="round-status-pill upcoming">Kommande</span>
+      </div>
+    </div></div>
+  </div>
+</div>
+
+<!-- ==================== PRIZES PAGE ==================== -->
+<div class="page" id="page-prizes">
+  <div class="hero" style="padding-bottom:2rem;">
+    <div class="hero-badge">Utbetalningar</div>
+    <h1 style="font-size:clamp(2rem,5vw,3.5rem);">Priser &amp; <span>Poäng</span></h1>
+    <div class="hero-divider"></div>
+  </div>
+
+  <div class="section">
+    <div class="prize-grid">
+      <div class="prize-section">
+        <div class="prize-title">🏆 Seriesegern – Slutplacering</div>
+        <table class="prize-table">
+          <tbody><tr><td class="prize-pos">1:a</td><td>Seriesegraren</td><td>3 000 kr</td></tr>
+          <tr><td class="prize-pos">2:a</td><td></td><td>1 500 kr</td></tr>
+          <tr><td class="prize-pos">3:a</td><td></td><td>750 kr</td></tr>
+          <tr><td class="prize-pos">4:a</td><td></td><td>500 kr</td></tr>
+          <tr><td class="prize-pos">5:a</td><td></td><td>250 kr</td></tr>
+        </tbody></table>
+      </div>
+      <div>
+        <div class="prize-section">
+          <div class="prize-title">⭐ Major 1 – 27 juni</div>
+          <table class="prize-table">
+            <tbody id="major1-prizes">
+        <tr>
+          <td class="prize-pos">1:a</td>
+          <td style="color:var(--text-muted);font-style:italic;">Vinnaren</td>
+          <td>1 500 kr</td>
+        </tr>
+        <tr>
+          <td class="prize-pos">2:a</td>
+          <td style="color:var(--text-muted);font-style:italic;"></td>
+          <td>750 kr</td>
+        </tr>
+        <tr>
+          <td class="prize-pos">3:a</td>
+          <td style="color:var(--text-muted);font-style:italic;"></td>
+          <td>500 kr</td>
+        </tr></tbody>
+          </table>
+        </div>
+        <div class="prize-section" style="margin-top:1.5rem;">
+          <div class="prize-title">⭐ Finalmajor – 26 september</div>
+          <table class="prize-table">
+            <tbody id="major2-prizes">
+        <tr>
+          <td class="prize-pos">1:a</td>
+          <td style="color:var(--text-muted);font-style:italic;">Vinnaren</td>
+          <td>1 500 kr</td>
+        </tr>
+        <tr>
+          <td class="prize-pos">2:a</td>
+          <td style="color:var(--text-muted);font-style:italic;"></td>
+          <td>750 kr</td>
+        </tr>
+        <tr>
+          <td class="prize-pos">3:a</td>
+          <td style="color:var(--text-muted);font-style:italic;"></td>
+          <td>500 kr</td>
+        </tr></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <div class="section-title" style="margin-top:1rem;">Poängfördelning</div>
+    <div class="points-grid">
+      <div class="prize-section">
+        <div class="prize-title">Deltävlingar</div>
+        <table class="prize-table">
+          <tbody><tr><td class="prize-pos">1:a</td><td>500 p</td></tr>
+          <tr><td class="prize-pos">2:a</td><td>400 p</td></tr>
+          <tr><td class="prize-pos">3:a</td><td>300 p</td></tr>
+          <tr><td class="prize-pos">4:a</td><td>250 p</td></tr>
+          <tr><td class="prize-pos">5:a</td><td>200 p</td></tr>
+          <tr><td class="prize-pos">6:a</td><td>170 p</td></tr>
+          <tr><td class="prize-pos">7:a</td><td>140 p</td></tr>
+          <tr><td class="prize-pos">8:a</td><td>120 p</td></tr>
+          <tr><td class="prize-pos">9:a</td><td>100 p</td></tr>
+          <tr><td class="prize-pos">10:a</td><td>80 p</td></tr>
+          <tr><td class="prize-pos">11:a</td><td>50 p</td></tr>
+          <tr><td class="prize-pos">12:a</td><td>30 p</td></tr>
+          <tr><td class="prize-pos">13:a</td><td>20 p</td></tr>
+          <tr><td class="prize-pos">14:a</td><td>10 p</td></tr>
+          <tr><td class="prize-pos">15–25:a</td><td>0 p</td></tr>
+        </tbody></table>
+      </div>
+      <div class="prize-section">
+        <div class="prize-title">Major-tävlingar</div>
+        <table class="prize-table">
+          <tbody><tr><td class="prize-pos">1:a</td><td>700 p</td></tr>
+          <tr><td class="prize-pos">2:a</td><td>550 p</td></tr>
+          <tr><td class="prize-pos">3:a</td><td>450 p</td></tr>
+          <tr><td class="prize-pos">4:a</td><td>400 p</td></tr>
+          <tr><td class="prize-pos">5:a</td><td>350 p</td></tr>
+          <tr><td class="prize-pos">6:a</td><td>310 p</td></tr>
+          <tr><td class="prize-pos">7:a</td><td>270 p</td></tr>
+          <tr><td class="prize-pos">8:a</td><td>230 p</td></tr>
+          <tr><td class="prize-pos">9:a</td><td>200 p</td></tr>
+          <tr><td class="prize-pos">10:a</td><td>190 p</td></tr>
+          <tr><td class="prize-pos">11:a</td><td>160 p</td></tr>
+          <tr><td class="prize-pos">12:a</td><td>130 p</td></tr>
+          <tr><td class="prize-pos">13:a</td><td>100 p</td></tr>
+          <tr><td class="prize-pos">14:a</td><td>80 p</td></tr>
+          <tr><td class="prize-pos">15:a</td><td>60 p</td></tr>
+          <tr><td class="prize-pos">16:a</td><td>40 p</td></tr>
+          <tr><td class="prize-pos">17:a</td><td>20 p</td></tr>
+          <tr><td class="prize-pos">18:a</td><td>10 p</td></tr>
+          <tr><td class="prize-pos">19–25:a</td><td>0 p</td></tr>
+        </tbody></table>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- ==================== ADMIN OVERLAY ==================== -->
+<div class="admin-overlay" id="admin-overlay">
+  <div class="admin-panel">
+    <div class="admin-panel-header">
+      <div class="admin-panel-title" id="admin-title">⚙ Admin – Sommarserien 2026</div>
+      <button class="result-close" onclick="closeAdmin()">✕</button>
+    </div>
+    <div class="admin-panel-body" id="admin-body">
+      <!-- Login view -->
+      <div id="admin-login-view" class="admin-login">
+        <p>Ange lösenord för att komma åt adminläget.</p>
+        <div>
+          <label class="admin-label">Lösenord</label>
+          <input class="admin-input" type="password" id="admin-pw-input" placeholder="••••••••" onkeydown="if(event.key==='Enter')adminLogin()">
+        </div>
+        <div class="admin-btn-row">
+          <button class="admin-btn-secondary" onclick="closeAdmin()">Avbryt</button>
+          <button class="admin-btn-primary" onclick="adminLogin()">Logga in</button>
+        </div>
+        <p id="admin-login-error" style="color:#e07070;display:none;font-size:0.82rem;">Felaktigt lösenord.</p>
+      </div>
+      <!-- Main admin view (hidden until login) -->
+      <div id="admin-main-view" style="display:none;flex-direction:column;gap:1.5rem;">
+
+        <!-- SECTION: Tävlingsstatus -->
+        <div class="admin-section">
+          <div class="admin-section-title">Tävlingsstatus</div>
+          <div class="admin-section-body">
+            <p style="font-size:0.82rem;color:var(--text-muted);">Markera aktuell tävling som pågående eller avslutad.</p>
+            <div id="admin-status-list"><div style="display:flex;align-items:center;justify-content:space-between;padding:0.6rem 0;border-bottom:1px solid rgba(201,168,76,0.07);">
+      <span style="font-size:0.88rem;">Maj – Deltävling 1</span>
+      <div style="display:flex;gap:0.4rem;align-items:center;">
+        <span class="status-badge status-active">Pågår nu</span>
+        <select class="admin-select" style="width:auto;padding:0.3rem 0.5rem;font-size:0.78rem;" data-round-id="1" onchange="updateRoundStatus(1, this.value)">
+          <option value="upcoming">Kommande</option>
+          <option value="active" selected="">Pågår nu</option>
+          <option value="done">Spelad</option>
+        </select>
+      </div>
+    </div><div style="display:flex;align-items:center;justify-content:space-between;padding:0.6rem 0;border-bottom:1px solid rgba(201,168,76,0.07);">
+      <span style="font-size:0.88rem;">Juni – Deltävling 2</span>
+      <div style="display:flex;gap:0.4rem;align-items:center;">
+        <span class="status-badge status-upcoming">Kommande</span>
+        <select class="admin-select" style="width:auto;padding:0.3rem 0.5rem;font-size:0.78rem;" data-round-id="2" onchange="updateRoundStatus(2, this.value)">
+          <option value="upcoming" selected="">Kommande</option>
+          <option value="active">Pågår nu</option>
+          <option value="done">Spelad</option>
+        </select>
+      </div>
+    </div><div style="display:flex;align-items:center;justify-content:space-between;padding:0.6rem 0;border-bottom:1px solid rgba(201,168,76,0.07);">
+      <span style="font-size:0.88rem;">Juni – Major 1</span>
+      <div style="display:flex;gap:0.4rem;align-items:center;">
+        <span class="status-badge status-upcoming">Kommande</span>
+        <select class="admin-select" style="width:auto;padding:0.3rem 0.5rem;font-size:0.78rem;" data-round-id="3" onchange="updateRoundStatus(3, this.value)">
+          <option value="upcoming" selected="">Kommande</option>
+          <option value="active">Pågår nu</option>
+          <option value="done">Spelad</option>
+        </select>
+      </div>
+    </div><div style="display:flex;align-items:center;justify-content:space-between;padding:0.6rem 0;border-bottom:1px solid rgba(201,168,76,0.07);">
+      <span style="font-size:0.88rem;">Juli – Deltävling 3</span>
+      <div style="display:flex;gap:0.4rem;align-items:center;">
+        <span class="status-badge status-upcoming">Kommande</span>
+        <select class="admin-select" style="width:auto;padding:0.3rem 0.5rem;font-size:0.78rem;" data-round-id="4" onchange="updateRoundStatus(4, this.value)">
+          <option value="upcoming" selected="">Kommande</option>
+          <option value="active">Pågår nu</option>
+          <option value="done">Spelad</option>
+        </select>
+      </div>
+    </div><div style="display:flex;align-items:center;justify-content:space-between;padding:0.6rem 0;border-bottom:1px solid rgba(201,168,76,0.07);">
+      <span style="font-size:0.88rem;">Augusti – Deltävling 4</span>
+      <div style="display:flex;gap:0.4rem;align-items:center;">
+        <span class="status-badge status-upcoming">Kommande</span>
+        <select class="admin-select" style="width:auto;padding:0.3rem 0.5rem;font-size:0.78rem;" data-round-id="5" onchange="updateRoundStatus(5, this.value)">
+          <option value="upcoming" selected="">Kommande</option>
+          <option value="active">Pågår nu</option>
+          <option value="done">Spelad</option>
+        </select>
+      </div>
+    </div><div style="display:flex;align-items:center;justify-content:space-between;padding:0.6rem 0;border-bottom:1px solid rgba(201,168,76,0.07);">
+      <span style="font-size:0.88rem;">September – Deltävling 5</span>
+      <div style="display:flex;gap:0.4rem;align-items:center;">
+        <span class="status-badge status-upcoming">Kommande</span>
+        <select class="admin-select" style="width:auto;padding:0.3rem 0.5rem;font-size:0.78rem;" data-round-id="6" onchange="updateRoundStatus(6, this.value)">
+          <option value="upcoming" selected="">Kommande</option>
+          <option value="active">Pågår nu</option>
+          <option value="done">Spelad</option>
+        </select>
+      </div>
+    </div><div style="display:flex;align-items:center;justify-content:space-between;padding:0.6rem 0;border-bottom:1px solid rgba(201,168,76,0.07);">
+      <span style="font-size:0.88rem;">September – Final Major</span>
+      <div style="display:flex;gap:0.4rem;align-items:center;">
+        <span class="status-badge status-upcoming">Kommande</span>
+        <select class="admin-select" style="width:auto;padding:0.3rem 0.5rem;font-size:0.78rem;" data-round-id="7" onchange="updateRoundStatus(7, this.value)">
+          <option value="upcoming" selected="">Kommande</option>
+          <option value="active">Pågår nu</option>
+          <option value="done">Spelad</option>
+        </select>
+      </div>
+    </div></div>
+          </div>
+        </div>
+
+        <!-- SECTION: Fyll i resultat -->
+        <div class="admin-section">
+          <div class="admin-section-title">Resultat för tävling</div>
+          <div class="admin-section-body">
+            <div>
+              <label class="admin-label">Välj tävling</label>
+              <select class="admin-select" id="admin-round-select" onchange="buildResultForm()"><option value="">– Välj –</option><option value="1">Maj – Deltävling 1</option><option value="2">Juni – Deltävling 2</option><option value="3">Juni – Major 1</option><option value="4">Juli – Deltävling 3</option><option value="5">Augusti – Deltävling 4</option><option value="6">September – Deltävling 5</option><option value="7">September – Final Major</option></select>
+            </div>
+            <div id="admin-result-form"></div>
+          </div>
+        </div>
+
+        <!-- SECTION: Ledartavla -->
+        <div class="admin-section">
+          <div class="admin-section-title">Uppdatera ledartavla</div>
+          <div class="admin-section-body">
+            <p style="font-size:0.82rem;color:var(--text-muted);">Räknar ihop totalpoäng och cash från alla spelade tävlingar och majors automatiskt.</p>
+            <div id="admin-leaderboard-form"></div>
+            <button class="admin-btn-primary" style="width:100%;" onclick="recalcLeaderboard()">🔄 Uppdatera ledartavla från resultat</button>
+          </div>
+        </div>
+
+        <div class="admin-btn-row">
+          <button class="admin-btn-secondary" onclick="closeAdmin()">Stäng</button>
+          <button class="admin-btn-primary" onclick="adminSaveAll()">💾 Spara allt</button>
+          <button class="admin-btn-primary" style="background:#2d6a35;color:#fff;" onclick="adminSaveAll(true)">⬇ Spara &amp; Exportera</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="admin-toast" id="admin-toast">✓ Resultat sparat för Maj – Deltävling 1</div>
+
+
+<!-- ==================== STATS PAGE ==================== -->
+<div class="page" id="page-stats">
+  <div class="hero" style="padding-bottom:2rem;">
+    <div class="hero-badge">Säsongsstatistik</div>
+    <h1 style="font-size:clamp(2rem,5vw,3.5rem);">Statistik<span>sidan</span></h1>
+    <div class="hero-divider"></div>
+  </div>
+  <div class="section">
+
+    <!-- Round selector -->
+    <div class="stats-round-select">
+      <label class="admin-label">Välj tävling</label>
+      <select class="admin-select" id="stats-round-select" onchange="renderStats()" style="max-width:320px;"><option value="1">Maj – Deltävling 1</option><option value="2">Juni – Deltävling 2</option><option value="3">⭐ Juni – Major 1</option><option value="4">Juli – Deltävling 3</option><option value="5">Augusti – Deltävling 4</option><option value="6">September – Deltävling 5</option><option value="7">⭐ September – Final Major</option></select>
+    </div>
+
+    <!-- Hole difficulty -->
+    <div class="stats-section">
+      <div class="section-title">Svåraste &amp; lättaste hålen</div>
+      <div class="stats-card">
+        <div class="stats-card-title" id="stats-difficulty-title">Snittslag vs par – Maj Deltävling 1 (Skogsbanan)</div>
+        <div id="stats-hole-chart"><div class="hole-bars"><div class="hole-bar-wrap">
+      <span class="hole-bar-val">-0.3</span>
+      <div class="hole-bar easy" style="height:13px;"></div>
+      <span class="hole-bar-num">1</span>
+    </div><div class="hole-bar-wrap">
+      <span class="hole-bar-val">+1.0</span>
+      <div class="hole-bar hard" style="height:50px;"></div>
+      <span class="hole-bar-num">2</span>
+    </div><div class="hole-bar-wrap">
+      <span class="hole-bar-val">-0.5</span>
+      <div class="hole-bar easy" style="height:25px;"></div>
+      <span class="hole-bar-num">3</span>
+    </div><div class="hole-bar-wrap">
+      <span class="hole-bar-val">+0.3</span>
+      <div class="hole-bar hard" style="height:13px;"></div>
+      <span class="hole-bar-num">4</span>
+    </div><div class="hole-bar-wrap">
+      <span class="hole-bar-val">-0.3</span>
+      <div class="hole-bar easy" style="height:13px;"></div>
+      <span class="hole-bar-num">5</span>
+    </div><div class="hole-bar-wrap">
+      <span class="hole-bar-val">+0.5</span>
+      <div class="hole-bar hard" style="height:25px;"></div>
+      <span class="hole-bar-num">6</span>
+    </div><div class="hole-bar-wrap">
+      <span class="hole-bar-val">+1.3</span>
+      <div class="hole-bar hard" style="height:63px;"></div>
+      <span class="hole-bar-num">7</span>
+    </div><div class="hole-bar-wrap">
+      <span class="hole-bar-val">0.0</span>
+      <div class="hole-bar par" style="height:4px;"></div>
+      <span class="hole-bar-num">8</span>
+    </div><div class="hole-bar-wrap">
+      <span class="hole-bar-val">+0.8</span>
+      <div class="hole-bar hard" style="height:38px;"></div>
+      <span class="hole-bar-num">9</span>
+    </div><div class="hole-bar-wrap">
+      <span class="hole-bar-val">+0.3</span>
+      <div class="hole-bar hard" style="height:13px;"></div>
+      <span class="hole-bar-num">10</span>
+    </div><div class="hole-bar-wrap">
+      <span class="hole-bar-val">0.0</span>
+      <div class="hole-bar par" style="height:4px;"></div>
+      <span class="hole-bar-num">11</span>
+    </div><div class="hole-bar-wrap">
+      <span class="hole-bar-val">+0.3</span>
+      <div class="hole-bar hard" style="height:13px;"></div>
+      <span class="hole-bar-num">12</span>
+    </div><div class="hole-bar-wrap">
+      <span class="hole-bar-val">0.0</span>
+      <div class="hole-bar par" style="height:4px;"></div>
+      <span class="hole-bar-num">13</span>
+    </div><div class="hole-bar-wrap">
+      <span class="hole-bar-val">+0.3</span>
+      <div class="hole-bar hard" style="height:13px;"></div>
+      <span class="hole-bar-num">14</span>
+    </div><div class="hole-bar-wrap">
+      <span class="hole-bar-val">+0.8</span>
+      <div class="hole-bar hard" style="height:38px;"></div>
+      <span class="hole-bar-num">15</span>
+    </div><div class="hole-bar-wrap">
+      <span class="hole-bar-val">-0.3</span>
+      <div class="hole-bar easy" style="height:13px;"></div>
+      <span class="hole-bar-num">16</span>
+    </div><div class="hole-bar-wrap">
+      <span class="hole-bar-val">+2.0</span>
+      <div class="hole-bar hard" style="height:100px;"></div>
+      <span class="hole-bar-num">17</span>
+    </div><div class="hole-bar-wrap">
+      <span class="hole-bar-val">0.0</span>
+      <div class="hole-bar par" style="height:4px;"></div>
+      <span class="hole-bar-num">18</span>
+    </div></div></div>
+        <div style="display:flex;gap:1.5rem;margin-top:0.75rem;flex-wrap:wrap;">
+          <span style="font-size:0.72rem;display:flex;align-items:center;gap:0.4rem;"><span style="display:inline-block;width:10px;height:10px;border-radius:2px;background:#4caf74;"></span>Under par</span>
+          <span style="font-size:0.72rem;display:flex;align-items:center;gap:0.4rem;"><span style="display:inline-block;width:10px;height:10px;border-radius:2px;background:#8a9e8d;"></span>Par</span>
+          <span style="font-size:0.72rem;display:flex;align-items:center;gap:0.4rem;"><span style="display:inline-block;width:10px;height:10px;border-radius:2px;background:#c97a4c;"></span>Över par</span>
+        </div>
+      </div>
+      <div id="stats-hole-ranking" style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-top:1rem;">
+    <div class="stats-card">
+      <div class="stats-card-title" style="color:#6dba7f;">🟢 Lättaste hålen</div>
+      
+        <div style="display:flex;justify-content:space-between;align-items:center;padding:0.5rem 0;border-bottom:1px solid rgba(201,168,76,0.07);">
+          <span style="font-size:0.88rem;">Hål 3 &nbsp;<span style="color:var(--text-muted);font-size:0.75rem;">Par 4</span></span>
+          <span style="font-size:0.88rem;font-weight:600;color:#6dba7f;">-0.50 slag</span>
+        </div>
+        <div style="display:flex;justify-content:space-between;align-items:center;padding:0.5rem 0;border-bottom:1px solid rgba(201,168,76,0.07);">
+          <span style="font-size:0.88rem;">Hål 1 &nbsp;<span style="color:var(--text-muted);font-size:0.75rem;">Par 5</span></span>
+          <span style="font-size:0.88rem;font-weight:600;color:#6dba7f;">-0.25 slag</span>
+        </div>
+        <div style="display:flex;justify-content:space-between;align-items:center;padding:0.5rem 0;border-bottom:1px solid rgba(201,168,76,0.07);">
+          <span style="font-size:0.88rem;">Hål 5 &nbsp;<span style="color:var(--text-muted);font-size:0.75rem;">Par 5</span></span>
+          <span style="font-size:0.88rem;font-weight:600;color:#6dba7f;">-0.25 slag</span>
+        </div>
+    </div>
+    <div class="stats-card">
+      <div class="stats-card-title" style="color:#e07070;">🔴 Svåraste hålen</div>
+      
+        <div style="display:flex;justify-content:space-between;align-items:center;padding:0.5rem 0;border-bottom:1px solid rgba(201,168,76,0.07);">
+          <span style="font-size:0.88rem;">Hål 17 &nbsp;<span style="color:var(--text-muted);font-size:0.75rem;">Par 3</span></span>
+          <span style="font-size:0.88rem;font-weight:600;color:#e07070;">+2.00 slag</span>
+        </div>
+        <div style="display:flex;justify-content:space-between;align-items:center;padding:0.5rem 0;border-bottom:1px solid rgba(201,168,76,0.07);">
+          <span style="font-size:0.88rem;">Hål 7 &nbsp;<span style="color:var(--text-muted);font-size:0.75rem;">Par 3</span></span>
+          <span style="font-size:0.88rem;font-weight:600;color:#e07070;">+1.25 slag</span>
+        </div>
+        <div style="display:flex;justify-content:space-between;align-items:center;padding:0.5rem 0;border-bottom:1px solid rgba(201,168,76,0.07);">
+          <span style="font-size:0.88rem;">Hål 2 &nbsp;<span style="color:var(--text-muted);font-size:0.75rem;">Par 4</span></span>
+          <span style="font-size:0.88rem;font-weight:600;color:#e07070;">+1.00 slag</span>
+        </div>
+    </div></div>
+    </div>
+
+    <!-- Ut/In vs par -->
+    <div class="stats-section">
+      <div class="section-title">Över / Under par</div>
+      <div class="par-split-grid" id="stats-par-split">
+    <div class="par-split-card">
+      <div class="par-split-label">Ut (hål 1–9) &nbsp;·&nbsp; Par 36</div>
+      <div class="par-split-value over">+2.8</div>
+      <div class="par-split-sub">snitt per runda</div>
+    </div>
+    <div class="par-split-card">
+      <div class="par-split-label">In (hål 10–18) &nbsp;·&nbsp; Par 36</div>
+      <div class="par-split-value over">+3.3</div>
+      <div class="par-split-sub">snitt per runda</div>
+    </div></div>
+    </div>
+
+    <!-- Deltagarfrekvens -->
+    <div class="stats-section">
+      <div class="section-title">Deltagarfrekvens</div>
+      <div class="stats-card">
+        <div class="stats-card-title">Antal spelade deltävlingar per spelare</div>
+        <div id="stats-frequency"><div class="freq-bar-row">
+      <span class="freq-name">Daniel Lindh</span>
+      <div class="freq-bar-bg">
+        <div class="freq-bar-fill" style="width:100%;"></div>
+      </div>
+      <span class="freq-count">1/1</span>
+    </div><div class="freq-bar-row">
+      <span class="freq-name">Joacim Lovén</span>
+      <div class="freq-bar-bg">
+        <div class="freq-bar-fill" style="width:100%;"></div>
+      </div>
+      <span class="freq-count">1/1</span>
+    </div><div class="freq-bar-row">
+      <span class="freq-name">Oscar Wareborn</span>
+      <div class="freq-bar-bg">
+        <div class="freq-bar-fill" style="width:100%;"></div>
+      </div>
+      <span class="freq-count">1/1</span>
+    </div><div class="freq-bar-row">
+      <span class="freq-name">Victor Strand</span>
+      <div class="freq-bar-bg">
+        <div class="freq-bar-fill" style="width:100%;"></div>
+      </div>
+      <span class="freq-count">1/1</span>
+    </div><div class="freq-bar-row">
+      <span class="freq-name">Anton Edman</span>
+      <div class="freq-bar-bg">
+        <div class="freq-bar-fill" style="width:0%;"></div>
+      </div>
+      <span class="freq-count">0/1</span>
+    </div><div class="freq-bar-row">
+      <span class="freq-name">David Ärleskog</span>
+      <div class="freq-bar-bg">
+        <div class="freq-bar-fill" style="width:0%;"></div>
+      </div>
+      <span class="freq-count">0/1</span>
+    </div><div class="freq-bar-row">
+      <span class="freq-name">Dennis Berg</span>
+      <div class="freq-bar-bg">
+        <div class="freq-bar-fill" style="width:0%;"></div>
+      </div>
+      <span class="freq-count">0/1</span>
+    </div><div class="freq-bar-row">
+      <span class="freq-name">Felix Björklind</span>
+      <div class="freq-bar-bg">
+        <div class="freq-bar-fill" style="width:0%;"></div>
+      </div>
+      <span class="freq-count">0/1</span>
+    </div><div class="freq-bar-row">
+      <span class="freq-name">Henrik Jönsson</span>
+      <div class="freq-bar-bg">
+        <div class="freq-bar-fill" style="width:0%;"></div>
+      </div>
+      <span class="freq-count">0/1</span>
+    </div><div class="freq-bar-row">
+      <span class="freq-name">Jacob Andersson</span>
+      <div class="freq-bar-bg">
+        <div class="freq-bar-fill" style="width:0%;"></div>
+      </div>
+      <span class="freq-count">0/1</span>
+    </div><div class="freq-bar-row">
+      <span class="freq-name">Jens Williamsson</span>
+      <div class="freq-bar-bg">
+        <div class="freq-bar-fill" style="width:0%;"></div>
+      </div>
+      <span class="freq-count">0/1</span>
+    </div><div class="freq-bar-row">
+      <span class="freq-name">Jesper Williamsson</span>
+      <div class="freq-bar-bg">
+        <div class="freq-bar-fill" style="width:0%;"></div>
+      </div>
+      <span class="freq-count">0/1</span>
+    </div><div class="freq-bar-row">
+      <span class="freq-name">Joel Ström</span>
+      <div class="freq-bar-bg">
+        <div class="freq-bar-fill" style="width:0%;"></div>
+      </div>
+      <span class="freq-count">0/1</span>
+    </div><div class="freq-bar-row">
+      <span class="freq-name">John Falk</span>
+      <div class="freq-bar-bg">
+        <div class="freq-bar-fill" style="width:0%;"></div>
+      </div>
+      <span class="freq-count">0/1</span>
+    </div><div class="freq-bar-row">
+      <span class="freq-name">Marcus Göth</span>
+      <div class="freq-bar-bg">
+        <div class="freq-bar-fill" style="width:0%;"></div>
+      </div>
+      <span class="freq-count">0/1</span>
+    </div><div class="freq-bar-row">
+      <span class="freq-name">Markus Nyberg</span>
+      <div class="freq-bar-bg">
+        <div class="freq-bar-fill" style="width:0%;"></div>
+      </div>
+      <span class="freq-count">0/1</span>
+    </div><div class="freq-bar-row">
+      <span class="freq-name">Martin Jönsson</span>
+      <div class="freq-bar-bg">
+        <div class="freq-bar-fill" style="width:0%;"></div>
+      </div>
+      <span class="freq-count">0/1</span>
+    </div><div class="freq-bar-row">
+      <span class="freq-name">Martin Svensson</span>
+      <div class="freq-bar-bg">
+        <div class="freq-bar-fill" style="width:0%;"></div>
+      </div>
+      <span class="freq-count">0/1</span>
+    </div><div class="freq-bar-row">
+      <span class="freq-name">Oliver Ekbladh</span>
+      <div class="freq-bar-bg">
+        <div class="freq-bar-fill" style="width:0%;"></div>
+      </div>
+      <span class="freq-count">0/1</span>
+    </div><div class="freq-bar-row">
+      <span class="freq-name">Oliver Gustavsson</span>
+      <div class="freq-bar-bg">
+        <div class="freq-bar-fill" style="width:0%;"></div>
+      </div>
+      <span class="freq-count">0/1</span>
+    </div><div class="freq-bar-row">
+      <span class="freq-name">Petter Johansson</span>
+      <div class="freq-bar-bg">
+        <div class="freq-bar-fill" style="width:0%;"></div>
+      </div>
+      <span class="freq-count">0/1</span>
+    </div><div class="freq-bar-row">
+      <span class="freq-name">Robin Lindholm</span>
+      <div class="freq-bar-bg">
+        <div class="freq-bar-fill" style="width:0%;"></div>
+      </div>
+      <span class="freq-count">0/1</span>
+    </div><div class="freq-bar-row">
+      <span class="freq-name">Sebastian Tiderman</span>
+      <div class="freq-bar-bg">
+        <div class="freq-bar-fill" style="width:0%;"></div>
+      </div>
+      <span class="freq-count">0/1</span>
+    </div><div class="freq-bar-row">
+      <span class="freq-name">Simon Wermelin</span>
+      <div class="freq-bar-bg">
+        <div class="freq-bar-fill" style="width:0%;"></div>
+      </div>
+      <span class="freq-count">0/1</span>
+    </div><div class="freq-bar-row">
+      <span class="freq-name">Zimon Karlsson</span>
+      <div class="freq-bar-bg">
+        <div class="freq-bar-fill" style="width:0%;"></div>
+      </div>
+      <span class="freq-count">0/1</span>
+    </div></div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- RESULT OVERLAY -->
+<div class="result-overlay" id="result-overlay" onclick="closeResult(event)">
+  <div class="result-panel" id="result-panel">
+    <div class="result-panel-header">
+      <div>
+        <div class="result-panel-title" id="result-title">Maj – Deltävling 1</div>
+        <div class="result-panel-sub" id="result-sub">⛳ Skogsbanan</div>
+      </div>
+      <button class="result-close" onclick="closeResultBtn()">✕</button>
+    </div>
+    <div class="result-panel-body">
+      <table class="result-table">
+        <thead id="result-thead">
+    <tr>
+      <th style="text-align:right;width:40px;">#</th>
+      <th style="text-align:left;">Spelare</th>
+      <th>Hcp</th>
+      <th>Poäng</th>
+      <th>Poäng</th>
+    </tr></thead>
+        <tbody id="result-tbody"><tr>
+        <td class="result-rank r1">1</td>
+        <td style="text-align:left;font-weight:500;">Daniel Lindh</td>
+        <td class="result-hcp">3</td>
+        <td class="result-score">35</td>
+        <td class="result-pts">–</td>
+      </tr><tr>
+        <td class="result-rank r2">2</td>
+        <td style="text-align:left;font-weight:500;">Victor Strand</td>
+        <td class="result-hcp">5</td>
+        <td class="result-score">38</td>
+        <td class="result-pts">–</td>
+      </tr><tr>
+        <td class="result-rank r3">3</td>
+        <td style="text-align:left;font-weight:500;">Oscar Wareborn</td>
+        <td class="result-hcp">2</td>
+        <td class="result-score">33</td>
+        <td class="result-pts">–</td>
+      </tr><tr>
+        <td class="result-rank ">4</td>
+        <td style="text-align:left;font-weight:500;">Joacim Lovén</td>
+        <td class="result-hcp">6</td>
+        <td class="result-score">30</td>
+        <td class="result-pts">–</td>
+      </tr></tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<footer>Sommarserien 2026 &nbsp;·&nbsp; Hooks Golfklubb</footer>
+
+<script>
+// ===================== DATA =====================
+// Ledartavla – uppdatera efter varje tävling
+const players = [
+    {
+      "rank": 1,
+      "name": "Anton Edman",
+      "points": null,
+      "cash": null
+    },
+    {
+      "rank": 2,
+      "name": "Daniel Lindh",
+      "points": null,
+      "cash": null
+    },
+    {
+      "rank": 3,
+      "name": "David Ärleskog",
+      "points": null,
+      "cash": null
+    },
+    {
+      "rank": 4,
+      "name": "Dennis Berg",
+      "points": null,
+      "cash": null
+    },
+    {
+      "rank": 5,
+      "name": "Felix Björklind",
+      "points": null,
+      "cash": null
+    },
+    {
+      "rank": 6,
+      "name": "Henrik Jönsson",
+      "points": null,
+      "cash": null
+    },
+    {
+      "rank": 7,
+      "name": "Jacob Andersson",
+      "points": null,
+      "cash": null
+    },
+    {
+      "rank": 8,
+      "name": "Jens Williamsson",
+      "points": null,
+      "cash": null
+    },
+    {
+      "rank": 9,
+      "name": "Jesper Williamsson",
+      "points": null,
+      "cash": null
+    },
+    {
+      "rank": 10,
+      "name": "Joacim Lovén",
+      "points": null,
+      "cash": null
+    },
+    {
+      "rank": 11,
+      "name": "Joel Ström",
+      "points": null,
+      "cash": null
+    },
+    {
+      "rank": 12,
+      "name": "John Falk",
+      "points": null,
+      "cash": null
+    },
+    {
+      "rank": 13,
+      "name": "Marcus Göth",
+      "points": null,
+      "cash": null
+    },
+    {
+      "rank": 14,
+      "name": "Markus Nyberg",
+      "points": null,
+      "cash": null
+    },
+    {
+      "rank": 15,
+      "name": "Martin Jönsson",
+      "points": null,
+      "cash": null
+    },
+    {
+      "rank": 16,
+      "name": "Martin Svensson",
+      "points": null,
+      "cash": null
+    },
+    {
+      "rank": 17,
+      "name": "Oliver Ekbladh",
+      "points": null,
+      "cash": null
+    },
+    {
+      "rank": 18,
+      "name": "Oliver Gustavsson",
+      "points": null,
+      "cash": null
+    },
+    {
+      "rank": 19,
+      "name": "Oscar Wareborn",
+      "points": null,
+      "cash": null
+    },
+    {
+      "rank": 20,
+      "name": "Petter Johansson",
+      "points": null,
+      "cash": null
+    },
+    {
+      "rank": 21,
+      "name": "Robin Lindholm",
+      "points": null,
+      "cash": null
+    },
+    {
+      "rank": 22,
+      "name": "Sebastian Tiderman",
+      "points": null,
+      "cash": null
+    },
+    {
+      "rank": 23,
+      "name": "Simon Wermelin",
+      "points": null,
+      "cash": null
+    },
+    {
+      "rank": 24,
+      "name": "Victor Strand",
+      "points": null,
+      "cash": null
+    },
+    {
+      "rank": 25,
+      "name": "Zimon Karlsson",
+      "points": null,
+      "cash": null
+    }
+  ];
+
+// Tävlingar.
+// status: "done" | "active" | "upcoming"
+// För deltävlingar: results = array med { name, hcp, score, pts } sorterat plats 1 -> N
+// För majors: results = array med { name, hcp, netto, pts }
+// Lämna results: [] om inga resultat finns ännu.
+const rounds = [
+    {
+      "id": 1,
+      "type": "deltavling",
+      "month": "Maj",
+      "name": "Deltävling 1",
+      "course": "Skogsbanan",
+      "topPrize": 500,
+      "status": "active",
+      "results": [
+        {
+          "name": "Daniel Lindh",
+          "hcp": 3,
+          "score": 35
+        },
+        {
+          "name": "Victor Strand",
+          "hcp": 5,
+          "score": 38
+        },
+        {
+          "name": "Oscar Wareborn",
+          "hcp": 2,
+          "score": 33
+        },
+        {
+          "name": "Joacim Lovén",
+          "hcp": 6,
+          "score": 30
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "type": "deltavling",
+      "month": "Juni",
+      "name": "Deltävling 2",
+      "course": "Parkbanan",
+      "topPrize": 500,
+      "status": "upcoming",
+      "results": []
+    },
+    {
+      "id": 3,
+      "type": "major",
+      "month": "Juni",
+      "name": "Major 1",
+      "course": "Skogsbanan",
+      "date": "27 juni",
+      "topPrize": 700,
+      "status": "upcoming",
+      "results": []
+    },
+    {
+      "id": 4,
+      "type": "deltavling",
+      "month": "Juli",
+      "name": "Deltävling 3",
+      "course": "Skogsbanan",
+      "topPrize": 500,
+      "status": "upcoming",
+      "results": []
+    },
+    {
+      "id": 5,
+      "type": "deltavling",
+      "month": "Augusti",
+      "name": "Deltävling 4",
+      "course": "Parkbanan",
+      "topPrize": 500,
+      "status": "upcoming",
+      "results": []
+    },
+    {
+      "id": 6,
+      "type": "deltavling",
+      "month": "September",
+      "name": "Deltävling 5",
+      "course": "Skogsbanan",
+      "topPrize": 500,
+      "status": "upcoming",
+      "results": []
+    },
+    {
+      "id": 7,
+      "type": "major",
+      "month": "September",
+      "name": "Final Major",
+      "course": "Parkbanan",
+      "date": "26 september",
+      "topPrize": 700,
+      "status": "upcoming",
+      "results": []
+    }
+  ];
+
+// ===================== RENDER LEADERBOARD =====================
+function renderLeaderboard() {
+  const tbody = document.getElementById('leaderboard-body');
+  tbody.innerHTML = players.map(p => {
+    const rankClass = p.rank === 1 ? 'rank-1' : p.rank === 2 ? 'rank-2' : p.rank === 3 ? 'rank-3' : p.rank === 4 ? 'rank-4' : p.rank === 5 ? 'rank-5' : 'rank-other';
+    const nameClass = p.rank <= 3 ? 'player-name top-3' : p.rank <= 5 ? 'player-name top-5' : 'player-name';
+    const ptsCell = p.points != null
+      ? `<span class="points-value">${p.points.toLocaleString('sv-SE')}</span>`
+      : `<span class="no-points">–</span>`;
+    const cashCell = p.cash != null
+      ? `<span class="cash-value">${p.cash.toLocaleString('sv-SE')} kr</span>`
+      : `<span class="no-points">–</span>`;
+    return `<tr class="${rankClass}">
+      <td><span class="rank-badge">${p.rank}</span></td>
+      <td class="player-col"><span class="${nameClass}">${p.name}</span></td>
+      <td>${ptsCell}</td>
+      <td>${cashCell}</td>
+    </tr>`;
+  }).join('');
+}
+
+// ===================== RENDER ROUNDS =====================
+function renderRounds() {
+  const deltavlingar = rounds.filter(r => r.type === 'deltavling');
+  const majors = rounds.filter(r => r.type === 'major');
+
+  const makeCard = r => {
+    const hasResults = r.results && r.results.length > 0;
+    const isActive = r.status === 'active';
+    const isDone = r.status === 'done';
+    const isClickable = hasResults || isActive;
+
+    let statusPillClass = 'upcoming';
+    let statusLabel = 'Kommande';
+    if (isDone) { statusPillClass = ''; statusLabel = 'Spelad'; }
+    if (isActive) { statusPillClass = 'active-round'; statusLabel = '● Pågår nu'; }
+
+    let cardClass = `round-card${r.type === 'major' ? ' major' : ''}`;
+    if (isActive) cardClass += ' active-card';
+    if (!isClickable) cardClass += ' no-results';
+
+    const clickAttr = isClickable ? `onclick="openResult(${r.id})"` : '';
+    const cursorStyle = isClickable ? '' : 'style="cursor:default"';
+
+    return `<div class="${cardClass}" ${clickAttr} ${cursorStyle}>
+      <span class="round-tag ${r.type === 'major' ? 'major' : 'deltavling'}">${r.type === 'major' ? 'Major' : 'Deltävling'}</span>
+      <div class="round-name">${r.month} – ${r.name}</div>
+      <div class="round-course">⛳ ${r.course}${r.date ? `&nbsp;&nbsp;·&nbsp;&nbsp;📅 ${r.date}` : ''}</div>
+      <div class="round-points-info">
+        <div>
+          <div class="round-top-prize-label">1:a plats</div>
+          <div class="round-top-prize">${r.topPrize} p</div>
+        </div>
+        <span class="round-status-pill ${statusPillClass}">${statusLabel}</span>
+      </div>
+    </div>`;
+  };
+
+  document.getElementById('rounds-deltavling').innerHTML = deltavlingar.map(makeCard).join('');
+  document.getElementById('rounds-major').innerHTML = majors.map(makeCard).join('');
+}
+
+// ===================== RESULT OVERLAY =====================
+// ===================== POINT & PRIZE TABLES =====================
+const DELTA_POINTS  = [500,400,300,250,200,170,140,120,100,80,50,30,20,10,0,0,0,0,0,0,0,0,0,0,0];
+const MAJOR_POINTS  = [700,550,450,400,350,310,270,230,200,190,160,130,100,80,60,40,20,10,0,0,0,0,0,0,0];
+const SERIES_PRIZES = [3000,1500,750,500,250];
+const MAJOR_PRIZES  = [1500,750,500];
+const PRIZE_LABELS  = ['1:a','2:a','3:a'];
+const PRIZE_AMOUNTS = ['1 500 kr','750 kr','500 kr'];
+
+function openResult(id) {
+  const r = rounds.find(x => x.id === id);
+  if (!r) return;
+
+  document.getElementById('result-title').textContent = `${r.month} – ${r.name}`;
+  document.getElementById('result-sub').textContent = `⛳ ${r.course}`;
+
+  const isMajor = r.type === 'major';
+  const scoreHeader = isMajor ? 'Slag (Netto)' : 'Poäng';
+
+  document.getElementById('result-thead').innerHTML = `
+    <tr>
+      <th style="text-align:right;width:40px;">#</th>
+      <th style="text-align:left;">Spelare</th>
+      <th>SHC</th>
+      <th>${scoreHeader}</th>
+      <th>Poäng</th>
+    </tr>`;
+
+  if (!r.results || r.results.length === 0) {
+    document.getElementById('result-tbody').innerHTML = `
+      <tr><td colspan="5" style="text-align:center;color:var(--text-muted);padding:2rem;font-size:0.85rem;">
+        Inga resultat inlagda än
+      </td></tr>`;
+  } else {
+    const sk = isMajor ? 'netto' : 'score';
+    const ptTable = isMajor ? MAJOR_POINTS : DELTA_POINTS;
+
+    // Sort by score desc, SHC asc as tiebreaker
+    const sorted = [...r.results].sort((a, b) => {
+      const sa = a[sk] ?? -Infinity, sb = b[sk] ?? -Infinity;
+      if (sb !== sa) return sb - sa;
+      return (a.hcp ?? 999) - (b.hcp ?? 999);
+    });
+
+    document.getElementById('result-tbody').innerHTML = sorted.map((row, i) => {
+      const pos = i + 1;
+      const rankCls = pos === 1 ? 'r1' : pos === 2 ? 'r2' : pos === 3 ? 'r3' : '';
+      const scoreVal = isMajor ? (row.netto ?? '–') : (row.score ?? '–');
+      const roundPts = row[sk] != null ? (ptTable[i] ?? 0) : '–';
+      return `<tr>
+        <td class="result-rank ${rankCls}">${pos}</td>
+        <td style="text-align:left;font-weight:500;">${row.name}</td>
+        <td class="result-hcp">${row.hcp ?? '–'}</td>
+        <td class="result-score">${scoreVal}</td>
+        <td class="result-pts">${roundPts}</td>
+      </tr>`;
+    }).join('');
+  }
+
+  document.getElementById('result-overlay').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeResult(e) {
+  if (e.target === document.getElementById('result-overlay')) {
+    closeResultBtn();
+  }
+}
+function closeResultBtn() {
+  document.getElementById('result-overlay').classList.remove('open');
+  document.body.style.overflow = '';
+}
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeResultBtn(); });
+
+// ===================== NAV =====================
+function showPage(id, btn) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('page-' + id).classList.add('active');
+  btn.classList.add('active');
+}
+
+
+// ===================== STATISTICS =====================
+
+// Par per hål för banorna
+const COURSE_PAR = {
+  "Skogsbanan": [5,4,4,3,5,4,3,4,4,  4,4,5,3,4,4,4,3,5],
+  "Parkbanan":  [4,4,3,5,4,3,3,4,4,  5,4,4,3,4,5,4,5,4]
+};
+
+// Scorekort-data per tävling.
+// Varje spelare: { name, strokes: [18 slag] }
+// Fyll på via Cowork
+const scoreData = {
+  1: { // Maj – Deltävling 1 – Skogsbanan
+    course: "Skogsbanan",
+    scores: [
+      { name: "Daniel Lindh",  strokes: [4,4,4,3,4,4,4,4,5, 4,3,6,4,4,6,3,4,6] },
+      { name: "Victor Strand",  strokes: [5,5,3,3,5,4,4,3,5, 5,4,4,3,4,5,5,4,4] },
+      { name: "Oscar Wareborn", strokes: [4,5,3,3,5,5,4,5,4, 4,4,6,2,5,3,3,7,5] },
+      { name: "Joacim Lovén",   strokes: [6,6,4,4,5,5,5,4,5, 4,5,5,3,4,5,4,5,5] },
+      // Övriga spelare läggs till här via Cowork
+    ]
+  },
+  2: { course: "Parkbanan",   scores: [] },
+  3: { course: "Skogsbanan",  scores: [] }, // Major 1
+  4: { course: "Skogsbanan",  scores: [] },
+  5: { course: "Parkbanan",   scores: [] },
+  6: { course: "Skogsbanan",  scores: [] },
+  7: { course: "Parkbanan",   scores: [] }, // Final Major
+};
+
+function buildStatsSelect() {
+  const sel = document.getElementById('stats-round-select');
+  if (!sel) return;
+  sel.innerHTML = rounds.map(r => {
+    const tag = r.type === 'major' ? '⭐ ' : '';
+    return `<option value="${r.id}">${tag}${r.month} – ${r.name}</option>`;
+  }).join('');
+  renderStats();
+}
+
+function renderStats() {
+  const sel = document.getElementById('stats-round-select');
+  if (!sel) return;
+  const id = parseInt(sel.value);
+  const data = scoreData[id];
+  const round = rounds.find(r => r.id === id);
+  if (!data || !round) return;
+
+  const par = COURSE_PAR[data.course] || [];
+  const scores = data.scores;
+
+  renderHoleChart(scores, par, round);
+  renderParSplit(scores, par);
+  renderFrequency();
+}
+
+function renderHoleChart(scores, par, round) {
+  const container = document.getElementById('stats-hole-chart');
+  document.getElementById('stats-difficulty-title').textContent =
+    `Snittslag vs par – ${round.month} ${round.name} (${round.course})`;
+
+  if (!scores || scores.length === 0) {
+    container.innerHTML = '<p class="no-data-msg">Inga scorekort inlagda ännu</p>';
+    document.getElementById('stats-hole-ranking').innerHTML = '';
+    return;
+  }
+
+  // Calc avg strokes per hole
+  const avgs = par.map((p, i) => {
+    const total = scores.reduce((sum, s) => sum + (s.strokes[i] || 0), 0);
+    return +(total / scores.length).toFixed(2);
+  });
+
+  // Diff from par
+  const diffs = avgs.map((avg, i) => +(avg - par[i]).toFixed(2));
+
+  // Max abs diff for scaling
+  const maxAbs = Math.max(...diffs.map(Math.abs), 0.5);
+
+  const barHeight = 100; // px total chart height
+
+  const bars = avgs.map((avg, i) => {
+    const diff = diffs[i];
+    const pct = Math.abs(diff) / maxAbs;
+    const h = Math.max(Math.round(pct * barHeight), 4);
+    const cls = diff < -0.05 ? 'easy' : diff > 0.05 ? 'hard' : 'par';
+    const sign = diff > 0 ? '+' : '';
+    return `<div class="hole-bar-wrap">
+      <span class="hole-bar-val">${sign}${diff.toFixed(1)}</span>
+      <div class="hole-bar ${cls}" style="height:${h}px;"></div>
+      <span class="hole-bar-num">${i+1}</span>
+    </div>`;
+  });
+
+  container.innerHTML = `<div class="hole-bars">${bars.join('')}</div>`;
+
+  // Easiest / hardest ranking
+  const ranked = diffs.map((d,i) => ({ hole: i+1, diff: d, par: par[i], avg: avgs[i] }))
+    .sort((a,b) => a.diff - b.diff);
+
+  const easiest = ranked.slice(0, 3);
+  const hardest = ranked.slice(-3).reverse();
+
+  const rankCard = (title, color, list) => `
+    <div class="stats-card">
+      <div class="stats-card-title" style="color:${color};">${title}</div>
+      ${list.map((h, i) => `
+        <div style="display:flex;justify-content:space-between;align-items:center;padding:0.5rem 0;border-bottom:1px solid rgba(201,168,76,0.07);">
+          <span style="font-size:0.88rem;">Hål ${h.hole} &nbsp;<span style="color:var(--text-muted);font-size:0.75rem;">Par ${h.par}</span></span>
+          <span style="font-size:0.88rem;font-weight:600;color:${color};">${h.diff > 0 ? '+' : ''}${h.diff.toFixed(2)} slag</span>
+        </div>`).join('')}
+    </div>`;
+
+  document.getElementById('stats-hole-ranking').innerHTML =
+    rankCard('🟢 Lättaste hålen', '#6dba7f', easiest) +
+    rankCard('🔴 Svåraste hålen', '#e07070', hardest);
+}
+
+function renderParSplit(scores, par) {
+  const container = document.getElementById('stats-par-split');
+  if (!scores || scores.length === 0) {
+    container.innerHTML = '<p class="no-data-msg">Inga scorekort inlagda ännu</p>';
+    return;
+  }
+
+  const parUt = par.slice(0,9).reduce((a,b)=>a+b,0);
+  const parIn = par.slice(9).reduce((a,b)=>a+b,0);
+
+  let totalDiffUt = 0, totalDiffIn = 0;
+  scores.forEach(s => {
+    const sUt = s.strokes.slice(0,9).reduce((a,b)=>a+b,0);
+    const sIn = s.strokes.slice(9).reduce((a,b)=>a+b,0);
+    totalDiffUt += sUt - parUt;
+    totalDiffIn += sIn - parIn;
+  });
+
+  const avgUt = +(totalDiffUt / scores.length).toFixed(1);
+  const avgIn = +(totalDiffIn / scores.length).toFixed(1);
+
+  const formatDiff = (d) => d > 0 ? `+${d}` : `${d}`;
+  const cls = (d) => d < 0 ? 'under' : d > 0 ? 'over' : 'even';
+
+  container.innerHTML = `
+    <div class="par-split-card">
+      <div class="par-split-label">Ut (hål 1–9) &nbsp;·&nbsp; Par ${parUt}</div>
+      <div class="par-split-value ${cls(avgUt)}">${formatDiff(avgUt)}</div>
+      <div class="par-split-sub">snitt per runda</div>
+    </div>
+    <div class="par-split-card">
+      <div class="par-split-label">In (hål 10–18) &nbsp;·&nbsp; Par ${parIn}</div>
+      <div class="par-split-value ${cls(avgIn)}">${formatDiff(avgIn)}</div>
+      <div class="par-split-sub">snitt per runda</div>
+    </div>`;
+}
+
+function renderFrequency() {
+  const container = document.getElementById('stats-frequency');
+  const totalRounds = rounds.filter(r => r.type === 'deltavling' && r.status === 'done').length;
+  const maxRounds = Math.max(totalRounds, 1);
+
+  // Count appearances per player across all scoreData
+  const counts = {};
+  players.forEach(p => counts[p.name] = 0);
+  Object.values(scoreData).forEach(data => {
+    data.scores.forEach(s => {
+      if (counts[s.name] != null) counts[s.name]++;
+    });
+  });
+
+  // Sort by count desc
+  const sorted = Object.entries(counts).sort((a,b) => b[1]-a[1]);
+
+  container.innerHTML = sorted.map(([name, count]) => {
+    const pct = count > 0 ? Math.round((count / maxRounds) * 100) : 0;
+    return `<div class="freq-bar-row">
+      <span class="freq-name">${name}</span>
+      <div class="freq-bar-bg">
+        <div class="freq-bar-fill" style="width:${pct}%;"></div>
+      </div>
+      <span class="freq-count">${count}/${maxRounds}</span>
+    </div>`;
+  }).join('');
+}
+
+// ===================== INIT =====================
+renderLeaderboard();
+renderRounds();
+renderMajorPrizes();
+buildStatsSelect();
+
+// ===================== ADMIN =====================
+const ADMIN_PASSWORD = "hook2026"; // Byt till valfritt lösenord
+
+let adminLoggedIn = false;
+
+function openAdmin() {
+  document.getElementById('admin-overlay').classList.add('open');
+  document.body.style.overflow = 'hidden';
+  if (adminLoggedIn) showAdminMain();
+}
+
+function closeAdmin() {
+  document.getElementById('admin-overlay').classList.remove('open');
+  document.body.style.overflow = '';
+  // Reset to login screen every time panel is closed
+  adminLoggedIn = false;
+  document.getElementById('admin-login-view').style.display = '';
+  document.getElementById('admin-main-view').style.display = 'none';
+  document.getElementById('admin-pw-input').value = '';
+  document.getElementById('admin-login-error').style.display = 'none';
+}
+
+function adminLogin() {
+  const pw = document.getElementById('admin-pw-input').value;
+  if (pw === ADMIN_PASSWORD) {
+    adminLoggedIn = true;
+    document.getElementById('admin-login-error').style.display = 'none';
+    showAdminMain();
+  } else {
+    document.getElementById('admin-login-error').style.display = 'block';
+    document.getElementById('admin-pw-input').value = '';
+  }
+}
+
+function showAdminMain() {
+  document.getElementById('admin-login-view').style.display = 'none';
+  const main = document.getElementById('admin-main-view');
+  main.style.display = 'flex';
+  buildStatusList();
+  buildRoundSelect();
+  buildLeaderboardForm();
+}
+
+// --- STATUS ---
+function buildStatusList() {
+  const container = document.getElementById('admin-status-list');
+  container.innerHTML = rounds.map(r => {
+    const labels = { done: 'Spelad', active: 'Pågår nu', upcoming: 'Kommande' };
+    const cls = { done: 'status-done', active: 'status-active', upcoming: 'status-upcoming' };
+    return `<div style="display:flex;align-items:center;justify-content:space-between;padding:0.6rem 0;border-bottom:1px solid rgba(201,168,76,0.07);">
+      <span style="font-size:0.88rem;">${r.month} – ${r.name}</span>
+      <div style="display:flex;gap:0.4rem;align-items:center;">
+        <span class="status-badge ${cls[r.status]}">${labels[r.status]}</span>
+        <select class="admin-select" style="width:auto;padding:0.3rem 0.5rem;font-size:0.78rem;" data-round-id="${r.id}" onchange="updateRoundStatus(${r.id}, this.value)">
+          <option value="upcoming" ${r.status==='upcoming'?'selected':''}>Kommande</option>
+          <option value="active"   ${r.status==='active'  ?'selected':''}>Pågår nu</option>
+          <option value="done"     ${r.status==='done'    ?'selected':''}>Spelad</option>
+        </select>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function updateRoundStatus(id, newStatus) {
+  const r = rounds.find(x => x.id === id);
+  if (r) {
+    r.status = newStatus;
+    buildStatusList();
+  }
+}
+
+// --- ROUND SELECT ---
+function buildRoundSelect() {
+  const sel = document.getElementById('admin-round-select');
+  sel.innerHTML = '<option value="">– Välj –</option>' +
+    rounds.map(r => `<option value="${r.id}">${r.month} – ${r.name}</option>`).join('');
+  document.getElementById('admin-result-form').innerHTML = '';
+}
+
+function buildResultForm() {
+  const id = parseInt(document.getElementById('admin-round-select').value);
+  const container = document.getElementById('admin-result-form');
+  if (!id) { container.innerHTML = ''; return; }
+  const r = rounds.find(x => x.id === id);
+  const isMajor = r.type === 'major';
+  const scoreLabel = isMajor ? 'Slag (Netto)' : 'Poäng';
+  const scoreKey   = isMajor ? 'netto' : 'score';
+
+  // Build 25 rows (fill existing data if present)
+  let rows = '';
+  for (let i = 0; i < 25; i++) {
+    const ex = r.results[i] || {};
+    rows += `<tr>
+      <td class="row-num">${i+1}</td>
+      <td><select class="admin-input" id="res_name_${i}" style="font-size:0.78rem;">
+        <option value="">–</option>
+        ${players.map(p => `<option value="${p.name}" ${ex.name===p.name?'selected':''}>${p.name}</option>`).join('')}
+      </select></td>
+      <td><input class="admin-input" type="number" id="res_hcp_${i}"   placeholder="–" value="${ex.hcp  !=null?ex.hcp  :''}"></td>
+      <td><input class="admin-input" type="number" id="res_score_${i}" placeholder="–" value="${ex[scoreKey]!=null?ex[scoreKey]:''}"></td>
+    </tr>`;
+  }
+
+  container.innerHTML = `
+    <div style="overflow-x:auto;">
+    <table class="admin-results-table">
+      <thead><tr>
+        <th>#</th>
+        <th>Spelare</th>
+        <th>SHC</th>
+        <th>${scoreLabel}</th>
+      </tr></thead>
+      <tbody>${rows}</tbody>
+    </table>
+    </div>
+    <div style="margin-top:0.75rem;">
+      <button class="admin-btn-primary" style="width:100%;" onclick="saveResultForm(${id})">Spara resultat för denna tävling</button>
+    </div>`;
+}
+
+function saveResultForm(id) {
+  const r = rounds.find(x => x.id === id);
+  const isMajor = r.type === 'major';
+  const scoreKey = isMajor ? 'netto' : 'score';
+  const results = [];
+  for (let i = 0; i < 25; i++) {
+    const name  = document.getElementById(`res_name_${i}`)?.value;
+    const hcp   = document.getElementById(`res_hcp_${i}`)?.value;
+    const score = document.getElementById(`res_score_${i}`)?.value;
+    if (name) {
+      const entry = { name };
+      if (hcp   !== '') entry.hcp = parseFloat(hcp);
+      if (score !== '') entry[scoreKey] = parseFloat(score);
+      results.push(entry);
+    }
+  }
+  r.results = results;
+  showToast(`✓ Resultat sparat för ${r.month} – ${r.name}`);
+}
+
+// --- LEADERBOARD ---
+function buildLeaderboardForm() {
+  // No manual form needed – leaderboard is auto-calculated via recalcLeaderboard()
+}
+
+// --- RECALC LEADERBOARD ---
+
+function renderMajorPrizes() {
+  [{ id: 3, tbodyId: 'major1-prizes' }, { id: 7, tbodyId: 'major2-prizes' }].forEach(({ id, tbodyId }) => {
+    const r = rounds.find(x => x.id === id);
+    const tbody = document.getElementById(tbodyId);
+    if (!tbody) return;
+    if (!r || r.status !== 'done' || !r.results || r.results.length === 0) {
+      tbody.innerHTML = PRIZE_LABELS.map((pos, i) => `
+        <tr>
+          <td class="prize-pos">${pos}</td>
+          <td style="color:var(--text-muted);font-style:italic;">${i === 0 ? 'Vinnaren' : ''}</td>
+          <td>${PRIZE_AMOUNTS[i]}</td>
+        </tr>`).join('');
+      return;
+    }
+    const sorted = [...r.results].sort((a, b) => {
+      const sa = a.netto ?? -Infinity, sb = b.netto ?? -Infinity;
+      if (sb !== sa) return sb - sa;
+      return (a.hcp ?? 999) - (b.hcp ?? 999);
+    });
+    tbody.innerHTML = PRIZE_LABELS.map((pos, i) => {
+      const winner = sorted[i];
+      const name = winner ? winner.name : '–';
+      const nameStyle = winner ? 'font-weight:600;color:var(--cream);' : 'color:var(--text-muted);';
+      return `<tr>
+        <td class="prize-pos">${pos}</td>
+        <td style="${nameStyle}">${name}</td>
+        <td>${PRIZE_AMOUNTS[i]}</td>
+      </tr>`;
+    }).join('');
+  });
+}
+
+function recalcLeaderboard() {
+  // Reset all players
+  players.forEach(p => { p.points = 0; p.cash = 0; });
+
+  // Sum points from all done rounds
+  rounds.filter(r => r.status === 'done' && r.results && r.results.length > 0).forEach(r => {
+    const isMajor = r.type === 'major';
+    const sk = isMajor ? 'netto' : 'score';
+    // Sort results by score desc, hcp asc
+    const sorted = [...r.results].sort((a, b) => {
+      const sa = a[sk] ?? -Infinity, sb = b[sk] ?? -Infinity;
+      if (sb !== sa) return sb - sa;
+      return (a.hcp ?? 999) - (b.hcp ?? 999);
+    });
+    sorted.forEach((entry, idx) => {
+      const player = players.find(p => p.name === entry.name);
+      if (!player) return;
+      const pts = isMajor ? (MAJOR_POINTS[idx] ?? 0) : (DELTA_POINTS[idx] ?? 0);
+      player.points += pts;
+      // Major cash prizes
+      if (isMajor && MAJOR_PRIZES[idx] != null) {
+        player.cash += MAJOR_PRIZES[idx];
+      }
+    });
+  });
+
+  // Set null for players with 0 points (haven't played)
+  players.forEach(p => {
+    if (p.points === 0) p.points = null;
+    if (p.cash === 0) p.cash = null;
+  });
+
+  // Sort by points desc, nulls last
+  players.sort((a, b) => {
+    if (a.points === null && b.points === null) return 0;
+    if (a.points === null) return 1;
+    if (b.points === null) return -1;
+    return b.points - a.points;
+  });
+  players.forEach((p, i) => p.rank = i + 1);
+
+  // Apply series prizes to current top 5
+  players.forEach((p, i) => {
+    if (p.points != null && SERIES_PRIZES[i] != null) {
+      p.cash = (p.cash || 0) + SERIES_PRIZES[i];
+    }
+  });
+
+  renderLeaderboard();
+  renderRounds();
+  buildStatusList();
+  renderMajorPrizes();
+  showToast('✓ Ledartavlan uppdaterad!');
+}
+
+// --- SAVE ALL ---
+function adminSaveAll(doExport = false) {
+  // Re-render everything
+  renderLeaderboard();
+  renderRounds();
+  buildStatusList();
+  buildResultForm();
+
+  if (doExport) {
+    exportSite();
+  } else {
+    showToast('✓ Allt sparat och uppdaterat!');
+  }
+}
+
+// --- EXPORT ---
+function exportSite() {
+  // Serialize current data back into the source code
+  const playersJson = JSON.stringify(players, null, 2)
+    .replace(/\n/g, '\n  ');
+
+  const roundsJson = JSON.stringify(rounds, null, 2)
+    .replace(/\n/g, '\n  ');
+
+  // Get the current HTML – but first close admin and reset body so export is clean
+  document.getElementById('admin-overlay').classList.remove('open');
+  document.body.style.overflow = '';
+
+  let html = document.documentElement.outerHTML;
+
+  // Always export with admin closed and body clean
+  html = html.replace(/class="admin-overlay"/g, 'class="admin-overlay"');
+  html = html.replace(/<body[^>]*>/,  '<body>');
+  // Reset admin login state so exported file always requires password
+  html = html.replace(
+    /id="admin-login-view"[^>]*>/,
+    'id="admin-login-view" class="admin-login">'
+  );
+  html = html.replace(
+    /id="admin-main-view"[^>]*>/,
+    'id="admin-main-view" style="display:none;flex-direction:column;gap:1.5rem;">'
+  );
+  // Reset active page to leaderboard
+  html = html.replace(/class="page" id="page-(?!leaderboard)[^"]*"/g, (m) => m.replace('page active', 'page'));
+  html = html.replace('class="page active" id="page-leaderboard"', 'class="page active" id="page-leaderboard"');
+  // Reset active nav tab to leaderboard
+  html = html.replace(/class="nav-tab active" onclick="showPage\('(?!leaderboard)[^']*'/g, (m) => m.replace('nav-tab active', 'nav-tab'));
+  html = html.replace("class=\"nav-tab\" onclick=\"showPage('leaderboard'", "class=\"nav-tab active\" onclick=\"showPage('leaderboard'");
+
+  // Replace the players array in the source
+  html = html.replace(
+    /const players = \[[\s\S]*?\];(\s*\/\/ Tävlingar)/,
+    `const players = ${playersJson};\n\n// Tävlingar`
+  );
+
+  // Replace the rounds array in the source
+  html = html.replace(
+    /const rounds = \[[\s\S]*?\];(\s*\/\/ ={5})/,
+    `const rounds = ${roundsJson};\n\n// =====`
+  );
+
+  // Download
+  const blob = new Blob([html], { type: 'text/html;charset=utf-8' });
+  const url  = URL.createObjectURL(blob);
+  const a    = document.createElement('a');
+  a.href     = url;
+  a.download = 'sommarserien_2026.html';
+  a.click();
+  URL.revokeObjectURL(url);
+
+  showToast('✓ Fil exporterad – ladda upp till GitHub!');
+}
+
+// --- TOAST ---
+function showToast(msg) {
+  const t = document.getElementById('admin-toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 3000);
+}
+
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') closeAdmin();
+});
+
+</script>
+
+
+</body></html>
