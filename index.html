@@ -1,10 +1,8 @@
-<!DOCTYPE html>
-<html lang="sv">
-<head>
+<html lang="sv"><head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Sommarserien 2026 – Hooks Golfklubb</title>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&amp;family=DM+Sans:wght@300;400;500&amp;display=swap" rel="stylesheet">
 <style>
   :root {
     --green-deep: #0a1f0e;
@@ -213,9 +211,10 @@
     text-transform: uppercase;
     color: var(--text-muted);
     padding: 0.9rem 1rem;
-    text-align: left;
+    text-align: right;
   }
-  .leaderboard-table th:not(:first-child) { text-align: right; }
+  .leaderboard-table th:first-child { text-align: left; }
+  .leaderboard-table th.player-col { text-align: left; }
   .leaderboard-table td {
     padding: 0.85rem 1rem;
     font-size: 0.92rem;
@@ -623,20 +622,20 @@
   }
 </style>
 </head>
-<body>
+<body style="overflow: hidden;">
 
 <nav>
   <div class="nav-logo">⛳ Sommarserien 2026</div>
   <div class="nav-tabs">
-    <button class="nav-tab active" onclick="showPage('leaderboard', this)">Ledartavla</button>
-    <button class="nav-tab" onclick="showPage('rounds', this)">Tävlingar</button>
-    <button class="nav-tab" onclick="showPage('prizes', this)">Priser & Poäng</button>
+    <button class="nav-tab" onclick="showPage('leaderboard', this)">Ledartavla</button>
+    <button class="nav-tab active" onclick="showPage('rounds', this)">Tävlingar</button>
+    <button class="nav-tab" onclick="showPage('prizes', this)">Priser &amp; Poäng</button>
   </div>
   <button class="admin-btn" onclick="openAdmin()">⚙ Admin</button>
 </nav>
 
 <!-- ==================== LEADERBOARD PAGE ==================== -->
-<div class="page active" id="page-leaderboard">
+<div class="page" id="page-leaderboard">
   <div class="hero">
     <div class="hero-badge">Säsong 2026</div>
     <h1>Sommar<span>serien</span></h1>
@@ -670,13 +669,138 @@
           <th>Cash</th>
         </tr>
       </thead>
-      <tbody id="leaderboard-body"></tbody>
+      <tbody id="leaderboard-body"><tr class="rank-1">
+      <td><span class="rank-badge">1</span></td>
+      <td class="player-col"><span class="player-name top-3">Anton Edman</span></td>
+      <td><span class="no-points">–</span></td>
+      <td><span class="no-points">–</span></td>
+    </tr><tr class="rank-2">
+      <td><span class="rank-badge">2</span></td>
+      <td class="player-col"><span class="player-name top-3">Daniel Lindh</span></td>
+      <td><span class="no-points">–</span></td>
+      <td><span class="no-points">–</span></td>
+    </tr><tr class="rank-3">
+      <td><span class="rank-badge">3</span></td>
+      <td class="player-col"><span class="player-name top-3">David Ärleskog</span></td>
+      <td><span class="no-points">–</span></td>
+      <td><span class="no-points">–</span></td>
+    </tr><tr class="rank-4">
+      <td><span class="rank-badge">4</span></td>
+      <td class="player-col"><span class="player-name top-5">Dennis Berg</span></td>
+      <td><span class="no-points">–</span></td>
+      <td><span class="no-points">–</span></td>
+    </tr><tr class="rank-5">
+      <td><span class="rank-badge">5</span></td>
+      <td class="player-col"><span class="player-name top-5">Felix Björklind</span></td>
+      <td><span class="no-points">–</span></td>
+      <td><span class="no-points">–</span></td>
+    </tr><tr class="rank-other">
+      <td><span class="rank-badge">6</span></td>
+      <td class="player-col"><span class="player-name">Henrik Jönsson</span></td>
+      <td><span class="no-points">–</span></td>
+      <td><span class="no-points">–</span></td>
+    </tr><tr class="rank-other">
+      <td><span class="rank-badge">7</span></td>
+      <td class="player-col"><span class="player-name">Jacob Andersson</span></td>
+      <td><span class="no-points">–</span></td>
+      <td><span class="no-points">–</span></td>
+    </tr><tr class="rank-other">
+      <td><span class="rank-badge">8</span></td>
+      <td class="player-col"><span class="player-name">Jens Williamsson</span></td>
+      <td><span class="no-points">–</span></td>
+      <td><span class="no-points">–</span></td>
+    </tr><tr class="rank-other">
+      <td><span class="rank-badge">9</span></td>
+      <td class="player-col"><span class="player-name">Jesper Williamsson</span></td>
+      <td><span class="no-points">–</span></td>
+      <td><span class="no-points">–</span></td>
+    </tr><tr class="rank-other">
+      <td><span class="rank-badge">10</span></td>
+      <td class="player-col"><span class="player-name">Joacim Lovén</span></td>
+      <td><span class="no-points">–</span></td>
+      <td><span class="no-points">–</span></td>
+    </tr><tr class="rank-other">
+      <td><span class="rank-badge">11</span></td>
+      <td class="player-col"><span class="player-name">Joel Ström</span></td>
+      <td><span class="no-points">–</span></td>
+      <td><span class="no-points">–</span></td>
+    </tr><tr class="rank-other">
+      <td><span class="rank-badge">12</span></td>
+      <td class="player-col"><span class="player-name">John Falk</span></td>
+      <td><span class="no-points">–</span></td>
+      <td><span class="no-points">–</span></td>
+    </tr><tr class="rank-other">
+      <td><span class="rank-badge">13</span></td>
+      <td class="player-col"><span class="player-name">Marcus Göth</span></td>
+      <td><span class="no-points">–</span></td>
+      <td><span class="no-points">–</span></td>
+    </tr><tr class="rank-other">
+      <td><span class="rank-badge">14</span></td>
+      <td class="player-col"><span class="player-name">Markus Nyberg</span></td>
+      <td><span class="no-points">–</span></td>
+      <td><span class="no-points">–</span></td>
+    </tr><tr class="rank-other">
+      <td><span class="rank-badge">15</span></td>
+      <td class="player-col"><span class="player-name">Martin Jönsson</span></td>
+      <td><span class="no-points">–</span></td>
+      <td><span class="no-points">–</span></td>
+    </tr><tr class="rank-other">
+      <td><span class="rank-badge">16</span></td>
+      <td class="player-col"><span class="player-name">Martin Svensson</span></td>
+      <td><span class="no-points">–</span></td>
+      <td><span class="no-points">–</span></td>
+    </tr><tr class="rank-other">
+      <td><span class="rank-badge">17</span></td>
+      <td class="player-col"><span class="player-name">Oliver Ekbladh</span></td>
+      <td><span class="no-points">–</span></td>
+      <td><span class="no-points">–</span></td>
+    </tr><tr class="rank-other">
+      <td><span class="rank-badge">18</span></td>
+      <td class="player-col"><span class="player-name">Oliver Gustavsson</span></td>
+      <td><span class="no-points">–</span></td>
+      <td><span class="no-points">–</span></td>
+    </tr><tr class="rank-other">
+      <td><span class="rank-badge">19</span></td>
+      <td class="player-col"><span class="player-name">Oscar Wareborn</span></td>
+      <td><span class="no-points">–</span></td>
+      <td><span class="no-points">–</span></td>
+    </tr><tr class="rank-other">
+      <td><span class="rank-badge">20</span></td>
+      <td class="player-col"><span class="player-name">Petter Johansson</span></td>
+      <td><span class="no-points">–</span></td>
+      <td><span class="no-points">–</span></td>
+    </tr><tr class="rank-other">
+      <td><span class="rank-badge">21</span></td>
+      <td class="player-col"><span class="player-name">Robin Lindholm</span></td>
+      <td><span class="no-points">–</span></td>
+      <td><span class="no-points">–</span></td>
+    </tr><tr class="rank-other">
+      <td><span class="rank-badge">22</span></td>
+      <td class="player-col"><span class="player-name">Sebastian Tiderman</span></td>
+      <td><span class="no-points">–</span></td>
+      <td><span class="no-points">–</span></td>
+    </tr><tr class="rank-other">
+      <td><span class="rank-badge">23</span></td>
+      <td class="player-col"><span class="player-name">Simon Wermelin</span></td>
+      <td><span class="no-points">–</span></td>
+      <td><span class="no-points">–</span></td>
+    </tr><tr class="rank-other">
+      <td><span class="rank-badge">24</span></td>
+      <td class="player-col"><span class="player-name">Victor Strand</span></td>
+      <td><span class="no-points">–</span></td>
+      <td><span class="no-points">–</span></td>
+    </tr><tr class="rank-other">
+      <td><span class="rank-badge">25</span></td>
+      <td class="player-col"><span class="player-name">Zimon Karlsson</span></td>
+      <td><span class="no-points">–</span></td>
+      <td><span class="no-points">–</span></td>
+    </tr></tbody>
     </table>
   </div>
 </div>
 
 <!-- ==================== ROUNDS PAGE ==================== -->
-<div class="page" id="page-rounds">
+<div class="page active" id="page-rounds">
   <div class="hero" style="padding-bottom:2rem;">
     <div class="hero-badge">Tävlingsschema</div>
     <h1 style="font-size:clamp(2rem,5vw,3.5rem);">Tävlings<span>kalender</span></h1>
@@ -685,10 +809,87 @@
 
   <div class="section">
     <div class="section-title">Deltävlingar</div>
-    <div class="rounds-grid" id="rounds-deltavling"></div>
+    <div class="rounds-grid" id="rounds-deltavling"><div class="round-card active-card" onclick="openResult(1)">
+      <span class="round-tag deltavling">Deltävling</span>
+      <div class="round-name">Maj – Deltävling 1</div>
+      <div class="round-course">⛳ Skogsbanan</div>
+      <div class="round-points-info">
+        <div>
+          <div class="round-top-prize-label">1:a plats</div>
+          <div class="round-top-prize">500 p</div>
+        </div>
+        <span class="round-status-pill active-round">● Pågår nu</span>
+      </div>
+    </div><div class="round-card no-results" style="cursor:default">
+      <span class="round-tag deltavling">Deltävling</span>
+      <div class="round-name">Juni – Deltävling 2</div>
+      <div class="round-course">⛳ Parkbanan</div>
+      <div class="round-points-info">
+        <div>
+          <div class="round-top-prize-label">1:a plats</div>
+          <div class="round-top-prize">500 p</div>
+        </div>
+        <span class="round-status-pill upcoming">Kommande</span>
+      </div>
+    </div><div class="round-card no-results" style="cursor:default">
+      <span class="round-tag deltavling">Deltävling</span>
+      <div class="round-name">Juli – Deltävling 3</div>
+      <div class="round-course">⛳ Skogsbanan</div>
+      <div class="round-points-info">
+        <div>
+          <div class="round-top-prize-label">1:a plats</div>
+          <div class="round-top-prize">500 p</div>
+        </div>
+        <span class="round-status-pill upcoming">Kommande</span>
+      </div>
+    </div><div class="round-card no-results" style="cursor:default">
+      <span class="round-tag deltavling">Deltävling</span>
+      <div class="round-name">Augusti – Deltävling 4</div>
+      <div class="round-course">⛳ Parkbanan</div>
+      <div class="round-points-info">
+        <div>
+          <div class="round-top-prize-label">1:a plats</div>
+          <div class="round-top-prize">500 p</div>
+        </div>
+        <span class="round-status-pill upcoming">Kommande</span>
+      </div>
+    </div><div class="round-card no-results" style="cursor:default">
+      <span class="round-tag deltavling">Deltävling</span>
+      <div class="round-name">September – Deltävling 5</div>
+      <div class="round-course">⛳ Skogsbanan</div>
+      <div class="round-points-info">
+        <div>
+          <div class="round-top-prize-label">1:a plats</div>
+          <div class="round-top-prize">500 p</div>
+        </div>
+        <span class="round-status-pill upcoming">Kommande</span>
+      </div>
+    </div></div>
 
     <div class="section-title" style="margin-top:2.5rem;">Major-tävlingar</div>
-    <div class="rounds-grid" id="rounds-major"></div>
+    <div class="rounds-grid" id="rounds-major"><div class="round-card major no-results" style="cursor:default">
+      <span class="round-tag major">Major</span>
+      <div class="round-name">Juni – Major 1</div>
+      <div class="round-course">⛳ Skogsbanan&nbsp;&nbsp;·&nbsp;&nbsp;📅 27 juni</div>
+      <div class="round-points-info">
+        <div>
+          <div class="round-top-prize-label">1:a plats</div>
+          <div class="round-top-prize">700 p</div>
+        </div>
+        <span class="round-status-pill upcoming">Kommande</span>
+      </div>
+    </div><div class="round-card major no-results" style="cursor:default">
+      <span class="round-tag major">Major</span>
+      <div class="round-name">September – Final Major</div>
+      <div class="round-course">⛳ Parkbanan&nbsp;&nbsp;·&nbsp;&nbsp;📅 26 september</div>
+      <div class="round-points-info">
+        <div>
+          <div class="round-top-prize-label">1:a plats</div>
+          <div class="round-top-prize">700 p</div>
+        </div>
+        <span class="round-status-pill upcoming">Kommande</span>
+      </div>
+    </div></div>
   </div>
 </div>
 
@@ -705,20 +906,32 @@
       <div class="prize-section">
         <div class="prize-title">🏆 Seriesegern – Slutplacering</div>
         <table class="prize-table">
-          <tr><td class="prize-pos">1:a</td><td>Seriesegraren</td><td>3 000 kr</td></tr>
+          <tbody><tr><td class="prize-pos">1:a</td><td>Seriesegraren</td><td>3 000 kr</td></tr>
           <tr><td class="prize-pos">2:a</td><td></td><td>1 500 kr</td></tr>
           <tr><td class="prize-pos">3:a</td><td></td><td>750 kr</td></tr>
           <tr><td class="prize-pos">4:a</td><td></td><td>500 kr</td></tr>
           <tr><td class="prize-pos">5:a</td><td></td><td>250 kr</td></tr>
-        </table>
+        </tbody></table>
       </div>
       <div>
         <div class="prize-section">
-          <div class="prize-title">⭐ Major-tävlingar – Per tävling</div>
+          <div class="prize-title">⭐ Major 1 – 27 juni</div>
           <table class="prize-table">
-            <tr><td class="prize-pos">1:a</td><td>Vinnaren</td><td>1 500 kr</td></tr>
-            <tr><td class="prize-pos">2:a</td><td></td><td>750 kr</td></tr>
-            <tr><td class="prize-pos">3:a</td><td></td><td>500 kr</td></tr>
+            <tbody id="major1-prizes">
+              <tr><td class="prize-pos">1:a</td><td>Vinnaren</td><td>1 500 kr</td></tr>
+              <tr><td class="prize-pos">2:a</td><td></td><td>750 kr</td></tr>
+              <tr><td class="prize-pos">3:a</td><td></td><td>500 kr</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="prize-section" style="margin-top:1.5rem;">
+          <div class="prize-title">⭐ Finalmajor – 26 september</div>
+          <table class="prize-table">
+            <tbody id="major2-prizes">
+              <tr><td class="prize-pos">1:a</td><td>Vinnaren</td><td>1 500 kr</td></tr>
+              <tr><td class="prize-pos">2:a</td><td></td><td>750 kr</td></tr>
+              <tr><td class="prize-pos">3:a</td><td></td><td>500 kr</td></tr>
+            </tbody>
           </table>
         </div>
       </div>
@@ -729,7 +942,7 @@
       <div class="prize-section">
         <div class="prize-title">Deltävlingar</div>
         <table class="prize-table">
-          <tr><td class="prize-pos">1:a</td><td>500 p</td></tr>
+          <tbody><tr><td class="prize-pos">1:a</td><td>500 p</td></tr>
           <tr><td class="prize-pos">2:a</td><td>400 p</td></tr>
           <tr><td class="prize-pos">3:a</td><td>300 p</td></tr>
           <tr><td class="prize-pos">4:a</td><td>250 p</td></tr>
@@ -744,12 +957,12 @@
           <tr><td class="prize-pos">13:a</td><td>20 p</td></tr>
           <tr><td class="prize-pos">14:a</td><td>10 p</td></tr>
           <tr><td class="prize-pos">15–25:a</td><td>0 p</td></tr>
-        </table>
+        </tbody></table>
       </div>
       <div class="prize-section">
         <div class="prize-title">Major-tävlingar</div>
         <table class="prize-table">
-          <tr><td class="prize-pos">1:a</td><td>700 p</td></tr>
+          <tbody><tr><td class="prize-pos">1:a</td><td>700 p</td></tr>
           <tr><td class="prize-pos">2:a</td><td>550 p</td></tr>
           <tr><td class="prize-pos">3:a</td><td>450 p</td></tr>
           <tr><td class="prize-pos">4:a</td><td>400 p</td></tr>
@@ -768,7 +981,7 @@
           <tr><td class="prize-pos">17:a</td><td>20 p</td></tr>
           <tr><td class="prize-pos">18:a</td><td>10 p</td></tr>
           <tr><td class="prize-pos">19–25:a</td><td>0 p</td></tr>
-        </table>
+        </tbody></table>
       </div>
     </div>
   </div>
@@ -776,7 +989,7 @@
 
 
 <!-- ==================== ADMIN OVERLAY ==================== -->
-<div class="admin-overlay" id="admin-overlay">
+<div class="admin-overlay open" id="admin-overlay">
   <div class="admin-panel">
     <div class="admin-panel-header">
       <div class="admin-panel-title" id="admin-title">⚙ Admin – Sommarserien 2026</div>
@@ -784,7 +997,7 @@
     </div>
     <div class="admin-panel-body" id="admin-body">
       <!-- Login view -->
-      <div id="admin-login-view" class="admin-login">
+      <div id="admin-login-view" class="admin-login" style="display: none;">
         <p>Ange lösenord för att komma åt adminläget.</p>
         <div>
           <label class="admin-label">Lösenord</label>
@@ -797,14 +1010,84 @@
         <p id="admin-login-error" style="color:#e07070;display:none;font-size:0.82rem;">Felaktigt lösenord.</p>
       </div>
       <!-- Main admin view (hidden until login) -->
-      <div id="admin-main-view" style="display:none;flex-direction:column;gap:1.5rem;">
+      <div id="admin-main-view" style="display: flex; flex-direction: column; gap: 1.5rem;">
 
         <!-- SECTION: Tävlingsstatus -->
         <div class="admin-section">
           <div class="admin-section-title">Tävlingsstatus</div>
           <div class="admin-section-body">
             <p style="font-size:0.82rem;color:var(--text-muted);">Markera aktuell tävling som pågående eller avslutad.</p>
-            <div id="admin-status-list"></div>
+            <div id="admin-status-list"><div style="display:flex;align-items:center;justify-content:space-between;padding:0.6rem 0;border-bottom:1px solid rgba(201,168,76,0.07);">
+      <span style="font-size:0.88rem;">Maj – Deltävling 1</span>
+      <div style="display:flex;gap:0.4rem;align-items:center;">
+        <span class="status-badge status-active">Pågår nu</span>
+        <select class="admin-select" style="width:auto;padding:0.3rem 0.5rem;font-size:0.78rem;" data-round-id="1" onchange="updateRoundStatus(1, this.value)">
+          <option value="upcoming">Kommande</option>
+          <option value="active" selected="">Pågår nu</option>
+          <option value="done">Spelad</option>
+        </select>
+      </div>
+    </div><div style="display:flex;align-items:center;justify-content:space-between;padding:0.6rem 0;border-bottom:1px solid rgba(201,168,76,0.07);">
+      <span style="font-size:0.88rem;">Juni – Deltävling 2</span>
+      <div style="display:flex;gap:0.4rem;align-items:center;">
+        <span class="status-badge status-upcoming">Kommande</span>
+        <select class="admin-select" style="width:auto;padding:0.3rem 0.5rem;font-size:0.78rem;" data-round-id="2" onchange="updateRoundStatus(2, this.value)">
+          <option value="upcoming" selected="">Kommande</option>
+          <option value="active">Pågår nu</option>
+          <option value="done">Spelad</option>
+        </select>
+      </div>
+    </div><div style="display:flex;align-items:center;justify-content:space-between;padding:0.6rem 0;border-bottom:1px solid rgba(201,168,76,0.07);">
+      <span style="font-size:0.88rem;">Juni – Major 1</span>
+      <div style="display:flex;gap:0.4rem;align-items:center;">
+        <span class="status-badge status-upcoming">Kommande</span>
+        <select class="admin-select" style="width:auto;padding:0.3rem 0.5rem;font-size:0.78rem;" data-round-id="3" onchange="updateRoundStatus(3, this.value)">
+          <option value="upcoming" selected="">Kommande</option>
+          <option value="active">Pågår nu</option>
+          <option value="done">Spelad</option>
+        </select>
+      </div>
+    </div><div style="display:flex;align-items:center;justify-content:space-between;padding:0.6rem 0;border-bottom:1px solid rgba(201,168,76,0.07);">
+      <span style="font-size:0.88rem;">Juli – Deltävling 3</span>
+      <div style="display:flex;gap:0.4rem;align-items:center;">
+        <span class="status-badge status-upcoming">Kommande</span>
+        <select class="admin-select" style="width:auto;padding:0.3rem 0.5rem;font-size:0.78rem;" data-round-id="4" onchange="updateRoundStatus(4, this.value)">
+          <option value="upcoming" selected="">Kommande</option>
+          <option value="active">Pågår nu</option>
+          <option value="done">Spelad</option>
+        </select>
+      </div>
+    </div><div style="display:flex;align-items:center;justify-content:space-between;padding:0.6rem 0;border-bottom:1px solid rgba(201,168,76,0.07);">
+      <span style="font-size:0.88rem;">Augusti – Deltävling 4</span>
+      <div style="display:flex;gap:0.4rem;align-items:center;">
+        <span class="status-badge status-upcoming">Kommande</span>
+        <select class="admin-select" style="width:auto;padding:0.3rem 0.5rem;font-size:0.78rem;" data-round-id="5" onchange="updateRoundStatus(5, this.value)">
+          <option value="upcoming" selected="">Kommande</option>
+          <option value="active">Pågår nu</option>
+          <option value="done">Spelad</option>
+        </select>
+      </div>
+    </div><div style="display:flex;align-items:center;justify-content:space-between;padding:0.6rem 0;border-bottom:1px solid rgba(201,168,76,0.07);">
+      <span style="font-size:0.88rem;">September – Deltävling 5</span>
+      <div style="display:flex;gap:0.4rem;align-items:center;">
+        <span class="status-badge status-upcoming">Kommande</span>
+        <select class="admin-select" style="width:auto;padding:0.3rem 0.5rem;font-size:0.78rem;" data-round-id="6" onchange="updateRoundStatus(6, this.value)">
+          <option value="upcoming" selected="">Kommande</option>
+          <option value="active">Pågår nu</option>
+          <option value="done">Spelad</option>
+        </select>
+      </div>
+    </div><div style="display:flex;align-items:center;justify-content:space-between;padding:0.6rem 0;border-bottom:1px solid rgba(201,168,76,0.07);">
+      <span style="font-size:0.88rem;">September – Final Major</span>
+      <div style="display:flex;gap:0.4rem;align-items:center;">
+        <span class="status-badge status-upcoming">Kommande</span>
+        <select class="admin-select" style="width:auto;padding:0.3rem 0.5rem;font-size:0.78rem;" data-round-id="7" onchange="updateRoundStatus(7, this.value)">
+          <option value="upcoming" selected="">Kommande</option>
+          <option value="active">Pågår nu</option>
+          <option value="done">Spelad</option>
+        </select>
+      </div>
+    </div></div>
           </div>
         </div>
 
@@ -814,9 +1097,7 @@
           <div class="admin-section-body">
             <div>
               <label class="admin-label">Välj tävling</label>
-              <select class="admin-select" id="admin-round-select" onchange="buildResultForm()">
-                <option value="">– Välj –</option>
-              </select>
+              <select class="admin-select" id="admin-round-select" onchange="buildResultForm()"><option value="">– Välj –</option><option value="1">Maj – Deltävling 1</option><option value="2">Juni – Deltävling 2</option><option value="3">Juni – Major 1</option><option value="4">Juli – Deltävling 3</option><option value="5">Augusti – Deltävling 4</option><option value="6">September – Deltävling 5</option><option value="7">September – Final Major</option></select>
             </div>
             <div id="admin-result-form"></div>
           </div>
@@ -826,9 +1107,11 @@
         <div class="admin-section">
           <div class="admin-section-title">Uppdatera ledartavla</div>
           <div class="admin-section-body">
-            <p style="font-size:0.82rem;color:var(--text-muted);">Ange totalpoäng och vunna pengar för varje spelare. Lämna tomt om inga poäng ännu.</p>
+            <p style="font-size:0.82rem;color:var(--text-muted);">Räknar ihop totalpoäng och cash från alla spelade tävlingar och majors automatiskt.</p>
             <div id="admin-leaderboard-form"></div>
+            <button class="admin-btn-primary" style="width:100%;" onclick="recalcLeaderboard()">🔄 Uppdatera ledartavla från resultat</button>
           </div>
+        </div>
         </div>
 
         <div class="admin-btn-row">
@@ -841,22 +1124,53 @@
   </div>
 </div>
 
-<div class="admin-toast" id="admin-toast"></div>
+<div class="admin-toast" id="admin-toast">✓ Resultat sparat för Maj – Deltävling 1</div>
 
 <!-- RESULT OVERLAY -->
 <div class="result-overlay" id="result-overlay" onclick="closeResult(event)">
   <div class="result-panel" id="result-panel">
     <div class="result-panel-header">
       <div>
-        <div class="result-panel-title" id="result-title"></div>
-        <div class="result-panel-sub" id="result-sub"></div>
+        <div class="result-panel-title" id="result-title">Maj – Deltävling 1</div>
+        <div class="result-panel-sub" id="result-sub">⛳ Skogsbanan</div>
       </div>
       <button class="result-close" onclick="closeResultBtn()">✕</button>
     </div>
     <div class="result-panel-body">
       <table class="result-table">
-        <thead id="result-thead"></thead>
-        <tbody id="result-tbody"></tbody>
+        <thead id="result-thead">
+    <tr>
+      <th style="text-align:right;width:40px;">#</th>
+      <th style="text-align:left;">Spelare</th>
+      <th>Hcp</th>
+      <th>Poäng</th>
+      <th>Poäng</th>
+    </tr></thead>
+        <tbody id="result-tbody"><tr>
+        <td class="result-rank r1">1</td>
+        <td style="text-align:left;font-weight:500;">Daniel Lindh</td>
+        <td class="result-hcp">3</td>
+        <td class="result-score">35</td>
+        <td class="result-pts">–</td>
+      </tr><tr>
+        <td class="result-rank r2">2</td>
+        <td style="text-align:left;font-weight:500;">Victor Strand</td>
+        <td class="result-hcp">5</td>
+        <td class="result-score">38</td>
+        <td class="result-pts">–</td>
+      </tr><tr>
+        <td class="result-rank r3">3</td>
+        <td style="text-align:left;font-weight:500;">Oscar Wareborn</td>
+        <td class="result-hcp">2</td>
+        <td class="result-score">33</td>
+        <td class="result-pts">–</td>
+      </tr><tr>
+        <td class="result-rank ">4</td>
+        <td style="text-align:left;font-weight:500;">Joacim Lovén</td>
+        <td class="result-hcp">6</td>
+        <td class="result-score">30</td>
+        <td class="result-pts">–</td>
+      </tr></tbody>
       </table>
     </div>
   </div>
@@ -868,32 +1182,157 @@
 // ===================== DATA =====================
 // Ledartavla – uppdatera efter varje tävling
 const players = [
-  { rank: 1,  name: "Anton Edman",         points: null, cash: null },
-  { rank: 2,  name: "Daniel Lindh",         points: null, cash: null },
-  { rank: 3,  name: "David Ärleskog",       points: null, cash: null },
-  { rank: 4,  name: "Dennis Berg",          points: null, cash: null },
-  { rank: 5,  name: "Felix Björklind",      points: null, cash: null },
-  { rank: 6,  name: "Henrik Jönsson",       points: null, cash: null },
-  { rank: 7,  name: "Jacob Andersson",      points: null, cash: null },
-  { rank: 8,  name: "Jens Williamsson",     points: null, cash: null },
-  { rank: 9,  name: "Jesper Williamsson",   points: null, cash: null },
-  { rank: 10, name: "Joacim Lovén",         points: null, cash: null },
-  { rank: 11, name: "Joel Ström",           points: null, cash: null },
-  { rank: 12, name: "John Falk",            points: null, cash: null },
-  { rank: 13, name: "Marcus Göth",          points: null, cash: null },
-  { rank: 14, name: "Markus Nyberg",        points: null, cash: null },
-  { rank: 15, name: "Martin Jönsson",       points: null, cash: null },
-  { rank: 16, name: "Martin Svensson",      points: null, cash: null },
-  { rank: 17, name: "Oliver Ekbladh",       points: null, cash: null },
-  { rank: 18, name: "Oliver Gustavsson",    points: null, cash: null },
-  { rank: 19, name: "Oscar Wareborn",       points: null, cash: null },
-  { rank: 20, name: "Petter Johansson",     points: null, cash: null },
-  { rank: 21, name: "Robin Lindholm",       points: null, cash: null },
-  { rank: 22, name: "Sebastian Tiderman",   points: null, cash: null },
-  { rank: 23, name: "Simon Wermelin",       points: null, cash: null },
-  { rank: 24, name: "Victor Strand",        points: null, cash: null },
-  { rank: 25, name: "Zimon Karlsson",       points: null, cash: null },
-];
+    {
+      "rank": 1,
+      "name": "Anton Edman",
+      "points": null,
+      "cash": null
+    },
+    {
+      "rank": 2,
+      "name": "Daniel Lindh",
+      "points": null,
+      "cash": null
+    },
+    {
+      "rank": 3,
+      "name": "David Ärleskog",
+      "points": null,
+      "cash": null
+    },
+    {
+      "rank": 4,
+      "name": "Dennis Berg",
+      "points": null,
+      "cash": null
+    },
+    {
+      "rank": 5,
+      "name": "Felix Björklind",
+      "points": null,
+      "cash": null
+    },
+    {
+      "rank": 6,
+      "name": "Henrik Jönsson",
+      "points": null,
+      "cash": null
+    },
+    {
+      "rank": 7,
+      "name": "Jacob Andersson",
+      "points": null,
+      "cash": null
+    },
+    {
+      "rank": 8,
+      "name": "Jens Williamsson",
+      "points": null,
+      "cash": null
+    },
+    {
+      "rank": 9,
+      "name": "Jesper Williamsson",
+      "points": null,
+      "cash": null
+    },
+    {
+      "rank": 10,
+      "name": "Joacim Lovén",
+      "points": null,
+      "cash": null
+    },
+    {
+      "rank": 11,
+      "name": "Joel Ström",
+      "points": null,
+      "cash": null
+    },
+    {
+      "rank": 12,
+      "name": "John Falk",
+      "points": null,
+      "cash": null
+    },
+    {
+      "rank": 13,
+      "name": "Marcus Göth",
+      "points": null,
+      "cash": null
+    },
+    {
+      "rank": 14,
+      "name": "Markus Nyberg",
+      "points": null,
+      "cash": null
+    },
+    {
+      "rank": 15,
+      "name": "Martin Jönsson",
+      "points": null,
+      "cash": null
+    },
+    {
+      "rank": 16,
+      "name": "Martin Svensson",
+      "points": null,
+      "cash": null
+    },
+    {
+      "rank": 17,
+      "name": "Oliver Ekbladh",
+      "points": null,
+      "cash": null
+    },
+    {
+      "rank": 18,
+      "name": "Oliver Gustavsson",
+      "points": null,
+      "cash": null
+    },
+    {
+      "rank": 19,
+      "name": "Oscar Wareborn",
+      "points": null,
+      "cash": null
+    },
+    {
+      "rank": 20,
+      "name": "Petter Johansson",
+      "points": null,
+      "cash": null
+    },
+    {
+      "rank": 21,
+      "name": "Robin Lindholm",
+      "points": null,
+      "cash": null
+    },
+    {
+      "rank": 22,
+      "name": "Sebastian Tiderman",
+      "points": null,
+      "cash": null
+    },
+    {
+      "rank": 23,
+      "name": "Simon Wermelin",
+      "points": null,
+      "cash": null
+    },
+    {
+      "rank": 24,
+      "name": "Victor Strand",
+      "points": null,
+      "cash": null
+    },
+    {
+      "rank": 25,
+      "name": "Zimon Karlsson",
+      "points": null,
+      "cash": null
+    }
+  ];
 
 // Tävlingar.
 // status: "done" | "active" | "upcoming"
@@ -901,40 +1340,100 @@ const players = [
 // För majors: results = array med { name, hcp, netto, pts }
 // Lämna results: [] om inga resultat finns ännu.
 const rounds = [
-  {
-    id: 1, type: "deltavling", month: "Maj", name: "Deltävling 1", course: "Skogsbanan",
-    topPrize: 500, status: "active",
-    results: [
-      // Exempel – fyll i riktiga resultat här:
-      // { name: "Anton Edman",      hcp: 12, score: 38, pts: 500 },
-      // { name: "Daniel Lindh",     hcp: 8,  score: 36, pts: 400 },
-    ]
-  },
-  {
-    id: 2, type: "deltavling", month: "Juni", name: "Deltävling 2", course: "Parkbanan",
-    topPrize: 500, status: "upcoming", results: []
-  },
-  {
-    id: 3, type: "major", month: "Juni", name: "Major 1", course: "Skogsbanan", date: "27 juni",
-    topPrize: 700, status: "upcoming", results: []
-  },
-  {
-    id: 4, type: "deltavling", month: "Juli", name: "Deltävling 3", course: "Skogsbanan",
-    topPrize: 500, status: "upcoming", results: []
-  },
-  {
-    id: 5, type: "deltavling", month: "Augusti", name: "Deltävling 4", course: "Parkbanan",
-    topPrize: 500, status: "upcoming", results: []
-  },
-  {
-    id: 6, type: "deltavling", month: "September", name: "Deltävling 5", course: "Skogsbanan",
-    topPrize: 500, status: "upcoming", results: []
-  },
-  {
-    id: 7, type: "major", month: "September", name: "Final Major", course: "Parkbanan", date: "26 september",
-    topPrize: 700, status: "upcoming", results: []
-  },
-];
+    {
+      "id": 1,
+      "type": "deltavling",
+      "month": "Maj",
+      "name": "Deltävling 1",
+      "course": "Skogsbanan",
+      "topPrize": 500,
+      "status": "active",
+      "results": [
+        {
+          "name": "Daniel Lindh",
+          "hcp": 3,
+          "score": 35
+        },
+        {
+          "name": "Victor Strand",
+          "hcp": 5,
+          "score": 38
+        },
+        {
+          "name": "Oscar Wareborn",
+          "hcp": 2,
+          "score": 33
+        },
+        {
+          "name": "Joacim Lovén",
+          "hcp": 6,
+          "score": 30
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "type": "deltavling",
+      "month": "Juni",
+      "name": "Deltävling 2",
+      "course": "Parkbanan",
+      "topPrize": 500,
+      "status": "upcoming",
+      "results": []
+    },
+    {
+      "id": 3,
+      "type": "major",
+      "month": "Juni",
+      "name": "Major 1",
+      "course": "Skogsbanan",
+      "date": "27 juni",
+      "topPrize": 700,
+      "status": "upcoming",
+      "results": []
+    },
+    {
+      "id": 4,
+      "type": "deltavling",
+      "month": "Juli",
+      "name": "Deltävling 3",
+      "course": "Skogsbanan",
+      "topPrize": 500,
+      "status": "upcoming",
+      "results": []
+    },
+    {
+      "id": 5,
+      "type": "deltavling",
+      "month": "Augusti",
+      "name": "Deltävling 4",
+      "course": "Parkbanan",
+      "topPrize": 500,
+      "status": "upcoming",
+      "results": []
+    },
+    {
+      "id": 6,
+      "type": "deltavling",
+      "month": "September",
+      "name": "Deltävling 5",
+      "course": "Skogsbanan",
+      "topPrize": 500,
+      "status": "upcoming",
+      "results": []
+    },
+    {
+      "id": 7,
+      "type": "major",
+      "month": "September",
+      "name": "Final Major",
+      "course": "Parkbanan",
+      "date": "26 september",
+      "topPrize": 700,
+      "status": "upcoming",
+      "results": []
+    }
+  ];
 
 // ===================== RENDER LEADERBOARD =====================
 function renderLeaderboard() {
@@ -999,6 +1498,14 @@ function renderRounds() {
 }
 
 // ===================== RESULT OVERLAY =====================
+// ===================== POINT & PRIZE TABLES =====================
+const DELTA_POINTS  = [500,400,300,250,200,170,140,120,100,80,50,30,20,10,0,0,0,0,0,0,0,0,0,0,0];
+const MAJOR_POINTS  = [700,550,450,400,350,310,270,230,200,190,160,130,100,80,60,40,20,10,0,0,0,0,0,0,0];
+const SERIES_PRIZES = [3000,1500,750,500,250];
+const MAJOR_PRIZES  = [1500,750,500];
+const PRIZE_LABELS  = ['1:a','2:a','3:a'];
+const PRIZE_AMOUNTS = ['1 500 kr','750 kr','500 kr'];
+
 function openResult(id) {
   const r = rounds.find(x => x.id === id);
   if (!r) return;
@@ -1007,13 +1514,13 @@ function openResult(id) {
   document.getElementById('result-sub').textContent = `⛳ ${r.course}`;
 
   const isMajor = r.type === 'major';
-  const scoreHeader = isMajor ? 'Slag (Netto)' : 'Poäng (Brutto)';
+  const scoreHeader = isMajor ? 'Slag (Netto)' : 'Poäng';
 
   document.getElementById('result-thead').innerHTML = `
     <tr>
       <th style="text-align:right;width:40px;">#</th>
       <th style="text-align:left;">Spelare</th>
-      <th>Hcp</th>
+      <th>SHC</th>
       <th>${scoreHeader}</th>
       <th>Poäng</th>
     </tr>`;
@@ -1024,17 +1531,27 @@ function openResult(id) {
         Inga resultat inlagda än
       </td></tr>`;
   } else {
-    document.getElementById('result-tbody').innerHTML = r.results.map((row, i) => {
+    const sk = isMajor ? 'netto' : 'score';
+    const ptTable = isMajor ? MAJOR_POINTS : DELTA_POINTS;
+
+    // Sort by score desc, SHC asc as tiebreaker
+    const sorted = [...r.results].sort((a, b) => {
+      const sa = a[sk] ?? -Infinity, sb = b[sk] ?? -Infinity;
+      if (sb !== sa) return sb - sa;
+      return (a.hcp ?? 999) - (b.hcp ?? 999);
+    });
+
+    document.getElementById('result-tbody').innerHTML = sorted.map((row, i) => {
       const pos = i + 1;
       const rankCls = pos === 1 ? 'r1' : pos === 2 ? 'r2' : pos === 3 ? 'r3' : '';
       const scoreVal = isMajor ? (row.netto ?? '–') : (row.score ?? '–');
-      const ptsVal = row.pts != null ? row.pts : '–';
+      const roundPts = row[sk] != null ? (ptTable[i] ?? 0) : '–';
       return `<tr>
         <td class="result-rank ${rankCls}">${pos}</td>
         <td style="text-align:left;font-weight:500;">${row.name}</td>
         <td class="result-hcp">${row.hcp ?? '–'}</td>
         <td class="result-score">${scoreVal}</td>
-        <td class="result-pts">${ptsVal}</td>
+        <td class="result-pts">${roundPts}</td>
       </tr>`;
     }).join('');
   }
@@ -1065,6 +1582,7 @@ function showPage(id, btn) {
 // ===================== INIT =====================
 renderLeaderboard();
 renderRounds();
+renderMajorPrizes();
 
 // ===================== ADMIN =====================
 const ADMIN_PASSWORD = "hook2026"; // Byt till valfritt lösenord
@@ -1145,7 +1663,7 @@ function buildResultForm() {
   if (!id) { container.innerHTML = ''; return; }
   const r = rounds.find(x => x.id === id);
   const isMajor = r.type === 'major';
-  const scoreLabel = isMajor ? 'Slag (Netto)' : 'Poäng (Brutto)';
+  const scoreLabel = isMajor ? 'Slag (Netto)' : 'Poäng';
   const scoreKey   = isMajor ? 'netto' : 'score';
 
   // Build 25 rows (fill existing data if present)
@@ -1160,7 +1678,6 @@ function buildResultForm() {
       </select></td>
       <td><input class="admin-input" type="number" id="res_hcp_${i}"   placeholder="–" value="${ex.hcp  !=null?ex.hcp  :''}"></td>
       <td><input class="admin-input" type="number" id="res_score_${i}" placeholder="–" value="${ex[scoreKey]!=null?ex[scoreKey]:''}"></td>
-      <td><input class="admin-input" type="number" id="res_pts_${i}"   placeholder="–" value="${ex.pts  !=null?ex.pts  :''}"></td>
     </tr>`;
   }
 
@@ -1170,9 +1687,8 @@ function buildResultForm() {
       <thead><tr>
         <th>#</th>
         <th>Spelare</th>
-        <th>Hcp</th>
+        <th>SHC</th>
         <th>${scoreLabel}</th>
-        <th>Seriepoäng</th>
       </tr></thead>
       <tbody>${rows}</tbody>
     </table>
@@ -1191,12 +1707,10 @@ function saveResultForm(id) {
     const name  = document.getElementById(`res_name_${i}`)?.value;
     const hcp   = document.getElementById(`res_hcp_${i}`)?.value;
     const score = document.getElementById(`res_score_${i}`)?.value;
-    const pts   = document.getElementById(`res_pts_${i}`)?.value;
     if (name) {
       const entry = { name };
       if (hcp   !== '') entry.hcp = parseFloat(hcp);
       if (score !== '') entry[scoreKey] = parseFloat(score);
-      if (pts   !== '') entry.pts = parseFloat(pts);
       results.push(entry);
     }
   }
@@ -1206,39 +1720,76 @@ function saveResultForm(id) {
 
 // --- LEADERBOARD ---
 function buildLeaderboardForm() {
-  const container = document.getElementById('admin-leaderboard-form');
-  container.innerHTML = `
-    <div style="overflow-x:auto;">
-    <table class="admin-results-table">
-      <thead><tr>
-        <th style="width:30px;">#</th>
-        <th>Spelare</th>
-        <th>Totalpoäng</th>
-        <th>Cash (kr)</th>
-      </tr></thead>
-      <tbody>
-        ${players.map((p,i) => `<tr>
-          <td class="row-num">${p.rank}</td>
-          <td style="font-size:0.82rem;white-space:nowrap;">${p.name}</td>
-          <td><input class="admin-input" type="number" id="lb_pts_${i}"  placeholder="–" value="${p.points!=null?p.points:''}"></td>
-          <td><input class="admin-input" type="number" id="lb_cash_${i}" placeholder="–" value="${p.cash  !=null?p.cash  :''}"></td>
-        </tr>`).join('')}
-      </tbody>
-    </table>
-    </div>`;
+  // No manual form needed – leaderboard is auto-calculated via recalcLeaderboard()
 }
 
-// --- SAVE ALL ---
-function adminSaveAll(doExport = false) {
-  // Save leaderboard
-  players.forEach((p, i) => {
-    const pts  = document.getElementById(`lb_pts_${i}`)?.value;
-    const cash = document.getElementById(`lb_cash_${i}`)?.value;
-    p.points = pts  !== '' && pts  != null ? parseFloat(pts)  : null;
-    p.cash   = cash !== '' && cash != null ? parseFloat(cash) : null;
+// --- RECALC LEADERBOARD ---
+
+function renderMajorPrizes() {
+  [{ id: 3, tbodyId: 'major1-prizes' }, { id: 7, tbodyId: 'major2-prizes' }].forEach(({ id, tbodyId }) => {
+    const r = rounds.find(x => x.id === id);
+    const tbody = document.getElementById(tbodyId);
+    if (!tbody) return;
+    if (!r || r.status !== 'done' || !r.results || r.results.length === 0) {
+      tbody.innerHTML = PRIZE_LABELS.map((pos, i) => `
+        <tr>
+          <td class="prize-pos">${pos}</td>
+          <td style="color:var(--text-muted);font-style:italic;">${i === 0 ? 'Vinnaren' : ''}</td>
+          <td>${PRIZE_AMOUNTS[i]}</td>
+        </tr>`).join('');
+      return;
+    }
+    const sorted = [...r.results].sort((a, b) => {
+      const sa = a.netto ?? -Infinity, sb = b.netto ?? -Infinity;
+      if (sb !== sa) return sb - sa;
+      return (a.hcp ?? 999) - (b.hcp ?? 999);
+    });
+    tbody.innerHTML = PRIZE_LABELS.map((pos, i) => {
+      const winner = sorted[i];
+      const name = winner ? winner.name : '–';
+      const nameStyle = winner ? 'font-weight:600;color:var(--cream);' : 'color:var(--text-muted);';
+      return `<tr>
+        <td class="prize-pos">${pos}</td>
+        <td style="${nameStyle}">${name}</td>
+        <td>${PRIZE_AMOUNTS[i]}</td>
+      </tr>`;
+    }).join('');
+  });
+}
+
+function recalcLeaderboard() {
+  // Reset all players
+  players.forEach(p => { p.points = 0; p.cash = 0; });
+
+  // Sum points from all done rounds
+  rounds.filter(r => r.status === 'done' && r.results && r.results.length > 0).forEach(r => {
+    const isMajor = r.type === 'major';
+    const sk = isMajor ? 'netto' : 'score';
+    // Sort results by score desc, hcp asc
+    const sorted = [...r.results].sort((a, b) => {
+      const sa = a[sk] ?? -Infinity, sb = b[sk] ?? -Infinity;
+      if (sb !== sa) return sb - sa;
+      return (a.hcp ?? 999) - (b.hcp ?? 999);
+    });
+    sorted.forEach((entry, idx) => {
+      const player = players.find(p => p.name === entry.name);
+      if (!player) return;
+      const pts = isMajor ? (MAJOR_POINTS[idx] ?? 0) : (DELTA_POINTS[idx] ?? 0);
+      player.points += pts;
+      // Major cash prizes
+      if (isMajor && MAJOR_PRIZES[idx] != null) {
+        player.cash += MAJOR_PRIZES[idx];
+      }
+    });
   });
 
-  // Re-sort players by points descending, nulls last
+  // Set null for players with 0 points (haven't played)
+  players.forEach(p => {
+    if (p.points === 0) p.points = null;
+    if (p.cash === 0) p.cash = null;
+  });
+
+  // Sort by points desc, nulls last
   players.sort((a, b) => {
     if (a.points === null && b.points === null) return 0;
     if (a.points === null) return 1;
@@ -1247,11 +1798,26 @@ function adminSaveAll(doExport = false) {
   });
   players.forEach((p, i) => p.rank = i + 1);
 
+  // Apply series prizes to current top 5
+  players.forEach((p, i) => {
+    if (p.points != null && SERIES_PRIZES[i] != null) {
+      p.cash = (p.cash || 0) + SERIES_PRIZES[i];
+    }
+  });
+
+  renderLeaderboard();
+  renderRounds();
+  buildStatusList();
+  renderMajorPrizes();
+  showToast('✓ Ledartavlan uppdaterad!');
+}
+
+// --- SAVE ALL ---
+function adminSaveAll(doExport = false) {
   // Re-render everything
   renderLeaderboard();
   renderRounds();
   buildStatusList();
-  buildLeaderboardForm();
   buildResultForm();
 
   if (doExport) {
@@ -1310,5 +1876,6 @@ document.addEventListener('keydown', e => {
 });
 
 </script>
-</body>
-</html>
+
+
+</body></html>
