@@ -888,10 +888,15 @@
     .leaderboard-table { font-size: 0.78rem; }
     .leaderboard-table th, .leaderboard-table td { padding: 0.55rem 0.35rem; }
     .leaderboard-table .player-col {
-      max-width: 140px;
+      white-space: nowrap;
+    }
+    /* Namnspannet kan ellipsa, stjärnorna förblir synliga */
+    .leaderboard-table .player-col .player-name {
+      display: inline-block;
+      max-width: 130px;
       overflow: hidden;
       text-overflow: ellipsis;
-      white-space: nowrap;
+      vertical-align: middle;
     }
     .leaderboard-table .rank-badge { font-size: 0.85rem; }
 
