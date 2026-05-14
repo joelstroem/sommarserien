@@ -201,6 +201,10 @@
     backdrop-filter: blur(8px);
   }
   .stat-item + .stat-item { border-left: 1px solid var(--border); }
+  .stat-clickable { cursor: pointer; transition: background 0.15s; }
+  .stat-clickable:hover { background: rgba(201,168,76,0.05); }
+  .nav-logo { transition: color 0.15s; }
+  .nav-logo:hover { color: var(--gold-light); }
   .stat-value {
     font-family: 'Playfair Display', serif;
     font-size: 2rem;
@@ -306,7 +310,7 @@
     font-weight: 500;
     color: var(--cream);
   }
-  .player-name.top-3 { font-weight: 600; }
+  .player-name.top-3 { font-weight: 400; }
   .player-name.top-5 { font-weight: 550; }
 
   .points-value {
@@ -689,9 +693,9 @@
     transition: height 0.4s ease;
     position: relative;
   }
-  .hole-bar.easy  { background: linear-gradient(180deg, #4caf74, #2d6a35); }
-  .hole-bar.hard  { background: linear-gradient(180deg, #c97a4c, #8b3a1a); }
-  .hole-bar.par   { background: linear-gradient(180deg, #8a9e8d, #5a7a5d); }
+  .hole-bar.easy  { background: linear-gradient(180deg, #e05a5a, #a83333); }
+  .hole-bar.hard  { background: linear-gradient(180deg, #3a7dc4, #1f4e85); }
+  .hole-bar.par   { background: linear-gradient(180deg, #4caf74, #2d6a35); }
   .hole-bar-label { font-size: 0.6rem; color: var(--text-muted); }
   .hole-bar-val   { font-size: 0.62rem; font-weight: 600; color: var(--cream); }
   .hole-bar-num   { font-size: 0.65rem; color: var(--text-muted); margin-top: 2px; }
@@ -707,9 +711,9 @@
   }
   .par-split-label { font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--text-muted); margin-bottom: 0.4rem; }
   .par-split-value { font-family: 'Playfair Display', serif; font-size: 2rem; font-weight: 700; }
-  .par-split-value.over  { color: #e07070; }
-  .par-split-value.under { color: #6dba7f; }
-  .par-split-value.even  { color: var(--gold-light); }
+  .par-split-value.over  { color: #2e6cb3; }
+  .par-split-value.under { color: #e05a5a; }
+  .par-split-value.even  { color: #4caf74; }
   .par-split-sub { font-size: 0.72rem; color: var(--text-muted); margin-top: 0.2rem; }
   /* Frequency */
   .freq-bar-row { display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.5rem; }
@@ -841,6 +845,29 @@
   .ach-major {
     color: var(--gold);
   }
+  .ach-legend {
+    display: flex;
+    justify-content: center;
+    gap: 0.7rem;
+    align-items: center;
+    font-size: 0.72rem;
+    color: var(--text-muted);
+    font-style: italic;
+    margin: -0.5rem 0 1.25rem;
+    letter-spacing: 0.02em;
+  }
+  .ach-legend .ach-star { margin-left: 0; margin-right: 0.15em; vertical-align: 0; font-style: normal; }
+  .ach-legend-sep { opacity: 0.4; }
+
+  /* Stats: lättaste/svåraste sida vid sida på desktop */
+  .stats-hole-rank-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+  }
+  @media (max-width: 720px) {
+    .stats-hole-rank-grid { grid-template-columns: 1fr; gap: 0.5rem; }
+  }
 
   /* === MOBIL-ANPASSNINGAR === */
   @media (max-width: 760px) {
@@ -879,6 +906,25 @@
     /* HoF kort lite mindre */
     .hof-champion-card { padding: 1rem 0.7rem 0.9rem; }
     .hof-champion-name { font-size: 1rem; }
+
+    /* Statistik – hole-bars kompakta så de ryms på mobil */
+    .stats-card { padding: 1rem 0.85rem; }
+    .stats-card-title { font-size: 0.88rem; padding-bottom: 0.4rem; margin-bottom: 0.9rem; }
+    .hole-bars { gap: 3px; height: 100px; padding-right: 0; }
+    .hole-bar { border-radius: 3px 3px 0 0; }
+    .hole-bar-val { font-size: 0.52rem; letter-spacing: -0.02em; }
+    .hole-bar-num { font-size: 0.58rem; }
+
+    /* Par-split tightare */
+    .par-split-grid { gap: 0.5rem; }
+    .par-split-card { padding: 0.75rem 0.6rem; }
+    .par-split-value { font-size: 1.6rem; }
+    .par-split-label { font-size: 0.62rem; letter-spacing: 0.05em; }
+    .par-split-sub { font-size: 0.62rem; }
+
+    /* Frequency – namnen i en kolumn med ellipsis */
+    .freq-name { width: 110px; font-size: 0.74rem; }
+    .freq-count { font-size: 0.7rem; }
   }
 
   /* HALL OF FAME */
@@ -1048,7 +1094,7 @@
 <body>
 
 <nav>
-  <div class="nav-logo">⛳ Sommarserien 2026</div>
+  <div class="nav-logo" onclick="showPage('leaderboard')" style="cursor:pointer;">⛳ Sommarserien 2026</div>
   <button class="nav-burger" onclick="toggleMobileNav()" aria-label="Meny">☰</button>
   <div class="nav-tabs" id="nav-tabs">
     <button class="nav-tab active" onclick="showPage('leaderboard', this)">Ledartavla</button>
@@ -1074,15 +1120,15 @@
   </div>
 
   <div class="stats-row">
-    <div class="stat-item">
+    <div class="stat-item stat-clickable" onclick="showPage('players')">
       <span class="stat-value">25</span>
       <span class="stat-label">Deltagare</span>
     </div>
-    <div class="stat-item">
+    <div class="stat-item stat-clickable" onclick="showPage('rounds')">
       <span class="stat-value">5</span>
       <span class="stat-label">Deltävlingar</span>
     </div>
-    <div class="stat-item">
+    <div class="stat-item stat-clickable" onclick="showPage('rounds')">
       <span class="stat-value">2</span>
       <span class="stat-label">Majors</span>
     </div>
@@ -1090,13 +1136,18 @@
 
   <div class="section">
     <div class="section-title">Ledartavla</div>
+    <div class="ach-legend">
+      <span><span class="ach-star ach-series">★</span> Seriesegrar</span>
+      <span class="ach-legend-sep">·</span>
+      <span><span class="ach-star ach-major">☆</span> Majorsegrar</span>
+    </div>
     <table class="leaderboard-table">
       <thead>
         <tr>
           <th style="width:52px;">#</th>
           <th class="player-col">Spelare</th>
           <th>Poäng</th>
-          <th>Cash</th>
+          <th>Pengar</th>
         </tr>
       </thead>
       <tbody id="leaderboard-body"><tr class="rank-1">
@@ -1672,9 +1723,9 @@
       <span class="hole-bar-num">18</span>
     </div></div></div>
         <div style="display:flex;gap:1.5rem;margin-top:0.75rem;flex-wrap:wrap;">
-          <span style="font-size:0.72rem;display:flex;align-items:center;gap:0.4rem;"><span style="display:inline-block;width:10px;height:10px;border-radius:2px;background:#4caf74;"></span>Under par</span>
-          <span style="font-size:0.72rem;display:flex;align-items:center;gap:0.4rem;"><span style="display:inline-block;width:10px;height:10px;border-radius:2px;background:#8a9e8d;"></span>Par</span>
-          <span style="font-size:0.72rem;display:flex;align-items:center;gap:0.4rem;"><span style="display:inline-block;width:10px;height:10px;border-radius:2px;background:#c97a4c;"></span>Över par</span>
+          <span style="font-size:0.72rem;display:flex;align-items:center;gap:0.4rem;"><span style="display:inline-block;width:10px;height:10px;border-radius:2px;background:#e05a5a;"></span>Under par</span>
+          <span style="font-size:0.72rem;display:flex;align-items:center;gap:0.4rem;"><span style="display:inline-block;width:10px;height:10px;border-radius:2px;background:#4caf74;"></span>Par</span>
+          <span style="font-size:0.72rem;display:flex;align-items:center;gap:0.4rem;"><span style="display:inline-block;width:10px;height:10px;border-radius:2px;background:#2e6cb3;"></span>Över par</span>
         </div>
       </div>
       <div id="stats-hole-ranking" style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-top:1rem;">
@@ -2095,7 +2146,7 @@
             <tr>
               <th style="width:52px;">#</th>
               <th class="player-col">Spelare</th>
-              <th>Cash</th>
+              <th>Pengar</th>
             </tr>
           </thead>
           <tbody id="money-body"></tbody>
@@ -2595,9 +2646,14 @@ document.addEventListener('keydown', e => { if (e.key === 'Escape') closeResultB
 function showPage(id, btn) {
   document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
   document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
-  document.getElementById('page-' + id).classList.add('active');
-  btn.classList.add('active');
+  const page = document.getElementById('page-' + id);
+  if (page) page.classList.add('active');
+  if (!btn) {
+    btn = document.querySelector(".nav-tab[onclick*=\"showPage('" + id + "'\"]");
+  }
+  if (btn) btn.classList.add('active');
   closeMobileNav();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
 function toggleMobileNav() {
@@ -2722,8 +2778,10 @@ function renderHoleChart(scores, par, round) {
     </div>`;
 
   document.getElementById('stats-hole-ranking').innerHTML =
-    rankCard('🟢 Lättaste hålen', '#6dba7f', easiest) +
-    rankCard('🔴 Svåraste hålen', '#e07070', hardest);
+    `<div class="stats-hole-rank-grid">` +
+    rankCard('🔴 Lättaste hålen', '#e05a5a', easiest) +
+    rankCard('🔵 Svåraste hålen', '#3a7dc4', hardest) +
+    `</div>`;
 }
 
 function renderParSplit(scores, par) {
@@ -2797,31 +2855,31 @@ function renderFrequency() {
 // Fyll i spelardata här – gid = Golf-ID (t.ex. "850315-001"), club = hemmaklubb, fb = Facebook-URL
 // Åldern beräknas automatiskt från personnumret i Golf-ID.
 const playerProfiles = [
-  { name: "Anton Edman",        gid: null, club: "Hooks Golfklubb", hand: "Höger",   fb: null, history: [{ year: 2025, pos: 1 }] },
-  { name: "Daniel Lindh",       gid: null, club: "Hooks Golfklubb", hand: "Höger",   fb: null, history: [{ year: 2023, pos: 2 }, { year: 2024, pos: 3 }, { year: 2025, pos: 12 }] },
-  { name: "David Ärleskog",     gid: null, club: "Hooks Golfklubb", hand: "Höger",   fb: null, history: [] },
-  { name: "Dennis Berg",        gid: null, club: "Hooks Golfklubb", hand: "Vänster", fb: null, history: [{ year: 2023, pos: 7 }, { year: 2024, pos: 6 }, { year: 2025, pos: 4 }] },
-  { name: "Felix Björklind",    gid: null, club: "Hooks Golfklubb", hand: "Höger",   fb: null, history: [{ year: 2023, pos: 18 }, { year: 2024, pos: 28 }, { year: 2025, pos: 28 }] },
-  { name: "Henrik Jönsson",     gid: null, club: "Hooks Golfklubb", hand: "Höger",   fb: null, history: [] },
-  { name: "Jacob Andersson",    gid: null, club: "Hooks Golfklubb", hand: "Höger",   fb: null, history: [] },
-  { name: "Jens Williamsson",   gid: null, club: "Hooks Golfklubb", hand: "Höger",   fb: null, history: [{ year: 2023, pos: 1 }, { year: 2024, pos: 15 }, { year: 2025, pos: 8 }] },
-  { name: "Jesper Williamsson", gid: null, club: "Hooks Golfklubb", hand: "Vänster", fb: null, history: [{ year: 2023, pos: 15 }, { year: 2024, pos: 5 }, { year: 2025, pos: 20 }] },
-  { name: "Joacim Lovén",       gid: null, club: "Hooks Golfklubb", hand: "Höger",   fb: null, history: [{ year: 2025, pos: 21 }] },
-  { name: "Joel Ström",         gid: null, club: "Hooks Golfklubb", hand: "Vänster", fb: null, history: [{ year: 2023, pos: 6 }, { year: 2024, pos: 7 }, { year: 2025, pos: 14 }] },
-  { name: "John Falk",          gid: null, club: "Hooks Golfklubb", hand: "Höger",   fb: null, history: [{ year: 2024, pos: 8 }, { year: 2025, pos: 22 }] },
-  { name: "Marcus Göth",        gid: null, club: "Hooks Golfklubb", hand: "Höger",   fb: null, history: [] },
-  { name: "Markus Nyberg",      gid: null, club: "Hooks Golfklubb", hand: "Höger",   fb: null, history: [{ year: 2024, pos: 16 }, { year: 2025, pos: 15 }] },
-  { name: "Martin Jönsson",     gid: null, club: "Hooks Golfklubb", hand: "Höger",   fb: null, history: [] },
-  { name: "Martin Svensson",    gid: null, club: "Hooks Golfklubb", hand: "Höger",   fb: null, history: [{ year: 2023, pos: 9 }, { year: 2024, pos: 25 }, { year: 2025, pos: 23 }] },
-  { name: "Oliver Ekbladh",     gid: null, club: "Hooks Golfklubb", hand: "Vänster", fb: null, history: [] },
-  { name: "Oliver Gustavsson",  gid: null, club: "Hooks Golfklubb", hand: "Höger",   fb: null, history: [{ year: 2023, pos: 5 }, { year: 2024, pos: 22 }, { year: 2025, pos: 3 }] },
-  { name: "Oscar Wareborn",     gid: null, club: "Hooks Golfklubb", hand: "Höger",   fb: null, history: [{ year: 2023, pos: 3 }, { year: 2024, pos: 10 }, { year: 2025, pos: 2 }] },
-  { name: "Petter Johansson",   gid: null, club: "Hooks Golfklubb", hand: "Höger",   fb: null, history: [{ year: 2023, pos: 10 }, { year: 2024, pos: 12 }, { year: 2025, pos: 9 }] },
-  { name: "Robin Lindholm",     gid: null, club: "Hooks Golfklubb", hand: "Höger",   fb: null, history: [{ year: 2023, pos: 8 }, { year: 2024, pos: 24 }, { year: 2025, pos: 10 }] },
-  { name: "Sebastian Tiderman", gid: null, club: "Hooks Golfklubb", hand: "Höger",   fb: null, history: [{ year: 2023, pos: 19 }, { year: 2024, pos: 27 }, { year: 2025, pos: 25 }] },
-  { name: "Simon Wermelin",     gid: null, club: "Hooks Golfklubb", hand: "Höger",   fb: null, history: [{ year: 2024, pos: 13 }, { year: 2025, pos: 17 }] },
-  { name: "Victor Strand",      gid: null, club: "Hooks Golfklubb", hand: "Höger",   fb: null, history: [{ year: 2023, pos: 4 }, { year: 2024, pos: 4 }, { year: 2025, pos: 6 }] },
-  { name: "Zimon Karlsson",     gid: null, club: "Hooks Golfklubb", hand: "Höger",   fb: null, history: [{ year: 2023, pos: 12 }, { year: 2024, pos: 23 }, { year: 2025, pos: 11 }] },
+  { name: "Anton Edman",        gid: "940208-034", club: "Hooks Golfklubb", hand: "Höger",   fb: null, history: [{ year: 2025, pos: 1 }] },
+  { name: "Daniel Lindh",       gid: "850310-006", club: "Hooks Golfklubb", hand: "Höger",   fb: null, history: [{ year: 2023, pos: 2 }, { year: 2024, pos: 3 }, { year: 2025, pos: 12 }] },
+  { name: "David Ärleskog",     gid: "950818-032", club: "Hooks Golfklubb", hand: "Höger",   fb: null, history: [] },
+  { name: "Dennis Berg",        gid: "920103-049", club: "Hooks Golfklubb", hand: "Vänster", fb: null, history: [{ year: 2023, pos: 7 }, { year: 2024, pos: 6 }, { year: 2025, pos: 4 }] },
+  { name: "Felix Björklind",    gid: "940401-065", club: "Hooks Golfklubb", hand: "Höger",   fb: null, history: [{ year: 2023, pos: 18 }, { year: 2024, pos: 28 }, { year: 2025, pos: 28 }] },
+  { name: "Henrik Jönsson",     gid: "950429-029", club: "Nässjö Golfklubb", hand: "Höger",   fb: null, history: [] },
+  { name: "Jacob Andersson",    gid: "990828-035", club: "Hooks Golfklubb", hand: "Höger",   fb: null, history: [] },
+  { name: "Jens Williamsson",   gid: "930816-035", club: "Hooks Golfklubb", hand: "Höger",   fb: null, history: [{ year: 2023, pos: 1 }, { year: 2024, pos: 15 }, { year: 2025, pos: 8 }] },
+  { name: "Jesper Williamsson", gid: "900423-038", club: "Hooks Golfklubb", hand: "Vänster", fb: null, history: [{ year: 2023, pos: 15 }, { year: 2024, pos: 5 }, { year: 2025, pos: 20 }] },
+  { name: "Joacim Lovén",       gid: "930615-004", club: "Hooks Golfklubb", hand: "Höger",   fb: null, history: [{ year: 2025, pos: 21 }] },
+  { name: "Joel Ström",         gid: "920127-046", club: "Hooks Golfklubb", hand: "Vänster", fb: null, history: [{ year: 2023, pos: 6 }, { year: 2024, pos: 7 }, { year: 2025, pos: 14 }] },
+  { name: "John Falk",          gid: "950109-001", club: "Hooks Golfklubb", hand: "Höger",   fb: null, history: [{ year: 2024, pos: 8 }, { year: 2025, pos: 22 }] },
+  { name: "Marcus Göth",        gid: "930706-045", club: "Hooks Golfklubb", hand: "Höger",   fb: null, history: [] },
+  { name: "Markus Nyberg",      gid: "970421-024", club: "Hooks Golfklubb", hand: "Höger",   fb: null, history: [{ year: 2024, pos: 16 }, { year: 2025, pos: 15 }] },
+  { name: "Martin Jönsson",     gid: "980204-017", club: "Hooks Golfklubb", hand: "Höger",   fb: null, history: [] },
+  { name: "Martin Svensson",    gid: "920309-003", club: "Hooks Golfklubb", hand: "Höger",   fb: null, history: [{ year: 2023, pos: 9 }, { year: 2024, pos: 25 }, { year: 2025, pos: 23 }] },
+  { name: "Oliver Ekbladh",     gid: "940331-046", club: "Delsjö GK", hand: "Vänster", fb: null, history: [] },
+  { name: "Oliver Gustavsson",  gid: "950722-012", club: "Hooks Golfklubb", hand: "Höger",   fb: null, history: [{ year: 2023, pos: 5 }, { year: 2024, pos: 22 }, { year: 2025, pos: 3 }] },
+  { name: "Oscar Wareborn",     gid: "890921-010", club: "Hooks Golfklubb", hand: "Höger",   fb: null, history: [{ year: 2023, pos: 3 }, { year: 2024, pos: 10 }, { year: 2025, pos: 2 }] },
+  { name: "Petter Johansson",   gid: "910206-004", club: "Hooks Golfklubb", hand: "Höger",   fb: null, history: [{ year: 2023, pos: 10 }, { year: 2024, pos: 12 }, { year: 2025, pos: 9 }] },
+  { name: "Robin Lindholm",     gid: "940826-036", club: "Hooks Golfklubb", hand: "Höger",   fb: null, history: [{ year: 2023, pos: 8 }, { year: 2024, pos: 24 }, { year: 2025, pos: 10 }] },
+  { name: "Sebastian Tiderman", gid: "920601-043", club: "Hooks Golfklubb", hand: "Höger",   fb: null, history: [{ year: 2023, pos: 19 }, { year: 2024, pos: 27 }, { year: 2025, pos: 25 }] },
+  { name: "Simon Wermelin",     gid: "950405-019", club: "Hooks Golfklubb", hand: "Höger",   fb: null, history: [{ year: 2024, pos: 13 }, { year: 2025, pos: 17 }] },
+  { name: "Victor Strand",      gid: "901015-050", club: "Hooks Golfklubb", hand: "Höger",   fb: null, history: [{ year: 2023, pos: 4 }, { year: 2024, pos: 4 }, { year: 2025, pos: 6 }] },
+  { name: "Zimon Karlsson",     gid: "940219-038", club: "Hooks Golfklubb", hand: "Höger",   fb: null, history: [{ year: 2023, pos: 12 }, { year: 2024, pos: 23 }, { year: 2025, pos: 11 }] },
   // history exempel: [{ year: 2023, pos: 3 }, { year: 2024, pos: 1 }]
   // Golf-ID exempel: "850315-001"  (personnummer-delen används för åldersberäkning)
 ];
@@ -2902,7 +2960,7 @@ function openPlayerModal(idx) {
       </div>`;
 
   const age = ageFromGid(p.gid);
-  const seasons = (p.history ? p.history.length : 0) + 1; // +1 för innevarande säsong 2026
+  const seasons = p.history ? p.history.length : 0;
 
   document.getElementById('player-modal-stats').innerHTML = `
     <div class="player-modal-stat">
@@ -2934,7 +2992,7 @@ function openPlayerModal(idx) {
       <span class="player-modal-stat-value">${played}</span>
     </div>
     <div class="player-modal-stat">
-      <span class="player-modal-stat-label">Antal gjorda säsonger</span>
+      <span class="player-modal-stat-label">Antal tidigare säsonger</span>
       <span class="player-modal-stat-value">${seasons}</span>
     </div>
     ${historyHtml}`;
@@ -3024,7 +3082,7 @@ const historicalSeasons = [
     year: 2025,
     majors: { "Major 1": { name: "Dennis Berg", course: "Parkbanan" }, "Finalmajor": { name: "Oliver Gustavsson", course: "Skogsbanan" } },
     leaderboard: [
-      { pos: 1, name: "Anton Edman", points: 1610, cash: 4000 },
+      { pos: 1, name: "Anton Edman", points: 1610, cash: 3000 },
       { pos: 2, name: "Oscar Wareborn", points: 1475, cash: 2250 },
       { pos: 3, name: "Oliver Gustavsson", points: 1365, cash: 2750 },
       { pos: 4, name: "Dennis Berg", points: 1297.5, cash: 2500 },
@@ -3075,7 +3133,7 @@ function fmtPoints(p) {
 }
 function fmtCash(c) {
   if (!c) return '<span class="no-points">–</span>';
-  return c.toLocaleString('sv-SE');
+  return c.toLocaleString('sv-SE') + ' kr';
 }
 
 function renderHistorySeasons() {
@@ -3103,7 +3161,7 @@ function renderHistorySeasons() {
             <th style="width:42px;">#</th>
             <th class="player-col">Spelare</th>
             <th>Poäng</th>
-            <th>Cash</th>
+            <th>Pengar</th>
           </tr>
         </thead>
         <tbody>${rows}</tbody>
@@ -3564,4 +3622,4 @@ document.addEventListener('click', e => {
 </script>
 
 
-</body></html>
+</body>
