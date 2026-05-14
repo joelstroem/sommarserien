@@ -687,8 +687,8 @@
 <nav>
   <div class="nav-logo">⛳ Sommarserien 2026</div>
   <div class="nav-tabs">
-    <button class="nav-tab" onclick="showPage('leaderboard', this)">Ledartavla</button>
-    <button class="nav-tab active" onclick="showPage('rounds', this)">Tävlingar</button>
+    <button class="nav-tab active" onclick="showPage('leaderboard', this)">Ledartavla</button>
+    <button class="nav-tab" onclick="showPage('rounds', this)">Tävlingar</button>
     <button class="nav-tab" onclick="showPage('prizes', this)">Priser &amp; Poäng</button>
     <button class="nav-tab" onclick="showPage('stats', this)">Statistik</button>
   </div>
@@ -696,7 +696,7 @@
 </nav>
 
 <!-- ==================== LEADERBOARD PAGE ==================== -->
-<div class="page" id="page-leaderboard">
+<div class="page active" id="page-leaderboard">
   <div class="hero">
     <div class="hero-badge">Säsong 2026</div>
     <h1>Sommar<span>serien</span></h1>
@@ -861,7 +861,7 @@
 </div>
 
 <!-- ==================== ROUNDS PAGE ==================== -->
-<div class="page active" id="page-rounds">
+<div class="page" id="page-rounds">
   <div class="hero" style="padding-bottom:2rem;">
     <div class="hero-badge">Tävlingsschema</div>
     <h1 style="font-size:clamp(2rem,5vw,3.5rem);">Tävlings<span>kalender</span></h1>
@@ -1080,7 +1080,7 @@
     </div>
     <div class="admin-panel-body" id="admin-body">
       <!-- Login view -->
-      <div id="admin-login-view" class="admin-login" style="display: none;">
+      <div id="admin-login-view" class="admin-login">
         <p>Ange lösenord för att komma åt adminläget.</p>
         <div>
           <label class="admin-label">Lösenord</label>
@@ -1093,7 +1093,7 @@
         <p id="admin-login-error" style="color:#e07070;display:none;font-size:0.82rem;">Felaktigt lösenord.</p>
       </div>
       <!-- Main admin view (hidden until login) -->
-      <div id="admin-main-view" style="display: flex; flex-direction: column; gap: 1.5rem;">
+      <div id="admin-main-view" style="display:none;flex-direction:column;gap:1.5rem;">
 
         <!-- SECTION: Tävlingsstatus -->
         <div class="admin-section">
@@ -1195,7 +1195,6 @@
             <button class="admin-btn-primary" style="width:100%;" onclick="recalcLeaderboard()">🔄 Uppdatera ledartavla från resultat</button>
           </div>
         </div>
-        </div>
 
         <div class="admin-btn-row">
           <button class="admin-btn-secondary" onclick="closeAdmin()">Stäng</button>
@@ -1205,9 +1204,9 @@
       </div>
     </div>
   </div>
+</div>
 
-
-<div class="admin-toast" id="admin-toast">✓ Fil exporterad – ladda upp till GitHub!</div>
+<div class="admin-toast" id="admin-toast">✓ Resultat sparat för Maj – Deltävling 1</div>
 
 
 <!-- ==================== STATS PAGE ==================== -->
@@ -2180,6 +2179,12 @@ function openAdmin() {
 function closeAdmin() {
   document.getElementById('admin-overlay').classList.remove('open');
   document.body.style.overflow = '';
+  // Reset to login screen every time panel is closed
+  adminLoggedIn = false;
+  document.getElementById('admin-login-view').style.display = '';
+  document.getElementById('admin-main-view').style.display = 'none';
+  document.getElementById('admin-pw-input').value = '';
+  document.getElementById('admin-login-error').style.display = 'none';
 }
 
 function adminLogin() {
@@ -2427,6 +2432,21 @@ function exportSite() {
   // Always export with admin closed and body clean
   html = html.replace(/class="admin-overlay"/g, 'class="admin-overlay"');
   html = html.replace(/<body[^>]*>/,  '<body>');
+  // Reset admin login state so exported file always requires password
+  html = html.replace(
+    /id="admin-login-view"[^>]*>/,
+    'id="admin-login-view" class="admin-login">'
+  );
+  html = html.replace(
+    /id="admin-main-view"[^>]*>/,
+    'id="admin-main-view" style="display:none;flex-direction:column;gap:1.5rem;">'
+  );
+  // Reset active page to leaderboard
+  html = html.replace(/class="page" id="page-(?!leaderboard)[^"]*"/g, (m) => m.replace('page active', 'page'));
+  html = html.replace('class="page active" id="page-leaderboard"', 'class="page active" id="page-leaderboard"');
+  // Reset active nav tab to leaderboard
+  html = html.replace(/class="nav-tab active" onclick="showPage\('(?!leaderboard)[^']*'/g, (m) => m.replace('nav-tab active', 'nav-tab'));
+  html = html.replace("class=\"nav-tab\" onclick=\"showPage('leaderboard'", "class=\"nav-tab active\" onclick=\"showPage('leaderboard'");
 
   // Replace the players array in the source
   html = html.replace(
