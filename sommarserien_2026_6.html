@@ -1,0 +1,1313 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sommarserien 2026 – Hooks Golfklubb</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --green-deep: #0a1f0e;
+    --green-mid: #1a3d1f;
+    --green-bright: #2d6a35;
+    --gold: #c9a84c;
+    --gold-light: #e8c97a;
+    --cream: #f5f0e8;
+    --text-muted: #8a9e8d;
+    --card-bg: rgba(255,255,255,0.04);
+    --border: rgba(201,168,76,0.2);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--green-deep);
+    color: var(--cream);
+    font-family: 'DM Sans', sans-serif;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* Background texture */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background:
+      radial-gradient(ellipse 80% 60% at 50% -10%, rgba(45,106,53,0.35) 0%, transparent 60%),
+      radial-gradient(ellipse 40% 40% at 90% 80%, rgba(201,168,76,0.08) 0%, transparent 50%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* NAV */
+  nav {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(10,31,14,0.92);
+    backdrop-filter: blur(16px);
+    border-bottom: 1px solid var(--border);
+    padding: 0 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 64px;
+  }
+  .nav-logo {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--gold);
+    letter-spacing: 0.05em;
+  }
+  .nav-tabs {
+    display: flex;
+    gap: 0.25rem;
+  }
+  .nav-tab {
+    background: none;
+    border: none;
+    color: var(--text-muted);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.85rem;
+    font-weight: 500;
+    padding: 0.45rem 0.9rem;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.2s;
+    letter-spacing: 0.02em;
+    white-space: nowrap;
+  }
+  .nav-tab:hover { color: var(--cream); background: rgba(255,255,255,0.06); }
+  .nav-tab.active { color: var(--gold); background: rgba(201,168,76,0.12); }
+
+  /* PAGES */
+  .page { display: none; animation: fadeIn 0.4s ease; }
+  .page.active { display: block; }
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+
+  /* HERO */
+  .hero {
+    position: relative;
+    z-index: 1;
+    text-align: center;
+    padding: 5rem 2rem 3.5rem;
+  }
+  .hero-badge {
+    display: inline-block;
+    border: 1px solid var(--gold);
+    color: var(--gold);
+    font-size: 0.7rem;
+    font-weight: 500;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    padding: 0.35rem 1rem;
+    border-radius: 100px;
+    margin-bottom: 1.5rem;
+    opacity: 0.9;
+  }
+  .hero h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2.8rem, 7vw, 5.5rem);
+    font-weight: 900;
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+    margin-bottom: 0.5rem;
+  }
+  .hero h1 span { color: var(--gold); }
+  .hero-sub {
+    color: var(--text-muted);
+    font-size: 1rem;
+    font-weight: 300;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+  .hero-divider {
+    width: 60px;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--gold), transparent);
+    margin: 2rem auto;
+  }
+
+  /* STATS ROW */
+  .stats-row {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    justify-content: center;
+    gap: 1px;
+    max-width: 700px;
+    margin: 0 auto 3.5rem;
+    background: var(--border);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    overflow: hidden;
+  }
+  .stat-item {
+    flex: 1;
+    padding: 1.2rem 1.5rem;
+    background: var(--card-bg);
+    text-align: center;
+    backdrop-filter: blur(8px);
+  }
+  .stat-item + .stat-item { border-left: 1px solid var(--border); }
+  .stat-value {
+    font-family: 'Playfair Display', serif;
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--gold-light);
+    display: block;
+  }
+  .stat-label {
+    font-size: 0.7rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-top: 0.2rem;
+  }
+
+  /* SECTION WRAPPER */
+  .section {
+    position: relative;
+    z-index: 1;
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 0 1.5rem 4rem;
+  }
+
+  /* SECTION TITLE */
+  .section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.6rem;
+    font-weight: 700;
+    margin-bottom: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+  .section-title::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+  }
+
+  /* LEADERBOARD TABLE */
+  .leaderboard-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    overflow: hidden;
+  }
+  .leaderboard-table thead tr {
+    background: rgba(201,168,76,0.08);
+    border-bottom: 1px solid var(--border);
+  }
+  .leaderboard-table th {
+    font-size: 0.68rem;
+    font-weight: 500;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    padding: 0.9rem 1rem;
+    text-align: left;
+  }
+  .leaderboard-table th:not(:first-child) { text-align: right; }
+  .leaderboard-table td {
+    padding: 0.85rem 1rem;
+    font-size: 0.92rem;
+    border-bottom: 1px solid rgba(201,168,76,0.07);
+    vertical-align: middle;
+  }
+  .leaderboard-table td:not(:first-child):not(.player-col) { text-align: right; }
+  .leaderboard-table tbody tr:last-child td { border-bottom: none; }
+  .leaderboard-table tbody tr { transition: background 0.15s; }
+  .leaderboard-table tbody tr:hover { background: rgba(255,255,255,0.03); }
+
+  /* TOP 5 rows */
+  .rank-1 td { background: rgba(201,168,76,0.1); }
+  .rank-2 td { background: rgba(192,192,192,0.07); }
+  .rank-3 td { background: rgba(184,115,51,0.06); }
+  .rank-4 td { background: rgba(100,180,120,0.06); }
+  .rank-5 td { background: rgba(100,160,180,0.05); }
+
+  .rank-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    font-size: 0.8rem;
+    font-weight: 700;
+    font-family: 'Playfair Display', serif;
+  }
+  .rank-1 .rank-badge { background: var(--gold); color: var(--green-deep); }
+  .rank-2 .rank-badge { background: #b0b0b0; color: var(--green-deep); }
+  .rank-3 .rank-badge { background: #b47333; color: #fff; }
+  .rank-4 .rank-badge { background: rgba(100,180,120,0.25); color: #7ecf96; border: 1px solid rgba(100,180,120,0.4); }
+  .rank-5 .rank-badge { background: rgba(100,160,180,0.2); color: #7ab8cc; border: 1px solid rgba(100,160,180,0.35); }
+  .rank-other .rank-badge { background: rgba(255,255,255,0.07); color: var(--text-muted); }
+
+  .player-name {
+    font-weight: 500;
+    color: var(--cream);
+  }
+  .player-name.top-3 { font-weight: 600; }
+  .player-name.top-5 { font-weight: 550; }
+
+  .points-value {
+    font-family: 'Playfair Display', serif;
+    font-weight: 700;
+    font-size: 1rem;
+    color: var(--gold-light);
+  }
+  .cash-value { color: #6dba7f; font-weight: 500; }
+  .no-points { color: var(--text-muted); font-size: 0.8rem; }
+
+  /* ROUNDS GRID */
+  .rounds-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1rem;
+  }
+  .round-card {
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    background: var(--card-bg);
+    padding: 1.4rem 1.5rem;
+    cursor: pointer;
+    transition: all 0.2s;
+    position: relative;
+    overflow: hidden;
+  }
+  .round-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 3px; height: 100%;
+    background: var(--green-bright);
+    opacity: 0;
+    transition: opacity 0.2s;
+  }
+  .round-card.major::before { background: var(--gold); }
+  .round-card:hover { border-color: rgba(201,168,76,0.4); transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,0,0,0.3); }
+  .round-card:hover::before { opacity: 1; }
+  .round-tag {
+    display: inline-block;
+    font-size: 0.62rem;
+    font-weight: 600;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    padding: 0.2rem 0.6rem;
+    border-radius: 100px;
+    margin-bottom: 0.7rem;
+  }
+  .round-tag.deltavling { background: rgba(45,106,53,0.3); color: #6dba7f; border: 1px solid rgba(45,106,53,0.4); }
+  .round-tag.major { background: rgba(201,168,76,0.15); color: var(--gold); border: 1px solid var(--border); }
+  .round-name {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.1rem;
+    font-weight: 700;
+    margin-bottom: 0.3rem;
+    color: var(--cream);
+  }
+  .round-course {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+  }
+  .round-points-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+  }
+  .round-top-prize {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: var(--gold-light);
+  }
+  .round-top-prize-label { font-size: 0.68rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.1em; }
+  .round-status-pill {
+    font-size: 0.65rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 0.25rem 0.7rem;
+    border-radius: 100px;
+    background: rgba(109,186,127,0.12);
+    color: #6dba7f;
+    border: 1px solid rgba(109,186,127,0.25);
+  }
+  .round-status-pill.upcoming {
+    background: rgba(255,255,255,0.05);
+    color: var(--text-muted);
+    border-color: var(--border);
+  }
+  .round-status-pill.active-round {
+    background: rgba(201,168,76,0.18);
+    color: var(--gold);
+    border: 1px solid rgba(201,168,76,0.45);
+    animation: pulse-gold 2s infinite;
+  }
+  @keyframes pulse-gold {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(201,168,76,0.3); }
+    50% { box-shadow: 0 0 0 5px rgba(201,168,76,0); }
+  }
+  .round-card.active-card {
+    border-color: rgba(201,168,76,0.5);
+    box-shadow: 0 0 0 1px rgba(201,168,76,0.2), 0 4px 20px rgba(0,0,0,0.3);
+  }
+  .round-card.active-card::before { opacity: 1; background: var(--gold); }
+  .round-card.no-results {
+    opacity: 0.5;
+    cursor: default;
+  }
+  .round-card.no-results:hover { transform: none; box-shadow: none; border-color: var(--border); }
+  .round-card.no-results:hover::before { opacity: 0; }
+
+  /* RESULT PANEL */
+  .result-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.7);
+    z-index: 200;
+    backdrop-filter: blur(4px);
+    animation: fadeIn 0.2s ease;
+  }
+  .result-overlay.open { display: flex; align-items: center; justify-content: center; padding: 1.5rem; }
+  .result-panel {
+    background: #0f2813;
+    border: 1px solid rgba(201,168,76,0.3);
+    border-radius: 16px;
+    width: 100%;
+    max-width: 620px;
+    max-height: 85vh;
+    overflow-y: auto;
+    box-shadow: 0 24px 60px rgba(0,0,0,0.6);
+    animation: slideUp 0.25s ease;
+  }
+  @keyframes slideUp { from { opacity:0; transform:translateY(20px); } to { opacity:1; transform:translateY(0); } }
+  .result-panel-header {
+    padding: 1.5rem 1.5rem 1rem;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    position: sticky;
+    top: 0;
+    background: #0f2813;
+    z-index: 1;
+    border-radius: 16px 16px 0 0;
+  }
+  .result-panel-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: var(--cream);
+  }
+  .result-panel-sub {
+    font-size: 0.78rem;
+    color: var(--text-muted);
+    margin-top: 0.2rem;
+  }
+  .result-close {
+    background: rgba(255,255,255,0.08);
+    border: none;
+    color: var(--cream);
+    width: 32px; height: 32px;
+    border-radius: 50%;
+    font-size: 1.1rem;
+    cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    transition: background 0.15s;
+    flex-shrink: 0;
+  }
+  .result-close:hover { background: rgba(255,255,255,0.15); }
+  .result-panel-body { padding: 1rem 1.5rem 1.5rem; }
+  .result-table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  .result-table thead tr {
+    border-bottom: 1px solid var(--border);
+  }
+  .result-table th {
+    font-size: 0.65rem;
+    font-weight: 500;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    padding: 0.5rem 0.6rem 0.75rem;
+    text-align: left;
+  }
+  .result-table th:not(:nth-child(2)) { text-align: right; }
+  .result-table td {
+    padding: 0.65rem 0.6rem;
+    font-size: 0.88rem;
+    border-bottom: 1px solid rgba(201,168,76,0.06);
+    vertical-align: middle;
+  }
+  .result-table td:not(:nth-child(2)) { text-align: right; }
+  .result-table tbody tr:last-child td { border-bottom: none; }
+  .result-table tbody tr:hover { background: rgba(255,255,255,0.025); }
+  .result-rank { color: var(--text-muted); font-family: 'Playfair Display', serif; font-weight: 700; }
+  .result-rank.r1 { color: var(--gold); }
+  .result-rank.r2 { color: #b0b0b0; }
+  .result-rank.r3 { color: #b47333; }
+  .result-pts { font-family: 'Playfair Display', serif; font-weight: 700; color: var(--gold-light); }
+  .result-hcp { color: var(--text-muted); }
+  .result-score { color: var(--cream); font-weight: 500; }
+
+  /* PRIZE TABLE */
+  .prize-section { margin-bottom: 2.5rem; }
+  .prize-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--gold);
+    margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid var(--border);
+  }
+  .prize-table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  .prize-table tr { border-bottom: 1px solid rgba(201,168,76,0.08); }
+  .prize-table tr:last-child { border-bottom: none; }
+  .prize-table td {
+    padding: 0.65rem 0.8rem;
+    font-size: 0.88rem;
+  }
+  .prize-table td:last-child { text-align: right; font-weight: 600; color: #6dba7f; }
+  .prize-pos { color: var(--text-muted); font-family: 'Playfair Display', serif; }
+  .prize-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
+  @media (max-width: 600px) { .prize-grid { grid-template-columns: 1fr; } }
+
+  .points-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
+  @media (max-width: 600px) { .points-grid { grid-template-columns: 1fr; } }
+
+
+  /* ADMIN BUTTON */
+  .admin-btn {
+    background: none;
+    border: 1px solid rgba(201,168,76,0.3);
+    color: var(--text-muted);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.75rem;
+    font-weight: 500;
+    padding: 0.35rem 0.75rem;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.2s;
+    letter-spacing: 0.05em;
+  }
+  .admin-btn:hover { color: var(--gold); border-color: var(--gold); }
+
+  /* ADMIN OVERLAY */
+  .admin-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.8);
+    z-index: 300;
+    backdrop-filter: blur(6px);
+    animation: fadeIn 0.2s ease;
+    align-items: flex-start;
+    justify-content: center;
+    padding: 1.5rem;
+    overflow-y: auto;
+  }
+  .admin-overlay.open { display: flex; }
+  .admin-panel {
+    background: #0c1f10;
+    border: 1px solid rgba(201,168,76,0.35);
+    border-radius: 16px;
+    width: 100%;
+    max-width: 700px;
+    box-shadow: 0 32px 80px rgba(0,0,0,0.7);
+    animation: slideUp 0.25s ease;
+    margin: auto;
+  }
+  .admin-panel-header {
+    padding: 1.5rem;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-radius: 16px 16px 0 0;
+    background: rgba(201,168,76,0.06);
+  }
+  .admin-panel-title { font-family: 'Playfair Display', serif; font-size: 1.2rem; font-weight: 700; color: var(--gold); }
+  .admin-panel-body { padding: 1.5rem; display: flex; flex-direction: column; gap: 1.5rem; }
+  .admin-login { display: flex; flex-direction: column; gap: 1rem; }
+  .admin-login p { color: var(--text-muted); font-size: 0.85rem; }
+  .admin-section { border: 1px solid var(--border); border-radius: 10px; overflow: hidden; }
+  .admin-section-title {
+    background: rgba(201,168,76,0.07);
+    border-bottom: 1px solid var(--border);
+    padding: 0.75rem 1rem;
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--gold);
+  }
+  .admin-section-body { padding: 1rem; display: flex; flex-direction: column; gap: 0.75rem; }
+  .admin-label { font-size: 0.75rem; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-muted); margin-bottom: 0.3rem; display: block; }
+  .admin-input, .admin-select {
+    width: 100%;
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.12);
+    border-radius: 7px;
+    color: var(--cream);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.88rem;
+    padding: 0.6rem 0.8rem;
+    outline: none;
+    transition: border-color 0.15s;
+  }
+  .admin-input:focus, .admin-select:focus { border-color: var(--gold); }
+  .admin-select option { background: #0c1f10; }
+  .admin-row { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; }
+  @media(max-width:500px) { .admin-row { grid-template-columns: 1fr; } }
+  .admin-results-table { width: 100%; border-collapse: collapse; }
+  .admin-results-table th { font-size: 0.65rem; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text-muted); padding: 0.4rem 0.5rem; text-align: left; border-bottom: 1px solid var(--border); }
+  .admin-results-table td { padding: 0.35rem 0.4rem; vertical-align: middle; }
+  .admin-results-table .admin-input { padding: 0.4rem 0.6rem; font-size: 0.82rem; }
+  .admin-results-table .row-num { color: var(--text-muted); font-family: 'Playfair Display', serif; font-size: 0.85rem; text-align: center; width: 28px; }
+  .admin-btn-primary {
+    background: var(--gold); color: var(--green-deep); border: none; border-radius: 8px;
+    font-family: 'DM Sans', sans-serif; font-size: 0.88rem; font-weight: 700;
+    padding: 0.75rem 1.5rem; cursor: pointer; transition: all 0.15s; letter-spacing: 0.03em;
+  }
+  .admin-btn-primary:hover { background: var(--gold-light); transform: translateY(-1px); }
+  .admin-btn-secondary {
+    background: rgba(255,255,255,0.07); color: var(--cream); border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 8px; font-family: 'DM Sans', sans-serif; font-size: 0.88rem; font-weight: 500;
+    padding: 0.75rem 1.5rem; cursor: pointer; transition: all 0.15s;
+  }
+  .admin-btn-secondary:hover { background: rgba(255,255,255,0.12); }
+  .admin-btn-row { display: flex; gap: 0.75rem; justify-content: flex-end; flex-wrap: wrap; }
+  .admin-toast {
+    position: fixed; bottom: 2rem; left: 50%; transform: translateX(-50%) translateY(10px);
+    background: #1a3d1f; border: 1px solid rgba(109,186,127,0.4); color: #6dba7f;
+    font-size: 0.85rem; font-weight: 500; padding: 0.7rem 1.5rem; border-radius: 100px;
+    z-index: 400; opacity: 0; transition: all 0.3s; pointer-events: none;
+  }
+  .admin-toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+  .status-badge { display: inline-block; font-size: 0.7rem; font-weight: 600; padding: 0.15rem 0.5rem; border-radius: 100px; margin-left: 0.5rem; }
+  .status-done { background: rgba(109,186,127,0.15); color: #6dba7f; }
+  .status-active { background: rgba(201,168,76,0.15); color: var(--gold); }
+  .status-upcoming { background: rgba(255,255,255,0.07); color: var(--text-muted); }
+
+  /* FOOTER */
+  footer {
+    position: relative;
+    z-index: 1;
+    border-top: 1px solid var(--border);
+    text-align: center;
+    padding: 2rem;
+    color: var(--text-muted);
+    font-size: 0.78rem;
+    letter-spacing: 0.05em;
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-logo">⛳ Sommarserien 2026</div>
+  <div class="nav-tabs">
+    <button class="nav-tab active" onclick="showPage('leaderboard', this)">Ledartavla</button>
+    <button class="nav-tab" onclick="showPage('rounds', this)">Tävlingar</button>
+    <button class="nav-tab" onclick="showPage('prizes', this)">Priser & Poäng</button>
+  </div>
+</nav>
+
+<!-- ==================== LEADERBOARD PAGE ==================== -->
+<div class="page active" id="page-leaderboard">
+  <div class="hero">
+    <div class="hero-badge">Säsong 2026</div>
+    <h1>Sommar<span>serien</span></h1>
+    <div class="hero-sub">Hooks Golfklubb &nbsp;·&nbsp; Hook</div>
+    <div class="hero-divider"></div>
+  </div>
+
+  <div class="stats-row">
+    <div class="stat-item">
+      <span class="stat-value">25</span>
+      <span class="stat-label">Deltagare</span>
+    </div>
+    <div class="stat-item">
+      <span class="stat-value">5</span>
+      <span class="stat-label">Deltävlingar</span>
+    </div>
+    <div class="stat-item">
+      <span class="stat-value">2</span>
+      <span class="stat-label">Majors</span>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Ledartavla</div>
+    <table class="leaderboard-table">
+      <thead>
+        <tr>
+          <th style="width:52px;">#</th>
+          <th class="player-col">Spelare</th>
+          <th>Poäng</th>
+          <th>Cash</th>
+        </tr>
+      </thead>
+      <tbody id="leaderboard-body"></tbody>
+    </table>
+  </div>
+</div>
+
+<!-- ==================== ROUNDS PAGE ==================== -->
+<div class="page" id="page-rounds">
+  <div class="hero" style="padding-bottom:2rem;">
+    <div class="hero-badge">Tävlingsschema</div>
+    <h1 style="font-size:clamp(2rem,5vw,3.5rem);">Tävlings<span>kalender</span></h1>
+    <div class="hero-divider"></div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Deltävlingar</div>
+    <div class="rounds-grid" id="rounds-deltavling"></div>
+
+    <div class="section-title" style="margin-top:2.5rem;">Major-tävlingar</div>
+    <div class="rounds-grid" id="rounds-major"></div>
+  </div>
+</div>
+
+<!-- ==================== PRIZES PAGE ==================== -->
+<div class="page" id="page-prizes">
+  <div class="hero" style="padding-bottom:2rem;">
+    <div class="hero-badge">Utbetalningar</div>
+    <h1 style="font-size:clamp(2rem,5vw,3.5rem);">Priser &amp; <span>Poäng</span></h1>
+    <div class="hero-divider"></div>
+  </div>
+
+  <div class="section">
+    <div class="prize-grid">
+      <div class="prize-section">
+        <div class="prize-title">🏆 Seriesegern – Slutplacering</div>
+        <table class="prize-table">
+          <tr><td class="prize-pos">1:a</td><td>Seriesegraren</td><td>3 000 kr</td></tr>
+          <tr><td class="prize-pos">2:a</td><td></td><td>1 500 kr</td></tr>
+          <tr><td class="prize-pos">3:a</td><td></td><td>750 kr</td></tr>
+          <tr><td class="prize-pos">4:a</td><td></td><td>500 kr</td></tr>
+          <tr><td class="prize-pos">5:a</td><td></td><td>250 kr</td></tr>
+        </table>
+      </div>
+      <div>
+        <div class="prize-section">
+          <div class="prize-title">⭐ Major-tävlingar – Per tävling</div>
+          <table class="prize-table">
+            <tr><td class="prize-pos">1:a</td><td>Vinnaren</td><td>1 500 kr</td></tr>
+            <tr><td class="prize-pos">2:a</td><td></td><td>750 kr</td></tr>
+            <tr><td class="prize-pos">3:a</td><td></td><td>500 kr</td></tr>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <div class="section-title" style="margin-top:1rem;">Poängfördelning</div>
+    <div class="points-grid">
+      <div class="prize-section">
+        <div class="prize-title">Deltävlingar</div>
+        <table class="prize-table">
+          <tr><td class="prize-pos">1:a</td><td>500 p</td></tr>
+          <tr><td class="prize-pos">2:a</td><td>400 p</td></tr>
+          <tr><td class="prize-pos">3:a</td><td>300 p</td></tr>
+          <tr><td class="prize-pos">4:a</td><td>250 p</td></tr>
+          <tr><td class="prize-pos">5:a</td><td>200 p</td></tr>
+          <tr><td class="prize-pos">6:a</td><td>170 p</td></tr>
+          <tr><td class="prize-pos">7:a</td><td>140 p</td></tr>
+          <tr><td class="prize-pos">8:a</td><td>120 p</td></tr>
+          <tr><td class="prize-pos">9:a</td><td>100 p</td></tr>
+          <tr><td class="prize-pos">10:a</td><td>80 p</td></tr>
+          <tr><td class="prize-pos">11:a</td><td>50 p</td></tr>
+          <tr><td class="prize-pos">12:a</td><td>30 p</td></tr>
+          <tr><td class="prize-pos">13:a</td><td>20 p</td></tr>
+          <tr><td class="prize-pos">14:a</td><td>10 p</td></tr>
+          <tr><td class="prize-pos">15–25:a</td><td>0 p</td></tr>
+        </table>
+      </div>
+      <div class="prize-section">
+        <div class="prize-title">Major-tävlingar</div>
+        <table class="prize-table">
+          <tr><td class="prize-pos">1:a</td><td>700 p</td></tr>
+          <tr><td class="prize-pos">2:a</td><td>550 p</td></tr>
+          <tr><td class="prize-pos">3:a</td><td>450 p</td></tr>
+          <tr><td class="prize-pos">4:a</td><td>400 p</td></tr>
+          <tr><td class="prize-pos">5:a</td><td>350 p</td></tr>
+          <tr><td class="prize-pos">6:a</td><td>310 p</td></tr>
+          <tr><td class="prize-pos">7:a</td><td>270 p</td></tr>
+          <tr><td class="prize-pos">8:a</td><td>230 p</td></tr>
+          <tr><td class="prize-pos">9:a</td><td>200 p</td></tr>
+          <tr><td class="prize-pos">10:a</td><td>190 p</td></tr>
+          <tr><td class="prize-pos">11:a</td><td>160 p</td></tr>
+          <tr><td class="prize-pos">12:a</td><td>130 p</td></tr>
+          <tr><td class="prize-pos">13:a</td><td>100 p</td></tr>
+          <tr><td class="prize-pos">14:a</td><td>80 p</td></tr>
+          <tr><td class="prize-pos">15:a</td><td>60 p</td></tr>
+          <tr><td class="prize-pos">16:a</td><td>40 p</td></tr>
+          <tr><td class="prize-pos">17:a</td><td>20 p</td></tr>
+          <tr><td class="prize-pos">18:a</td><td>10 p</td></tr>
+          <tr><td class="prize-pos">19–25:a</td><td>0 p</td></tr>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- ==================== ADMIN OVERLAY ==================== -->
+<div class="admin-overlay" id="admin-overlay">
+  <div class="admin-panel">
+    <div class="admin-panel-header">
+      <div class="admin-panel-title" id="admin-title">⚙ Admin – Sommarserien 2026</div>
+      <button class="result-close" onclick="closeAdmin()">✕</button>
+    </div>
+    <div class="admin-panel-body" id="admin-body">
+      <!-- Login view -->
+      <div id="admin-login-view" class="admin-login">
+        <p>Ange lösenord för att komma åt adminläget.</p>
+        <div>
+          <label class="admin-label">Lösenord</label>
+          <input class="admin-input" type="password" id="admin-pw-input" placeholder="••••••••" onkeydown="if(event.key==='Enter')adminLogin()">
+        </div>
+        <div class="admin-btn-row">
+          <button class="admin-btn-secondary" onclick="closeAdmin()">Avbryt</button>
+          <button class="admin-btn-primary" onclick="adminLogin()">Logga in</button>
+        </div>
+        <p id="admin-login-error" style="color:#e07070;display:none;font-size:0.82rem;">Felaktigt lösenord.</p>
+      </div>
+      <!-- Main admin view (hidden until login) -->
+      <div id="admin-main-view" style="display:none;flex-direction:column;gap:1.5rem;">
+
+        <!-- SECTION: Tävlingsstatus -->
+        <div class="admin-section">
+          <div class="admin-section-title">Tävlingsstatus</div>
+          <div class="admin-section-body">
+            <p style="font-size:0.82rem;color:var(--text-muted);">Markera aktuell tävling som pågående eller avslutad.</p>
+            <div id="admin-status-list"></div>
+          </div>
+        </div>
+
+        <!-- SECTION: Fyll i resultat -->
+        <div class="admin-section">
+          <div class="admin-section-title">Resultat för tävling</div>
+          <div class="admin-section-body">
+            <div>
+              <label class="admin-label">Välj tävling</label>
+              <select class="admin-select" id="admin-round-select" onchange="buildResultForm()">
+                <option value="">– Välj –</option>
+              </select>
+            </div>
+            <div id="admin-result-form"></div>
+          </div>
+        </div>
+
+        <!-- SECTION: Ledartavla -->
+        <div class="admin-section">
+          <div class="admin-section-title">Uppdatera ledartavla</div>
+          <div class="admin-section-body">
+            <p style="font-size:0.82rem;color:var(--text-muted);">Ange totalpoäng och vunna pengar för varje spelare. Lämna tomt om inga poäng ännu.</p>
+            <div id="admin-leaderboard-form"></div>
+          </div>
+        </div>
+
+        <div class="admin-btn-row">
+          <button class="admin-btn-secondary" onclick="closeAdmin()">Stäng</button>
+          <button class="admin-btn-primary" onclick="adminSaveAll()">💾 Spara allt</button>
+          <button class="admin-btn-primary" style="background:#2d6a35;color:#fff;" onclick="adminSaveAll(true)">⬇ Spara &amp; Exportera</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="admin-toast" id="admin-toast"></div>
+
+<!-- RESULT OVERLAY -->
+<div class="result-overlay" id="result-overlay" onclick="closeResult(event)">
+  <div class="result-panel" id="result-panel">
+    <div class="result-panel-header">
+      <div>
+        <div class="result-panel-title" id="result-title"></div>
+        <div class="result-panel-sub" id="result-sub"></div>
+      </div>
+      <button class="result-close" onclick="closeResultBtn()">✕</button>
+    </div>
+    <div class="result-panel-body">
+      <table class="result-table">
+        <thead id="result-thead"></thead>
+        <tbody id="result-tbody"></tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<footer>Sommarserien 2026 &nbsp;·&nbsp; Hooks Golfklubb</footer>
+
+<script>
+// ===================== DATA =====================
+// Ledartavla – uppdatera efter varje tävling
+const players = [
+  { rank: 1,  name: "Anton Edman",         points: null, cash: null },
+  { rank: 2,  name: "Daniel Lindh",         points: null, cash: null },
+  { rank: 3,  name: "David Ärleskog",       points: null, cash: null },
+  { rank: 4,  name: "Dennis Berg",          points: null, cash: null },
+  { rank: 5,  name: "Felix Björklind",      points: null, cash: null },
+  { rank: 6,  name: "Henrik Jönsson",       points: null, cash: null },
+  { rank: 7,  name: "Jacob Andersson",      points: null, cash: null },
+  { rank: 8,  name: "Jens Williamsson",     points: null, cash: null },
+  { rank: 9,  name: "Jesper Williamsson",   points: null, cash: null },
+  { rank: 10, name: "Joacim Lovén",         points: null, cash: null },
+  { rank: 11, name: "Joel Ström",           points: null, cash: null },
+  { rank: 12, name: "John Falk",            points: null, cash: null },
+  { rank: 13, name: "Marcus Göth",          points: null, cash: null },
+  { rank: 14, name: "Markus Nyberg",        points: null, cash: null },
+  { rank: 15, name: "Martin Jönsson",       points: null, cash: null },
+  { rank: 16, name: "Martin Svensson",      points: null, cash: null },
+  { rank: 17, name: "Oliver Ekbladh",       points: null, cash: null },
+  { rank: 18, name: "Oliver Gustavsson",    points: null, cash: null },
+  { rank: 19, name: "Oscar Wareborn",       points: null, cash: null },
+  { rank: 20, name: "Petter Johansson",     points: null, cash: null },
+  { rank: 21, name: "Robin Lindholm",       points: null, cash: null },
+  { rank: 22, name: "Sebastian Tiderman",   points: null, cash: null },
+  { rank: 23, name: "Simon Wermelin",       points: null, cash: null },
+  { rank: 24, name: "Victor Strand",        points: null, cash: null },
+  { rank: 25, name: "Zimon Karlsson",       points: null, cash: null },
+];
+
+// Tävlingar.
+// status: "done" | "active" | "upcoming"
+// För deltävlingar: results = array med { name, hcp, score, pts } sorterat plats 1 -> N
+// För majors: results = array med { name, hcp, netto, pts }
+// Lämna results: [] om inga resultat finns ännu.
+const rounds = [
+  {
+    id: 1, type: "deltavling", month: "Maj", name: "Deltävling 1", course: "Skogsbanan",
+    topPrize: 500, status: "active",
+    results: [
+      // Exempel – fyll i riktiga resultat här:
+      // { name: "Anton Edman",      hcp: 12, score: 38, pts: 500 },
+      // { name: "Daniel Lindh",     hcp: 8,  score: 36, pts: 400 },
+    ]
+  },
+  {
+    id: 2, type: "deltavling", month: "Juni", name: "Deltävling 2", course: "Parkbanan",
+    topPrize: 500, status: "upcoming", results: []
+  },
+  {
+    id: 3, type: "major", month: "Juni", name: "Major 1", course: "Skogsbanan", date: "27 juni",
+    topPrize: 700, status: "upcoming", results: []
+  },
+  {
+    id: 4, type: "deltavling", month: "Juli", name: "Deltävling 3", course: "Skogsbanan",
+    topPrize: 500, status: "upcoming", results: []
+  },
+  {
+    id: 5, type: "deltavling", month: "Augusti", name: "Deltävling 4", course: "Parkbanan",
+    topPrize: 500, status: "upcoming", results: []
+  },
+  {
+    id: 6, type: "deltavling", month: "September", name: "Deltävling 5", course: "Skogsbanan",
+    topPrize: 500, status: "upcoming", results: []
+  },
+  {
+    id: 7, type: "major", month: "September", name: "Final Major", course: "Parkbanan", date: "26 september",
+    topPrize: 700, status: "upcoming", results: []
+  },
+];
+
+// ===================== RENDER LEADERBOARD =====================
+function renderLeaderboard() {
+  const tbody = document.getElementById('leaderboard-body');
+  tbody.innerHTML = players.map(p => {
+    const rankClass = p.rank === 1 ? 'rank-1' : p.rank === 2 ? 'rank-2' : p.rank === 3 ? 'rank-3' : p.rank === 4 ? 'rank-4' : p.rank === 5 ? 'rank-5' : 'rank-other';
+    const nameClass = p.rank <= 3 ? 'player-name top-3' : p.rank <= 5 ? 'player-name top-5' : 'player-name';
+    const ptsCell = p.points != null
+      ? `<span class="points-value">${p.points.toLocaleString('sv-SE')}</span>`
+      : `<span class="no-points">–</span>`;
+    const cashCell = p.cash != null
+      ? `<span class="cash-value">${p.cash.toLocaleString('sv-SE')} kr</span>`
+      : `<span class="no-points">–</span>`;
+    return `<tr class="${rankClass}">
+      <td><span class="rank-badge">${p.rank}</span></td>
+      <td class="player-col"><span class="${nameClass}">${p.name}</span></td>
+      <td>${ptsCell}</td>
+      <td>${cashCell}</td>
+    </tr>`;
+  }).join('');
+}
+
+// ===================== RENDER ROUNDS =====================
+function renderRounds() {
+  const deltavlingar = rounds.filter(r => r.type === 'deltavling');
+  const majors = rounds.filter(r => r.type === 'major');
+
+  const makeCard = r => {
+    const hasResults = r.results && r.results.length > 0;
+    const isActive = r.status === 'active';
+    const isDone = r.status === 'done';
+    const isClickable = hasResults || isActive;
+
+    let statusPillClass = 'upcoming';
+    let statusLabel = 'Kommande';
+    if (isDone) { statusPillClass = ''; statusLabel = 'Spelad'; }
+    if (isActive) { statusPillClass = 'active-round'; statusLabel = '● Pågår nu'; }
+
+    let cardClass = `round-card${r.type === 'major' ? ' major' : ''}`;
+    if (isActive) cardClass += ' active-card';
+    if (!isClickable) cardClass += ' no-results';
+
+    const clickAttr = isClickable ? `onclick="openResult(${r.id})"` : '';
+    const cursorStyle = isClickable ? '' : 'style="cursor:default"';
+
+    return `<div class="${cardClass}" ${clickAttr} ${cursorStyle}>
+      <span class="round-tag ${r.type === 'major' ? 'major' : 'deltavling'}">${r.type === 'major' ? 'Major' : 'Deltävling'}</span>
+      <div class="round-name">${r.month} – ${r.name}</div>
+      <div class="round-course">⛳ ${r.course}${r.date ? `&nbsp;&nbsp;·&nbsp;&nbsp;📅 ${r.date}` : ''}</div>
+      <div class="round-points-info">
+        <div>
+          <div class="round-top-prize-label">1:a plats</div>
+          <div class="round-top-prize">${r.topPrize} p</div>
+        </div>
+        <span class="round-status-pill ${statusPillClass}">${statusLabel}</span>
+      </div>
+    </div>`;
+  };
+
+  document.getElementById('rounds-deltavling').innerHTML = deltavlingar.map(makeCard).join('');
+  document.getElementById('rounds-major').innerHTML = majors.map(makeCard).join('');
+}
+
+// ===================== RESULT OVERLAY =====================
+function openResult(id) {
+  const r = rounds.find(x => x.id === id);
+  if (!r) return;
+
+  document.getElementById('result-title').textContent = `${r.month} – ${r.name}`;
+  document.getElementById('result-sub').textContent = `⛳ ${r.course}`;
+
+  const isMajor = r.type === 'major';
+  const scoreHeader = isMajor ? 'Slag (Netto)' : 'Poäng (Brutto)';
+
+  document.getElementById('result-thead').innerHTML = `
+    <tr>
+      <th style="text-align:right;width:40px;">#</th>
+      <th style="text-align:left;">Spelare</th>
+      <th>Hcp</th>
+      <th>${scoreHeader}</th>
+      <th>Poäng</th>
+    </tr>`;
+
+  if (!r.results || r.results.length === 0) {
+    document.getElementById('result-tbody').innerHTML = `
+      <tr><td colspan="5" style="text-align:center;color:var(--text-muted);padding:2rem;font-size:0.85rem;">
+        Inga resultat inlagda än
+      </td></tr>`;
+  } else {
+    document.getElementById('result-tbody').innerHTML = r.results.map((row, i) => {
+      const pos = i + 1;
+      const rankCls = pos === 1 ? 'r1' : pos === 2 ? 'r2' : pos === 3 ? 'r3' : '';
+      const scoreVal = isMajor ? (row.netto ?? '–') : (row.score ?? '–');
+      const ptsVal = row.pts != null ? row.pts : '–';
+      return `<tr>
+        <td class="result-rank ${rankCls}">${pos}</td>
+        <td style="text-align:left;font-weight:500;">${row.name}</td>
+        <td class="result-hcp">${row.hcp ?? '–'}</td>
+        <td class="result-score">${scoreVal}</td>
+        <td class="result-pts">${ptsVal}</td>
+      </tr>`;
+    }).join('');
+  }
+
+  document.getElementById('result-overlay').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeResult(e) {
+  if (e.target === document.getElementById('result-overlay')) {
+    closeResultBtn();
+  }
+}
+function closeResultBtn() {
+  document.getElementById('result-overlay').classList.remove('open');
+  document.body.style.overflow = '';
+}
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeResultBtn(); });
+
+// ===================== NAV =====================
+function showPage(id, btn) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('page-' + id).classList.add('active');
+  btn.classList.add('active');
+}
+
+// ===================== INIT =====================
+renderLeaderboard();
+renderRounds();
+
+// ===================== ADMIN =====================
+const ADMIN_PASSWORD = "hook2026"; // Byt till valfritt lösenord
+
+let adminLoggedIn = false;
+
+function openAdmin() {
+  document.getElementById('admin-overlay').classList.add('open');
+  document.body.style.overflow = 'hidden';
+  if (adminLoggedIn) showAdminMain();
+}
+
+function closeAdmin() {
+  document.getElementById('admin-overlay').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+function adminLogin() {
+  const pw = document.getElementById('admin-pw-input').value;
+  if (pw === ADMIN_PASSWORD) {
+    adminLoggedIn = true;
+    document.getElementById('admin-login-error').style.display = 'none';
+    showAdminMain();
+  } else {
+    document.getElementById('admin-login-error').style.display = 'block';
+    document.getElementById('admin-pw-input').value = '';
+  }
+}
+
+function showAdminMain() {
+  document.getElementById('admin-login-view').style.display = 'none';
+  const main = document.getElementById('admin-main-view');
+  main.style.display = 'flex';
+  buildStatusList();
+  buildRoundSelect();
+  buildLeaderboardForm();
+}
+
+// --- STATUS ---
+function buildStatusList() {
+  const container = document.getElementById('admin-status-list');
+  container.innerHTML = rounds.map(r => {
+    const labels = { done: 'Spelad', active: 'Pågår nu', upcoming: 'Kommande' };
+    const cls = { done: 'status-done', active: 'status-active', upcoming: 'status-upcoming' };
+    return `<div style="display:flex;align-items:center;justify-content:space-between;padding:0.6rem 0;border-bottom:1px solid rgba(201,168,76,0.07);">
+      <span style="font-size:0.88rem;">${r.month} – ${r.name}</span>
+      <div style="display:flex;gap:0.4rem;align-items:center;">
+        <span class="status-badge ${cls[r.status]}">${labels[r.status]}</span>
+        <select class="admin-select" style="width:auto;padding:0.3rem 0.5rem;font-size:0.78rem;" data-round-id="${r.id}" onchange="updateRoundStatus(${r.id}, this.value)">
+          <option value="upcoming" ${r.status==='upcoming'?'selected':''}>Kommande</option>
+          <option value="active"   ${r.status==='active'  ?'selected':''}>Pågår nu</option>
+          <option value="done"     ${r.status==='done'    ?'selected':''}>Spelad</option>
+        </select>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function updateRoundStatus(id, newStatus) {
+  const r = rounds.find(x => x.id === id);
+  if (r) {
+    r.status = newStatus;
+    buildStatusList();
+  }
+}
+
+// --- ROUND SELECT ---
+function buildRoundSelect() {
+  const sel = document.getElementById('admin-round-select');
+  sel.innerHTML = '<option value="">– Välj –</option>' +
+    rounds.map(r => `<option value="${r.id}">${r.month} – ${r.name}</option>`).join('');
+  document.getElementById('admin-result-form').innerHTML = '';
+}
+
+function buildResultForm() {
+  const id = parseInt(document.getElementById('admin-round-select').value);
+  const container = document.getElementById('admin-result-form');
+  if (!id) { container.innerHTML = ''; return; }
+  const r = rounds.find(x => x.id === id);
+  const isMajor = r.type === 'major';
+  const scoreLabel = isMajor ? 'Slag (Netto)' : 'Poäng (Brutto)';
+  const scoreKey   = isMajor ? 'netto' : 'score';
+
+  // Build 25 rows (fill existing data if present)
+  let rows = '';
+  for (let i = 0; i < 25; i++) {
+    const ex = r.results[i] || {};
+    rows += `<tr>
+      <td class="row-num">${i+1}</td>
+      <td><select class="admin-input" id="res_name_${i}" style="font-size:0.78rem;">
+        <option value="">–</option>
+        ${players.map(p => `<option value="${p.name}" ${ex.name===p.name?'selected':''}>${p.name}</option>`).join('')}
+      </select></td>
+      <td><input class="admin-input" type="number" id="res_hcp_${i}"   placeholder="–" value="${ex.hcp  !=null?ex.hcp  :''}"></td>
+      <td><input class="admin-input" type="number" id="res_score_${i}" placeholder="–" value="${ex[scoreKey]!=null?ex[scoreKey]:''}"></td>
+      <td><input class="admin-input" type="number" id="res_pts_${i}"   placeholder="–" value="${ex.pts  !=null?ex.pts  :''}"></td>
+    </tr>`;
+  }
+
+  container.innerHTML = `
+    <div style="overflow-x:auto;">
+    <table class="admin-results-table">
+      <thead><tr>
+        <th>#</th>
+        <th>Spelare</th>
+        <th>Hcp</th>
+        <th>${scoreLabel}</th>
+        <th>Seriepoäng</th>
+      </tr></thead>
+      <tbody>${rows}</tbody>
+    </table>
+    </div>
+    <div style="margin-top:0.75rem;">
+      <button class="admin-btn-primary" style="width:100%;" onclick="saveResultForm(${id})">Spara resultat för denna tävling</button>
+    </div>`;
+}
+
+function saveResultForm(id) {
+  const r = rounds.find(x => x.id === id);
+  const isMajor = r.type === 'major';
+  const scoreKey = isMajor ? 'netto' : 'score';
+  const results = [];
+  for (let i = 0; i < 25; i++) {
+    const name  = document.getElementById(`res_name_${i}`)?.value;
+    const hcp   = document.getElementById(`res_hcp_${i}`)?.value;
+    const score = document.getElementById(`res_score_${i}`)?.value;
+    const pts   = document.getElementById(`res_pts_${i}`)?.value;
+    if (name) {
+      const entry = { name };
+      if (hcp   !== '') entry.hcp = parseFloat(hcp);
+      if (score !== '') entry[scoreKey] = parseFloat(score);
+      if (pts   !== '') entry.pts = parseFloat(pts);
+      results.push(entry);
+    }
+  }
+  r.results = results;
+  showToast(`✓ Resultat sparat för ${r.month} – ${r.name}`);
+}
+
+// --- LEADERBOARD ---
+function buildLeaderboardForm() {
+  const container = document.getElementById('admin-leaderboard-form');
+  container.innerHTML = `
+    <div style="overflow-x:auto;">
+    <table class="admin-results-table">
+      <thead><tr>
+        <th style="width:30px;">#</th>
+        <th>Spelare</th>
+        <th>Totalpoäng</th>
+        <th>Cash (kr)</th>
+      </tr></thead>
+      <tbody>
+        ${players.map((p,i) => `<tr>
+          <td class="row-num">${p.rank}</td>
+          <td style="font-size:0.82rem;white-space:nowrap;">${p.name}</td>
+          <td><input class="admin-input" type="number" id="lb_pts_${i}"  placeholder="–" value="${p.points!=null?p.points:''}"></td>
+          <td><input class="admin-input" type="number" id="lb_cash_${i}" placeholder="–" value="${p.cash  !=null?p.cash  :''}"></td>
+        </tr>`).join('')}
+      </tbody>
+    </table>
+    </div>`;
+}
+
+// --- SAVE ALL ---
+function adminSaveAll(doExport = false) {
+  // Save leaderboard
+  players.forEach((p, i) => {
+    const pts  = document.getElementById(`lb_pts_${i}`)?.value;
+    const cash = document.getElementById(`lb_cash_${i}`)?.value;
+    p.points = pts  !== '' && pts  != null ? parseFloat(pts)  : null;
+    p.cash   = cash !== '' && cash != null ? parseFloat(cash) : null;
+  });
+
+  // Re-sort players by points descending, nulls last
+  players.sort((a, b) => {
+    if (a.points === null && b.points === null) return 0;
+    if (a.points === null) return 1;
+    if (b.points === null) return -1;
+    return b.points - a.points;
+  });
+  players.forEach((p, i) => p.rank = i + 1);
+
+  // Re-render everything
+  renderLeaderboard();
+  renderRounds();
+  buildStatusList();
+  buildLeaderboardForm();
+  buildResultForm();
+
+  if (doExport) {
+    exportSite();
+  } else {
+    showToast('✓ Allt sparat och uppdaterat!');
+  }
+}
+
+// --- EXPORT ---
+function exportSite() {
+  // Serialize current data back into the source code
+  const playersJson = JSON.stringify(players, null, 2)
+    .replace(/\n/g, '\n  ');
+
+  const roundsJson = JSON.stringify(rounds, null, 2)
+    .replace(/\n/g, '\n  ');
+
+  // Get the current HTML
+  let html = document.documentElement.outerHTML;
+
+  // Replace the players array in the source
+  html = html.replace(
+    /const players = \[[\s\S]*?\];(\s*\/\/ Tävlingar)/,
+    `const players = ${playersJson};\n\n// Tävlingar`
+  );
+
+  // Replace the rounds array in the source
+  html = html.replace(
+    /const rounds = \[[\s\S]*?\];(\s*\/\/ ={5})/,
+    `const rounds = ${roundsJson};\n\n// =====`
+  );
+
+  // Download
+  const blob = new Blob([html], { type: 'text/html;charset=utf-8' });
+  const url  = URL.createObjectURL(blob);
+  const a    = document.createElement('a');
+  a.href     = url;
+  a.download = 'sommarserien_2026.html';
+  a.click();
+  URL.revokeObjectURL(url);
+
+  showToast('✓ Fil exporterad – ladda upp till GitHub!');
+}
+
+// --- TOAST ---
+function showToast(msg) {
+  const t = document.getElementById('admin-toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 3000);
+}
+
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') closeAdmin();
+});
+
+</script>
+</body>
+</html>
