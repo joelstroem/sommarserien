@@ -80,6 +80,57 @@
   .nav-tab:hover { color: var(--cream); background: rgba(255,255,255,0.06); }
   .nav-tab.active { color: var(--gold); background: rgba(201,168,76,0.12); }
 
+  .nav-burger {
+    display: none;
+    background: none;
+    border: 1px solid rgba(201,168,76,0.3);
+    color: var(--cream);
+    font-size: 1.2rem;
+    line-height: 1;
+    padding: 0.35rem 0.6rem;
+    border-radius: 6px;
+    cursor: pointer;
+    font-family: inherit;
+  }
+  .nav-burger:hover { background: rgba(255,255,255,0.06); }
+  .nav-tab.admin-mobile { display: none; }
+
+  @media (max-width: 760px) {
+    nav { padding: 0 1rem; height: 56px; }
+    .nav-logo { font-size: 0.95rem; }
+    .nav-burger { display: block; order: 2; }
+    .admin-btn { display: none; }
+    .nav-tabs {
+      display: none;
+      position: absolute;
+      top: 100%;
+      left: 0;
+      right: 0;
+      flex-direction: column;
+      background: rgba(10,31,14,0.98);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border);
+      padding: 0.6rem 1rem;
+      gap: 0.1rem;
+      max-height: calc(100vh - 56px);
+      overflow-y: auto;
+    }
+    .nav-tabs.open { display: flex; }
+    .nav-tab {
+      text-align: left;
+      padding: 0.7rem 0.9rem;
+      font-size: 0.92rem;
+      border-radius: 6px;
+    }
+    .nav-tabs .nav-tab.admin-mobile {
+      display: block;
+      margin-top: 0.5rem;
+      padding-top: 0.7rem;
+      border-top: 1px solid var(--border);
+      color: var(--gold);
+    }
+  }
+
   /* PAGES */
   .page { display: none; animation: fadeIn 0.4s ease; }
   .page.active { display: block; }
@@ -775,6 +826,212 @@
   }
   .player-fb-btn:hover { background: rgba(24,119,242,0.25); }
 
+  /* ACHIEVEMENT STARS */
+  .ach-star {
+    display: inline-block;
+    font-size: 0.95em;
+    margin-left: 0.35em;
+    line-height: 1;
+    vertical-align: -1px;
+  }
+  .ach-series {
+    color: var(--gold);
+    text-shadow: 0 0 4px rgba(201,168,76,0.4);
+  }
+  .ach-major {
+    color: var(--gold);
+  }
+
+  /* === MOBIL-ANPASSNINGAR === */
+  @media (max-width: 760px) {
+    .hero { padding: 2.5rem 1rem 2rem; }
+    .hero h1 { font-size: clamp(2rem, 9vw, 3.2rem); }
+    .hero-divider { margin: 1.2rem auto; }
+    .hero-badge { font-size: 0.62rem; letter-spacing: 0.16em; padding: 0.3rem 0.85rem; margin-bottom: 1.1rem; }
+    .hero-sub { font-size: 0.85rem; }
+
+    .section { padding: 0 0.85rem 2.5rem; }
+    .section-title { font-size: 0.78rem; }
+
+    .stats-row { margin: 0 0.85rem 2.2rem; }
+    .stat-item { padding: 0.85rem 0.5rem; }
+    .stat-value { font-size: 1.6rem; }
+    .stat-label { font-size: 0.6rem; }
+
+    .leaderboard-table { font-size: 0.78rem; }
+    .leaderboard-table th, .leaderboard-table td { padding: 0.55rem 0.35rem; }
+    .leaderboard-table .player-col {
+      max-width: 140px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+    .leaderboard-table .rank-badge { font-size: 0.85rem; }
+
+    .prize-section { margin-bottom: 1.8rem; }
+    .prize-title { font-size: 1rem; }
+    .prize-table td { padding: 0.5rem 0.6rem; font-size: 0.82rem; }
+
+    /* Modal i fullbredd */
+    #player-panel { max-width: calc(100vw - 1rem) !important; width: calc(100vw - 1rem); }
+    .result-panel { max-width: calc(100vw - 1rem) !important; }
+
+    /* HoF kort lite mindre */
+    .hof-champion-card { padding: 1rem 0.7rem 0.9rem; }
+    .hof-champion-name { font-size: 1rem; }
+  }
+
+  /* HALL OF FAME */
+  .hof-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+  }
+  .hof-champion-card {
+    background: linear-gradient(160deg, rgba(201,168,76,0.12), rgba(201,168,76,0.03));
+    border: 1px solid rgba(201,168,76,0.4);
+    border-radius: 14px;
+    padding: 1.4rem 1rem 1.2rem;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .hof-champion-year {
+    font-family: 'Playfair Display', serif;
+    font-size: 0.78rem;
+    font-weight: 700;
+    color: var(--gold);
+    letter-spacing: 0.18em;
+    margin-bottom: 0.4rem;
+    text-transform: uppercase;
+  }
+  .hof-champion-trophy {
+    font-size: 2rem;
+    margin-bottom: 0.3rem;
+  }
+  .hof-champion-name {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: var(--cream);
+    line-height: 1.2;
+  }
+  .hof-champion-label {
+    margin-top: 0.4rem;
+    font-size: 0.7rem;
+    color: var(--text-muted);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+
+  .hof-major-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.85rem;
+  }
+  .hof-major-row {
+    display: grid;
+    grid-template-columns: 100px 1fr 1fr;
+    gap: 1rem;
+    align-items: center;
+    padding: 0.9rem 1rem;
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+  }
+  .hof-major-row:hover { border-color: rgba(201,168,76,0.3); }
+  .hof-major-year {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--gold-light);
+    letter-spacing: 0.05em;
+  }
+  .hof-major-tournament {
+    display: flex;
+    flex-direction: column;
+    gap: 0.15rem;
+  }
+  .hof-major-tournament-label {
+    font-size: 0.7rem;
+    color: var(--text-muted);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+  .hof-major-winner {
+    font-size: 0.95rem;
+    color: var(--cream);
+    font-weight: 500;
+  }
+  .hof-major-course {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    margin-top: 0.1rem;
+  }
+  @media (max-width: 540px) {
+    .hof-major-row {
+      grid-template-columns: 1fr;
+      gap: 0.5rem;
+    }
+  }
+
+  /* HISTORICAL SEASONS */
+  .history-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 0.5rem;
+  }
+  @media (max-width: 900px) {
+    .history-grid { grid-template-columns: 1fr; gap: 1rem; }
+  }
+  .history-grid .section {
+    padding: 1rem 0.7rem;
+    margin: 0;
+  }
+  .history-grid .leaderboard-table {
+    font-size: 0.76rem;
+  }
+  .history-grid .leaderboard-table th,
+  .history-grid .leaderboard-table td {
+    padding: 0.4rem 0.4rem;
+  }
+  .history-grid .player-col { max-width: 110px; overflow: hidden; text-overflow: ellipsis; }
+
+  /* MARATHON + MONEY LEAGUE LAYOUT */
+  .marathon-grid {
+    display: grid;
+    grid-template-columns: 1.4fr 1fr;
+    gap: 1.5rem;
+  }
+  @media (max-width: 900px) {
+    .marathon-grid { grid-template-columns: 1fr; }
+  }
+
+  .history-season-header {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    margin-bottom: 0.8rem;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+  .history-season-year {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: var(--gold-light);
+    letter-spacing: 0.04em;
+  }
+  .history-season-champ {
+    font-size: 0.78rem;
+    color: var(--text-muted);
+    letter-spacing: 0.1em;
+  }
+  .history-season-champ b {
+    color: var(--cream);
+    font-weight: 600;
+  }
+
   /* FOOTER */
   footer {
     position: relative;
@@ -792,12 +1049,17 @@
 
 <nav>
   <div class="nav-logo">⛳ Sommarserien 2026</div>
-  <div class="nav-tabs">
+  <button class="nav-burger" onclick="toggleMobileNav()" aria-label="Meny">☰</button>
+  <div class="nav-tabs" id="nav-tabs">
     <button class="nav-tab active" onclick="showPage('leaderboard', this)">Ledartavla</button>
     <button class="nav-tab" onclick="showPage('rounds', this)">Tävlingar</button>
     <button class="nav-tab" onclick="showPage('prizes', this)">Priser &amp; Poäng</button>
     <button class="nav-tab" onclick="showPage('stats', this)">Statistik</button>
     <button class="nav-tab" onclick="showPage('players', this)">Spelare</button>
+    <button class="nav-tab" onclick="showPage('halloffame', this)">Hall of Fame</button>
+    <button class="nav-tab" onclick="showPage('history', this)">Historiska säsonger</button>
+    <button class="nav-tab" onclick="showPage('marathon', this)">Marathontabell</button>
+    <button class="nav-tab admin-mobile" onclick="closeMobileNav();openAdmin()">⚙ Admin</button>
   </div>
   <button class="admin-btn" onclick="openAdmin()">⚙ Admin</button>
 </nav>
@@ -1048,7 +1310,7 @@
       </div>
     </div><div class="round-card major no-results" style="cursor:default">
       <span class="round-tag major">Major</span>
-      <div class="round-name">September – Final Major</div>
+      <div class="round-name">September – Finalmajor</div>
       <div class="round-course">⛳ Parkbanan&nbsp;&nbsp;·&nbsp;&nbsp;📅 26 september</div>
       <div class="round-points-info">
         <div>
@@ -1074,11 +1336,11 @@
       <div class="prize-section">
         <div class="prize-title">🏆 Seriesegern – Slutplacering</div>
         <table class="prize-table">
-          <tbody><tr><td class="prize-pos">1:a</td><td>Seriesegraren</td><td>3 000 kr</td></tr>
-          <tr><td class="prize-pos">2:a</td><td></td><td>1 500 kr</td></tr>
-          <tr><td class="prize-pos">3:a</td><td></td><td>750 kr</td></tr>
-          <tr><td class="prize-pos">4:a</td><td></td><td>500 kr</td></tr>
-          <tr><td class="prize-pos">5:a</td><td></td><td>250 kr</td></tr>
+          <tbody><tr><td class="prize-pos">1:a</td><td>Förstaplats</td><td>3 000 kr</td></tr>
+          <tr><td class="prize-pos">2:a</td><td>Andraplats</td><td>1 500 kr</td></tr>
+          <tr><td class="prize-pos">3:a</td><td>Tredjeplats</td><td>750 kr</td></tr>
+          <tr><td class="prize-pos">4:a</td><td>Fjärdeplats</td><td>500 kr</td></tr>
+          <tr><td class="prize-pos">5:a</td><td>Femteplats</td><td>250 kr</td></tr>
         </tbody></table>
       </div>
       <div>
@@ -1088,17 +1350,17 @@
             <tbody id="major1-prizes">
         <tr>
           <td class="prize-pos">1:a</td>
-          <td style="color:var(--text-muted);font-style:italic;">Vinnaren</td>
+          <td style="color:var(--text-muted);font-style:italic;">Förstaplats</td>
           <td>1 500 kr</td>
         </tr>
         <tr>
           <td class="prize-pos">2:a</td>
-          <td style="color:var(--text-muted);font-style:italic;"></td>
+          <td style="color:var(--text-muted);font-style:italic;">Andraplats</td>
           <td>750 kr</td>
         </tr>
         <tr>
           <td class="prize-pos">3:a</td>
-          <td style="color:var(--text-muted);font-style:italic;"></td>
+          <td style="color:var(--text-muted);font-style:italic;">Tredjeplats</td>
           <td>500 kr</td>
         </tr></tbody>
           </table>
@@ -1109,17 +1371,17 @@
             <tbody id="major2-prizes">
         <tr>
           <td class="prize-pos">1:a</td>
-          <td style="color:var(--text-muted);font-style:italic;">Vinnaren</td>
+          <td style="color:var(--text-muted);font-style:italic;">Förstaplats</td>
           <td>1 500 kr</td>
         </tr>
         <tr>
           <td class="prize-pos">2:a</td>
-          <td style="color:var(--text-muted);font-style:italic;"></td>
+          <td style="color:var(--text-muted);font-style:italic;">Andraplats</td>
           <td>750 kr</td>
         </tr>
         <tr>
           <td class="prize-pos">3:a</td>
-          <td style="color:var(--text-muted);font-style:italic;"></td>
+          <td style="color:var(--text-muted);font-style:italic;">Tredjeplats</td>
           <td>500 kr</td>
         </tr></tbody>
           </table>
@@ -1268,7 +1530,7 @@
         </select>
       </div>
     </div><div style="display:flex;align-items:center;justify-content:space-between;padding:0.6rem 0;border-bottom:1px solid rgba(201,168,76,0.07);">
-      <span style="font-size:0.88rem;">September – Final Major</span>
+      <span style="font-size:0.88rem;">September – Finalmajor</span>
       <div style="display:flex;gap:0.4rem;align-items:center;">
         <span class="status-badge status-upcoming">Kommande</span>
         <select class="admin-select" style="width:auto;padding:0.3rem 0.5rem;font-size:0.78rem;" data-round-id="7" onchange="updateRoundStatus(7, this.value)">
@@ -1287,7 +1549,7 @@
           <div class="admin-section-body">
             <div>
               <label class="admin-label">Välj tävling</label>
-              <select class="admin-select" id="admin-round-select" onchange="buildResultForm()"><option value="">– Välj –</option><option value="1">Maj – Deltävling 1</option><option value="2">Juni – Deltävling 2</option><option value="3">Juni – Major 1</option><option value="4">Juli – Deltävling 3</option><option value="5">Augusti – Deltävling 4</option><option value="6">September – Deltävling 5</option><option value="7">September – Final Major</option></select>
+              <select class="admin-select" id="admin-round-select" onchange="buildResultForm()"><option value="">– Välj –</option><option value="1">Maj – Deltävling 1</option><option value="2">Juni – Deltävling 2</option><option value="3">Juni – Major 1</option><option value="4">Juli – Deltävling 3</option><option value="5">Augusti – Deltävling 4</option><option value="6">September – Deltävling 5</option><option value="7">September – Finalmajor</option></select>
             </div>
             <div id="admin-result-form"></div>
           </div>
@@ -1328,7 +1590,7 @@
     <!-- Round selector -->
     <div class="stats-round-select">
       <label class="admin-label">Välj tävling</label>
-      <select class="admin-select" id="stats-round-select" onchange="renderStats()" style="max-width:320px;"><option value="1">Maj – Deltävling 1</option><option value="2">Juni – Deltävling 2</option><option value="3">⭐ Juni – Major 1</option><option value="4">Juli – Deltävling 3</option><option value="5">Augusti – Deltävling 4</option><option value="6">September – Deltävling 5</option><option value="7">⭐ September – Final Major</option></select>
+      <select class="admin-select" id="stats-round-select" onchange="renderStats()" style="max-width:320px;"><option value="1">Maj – Deltävling 1</option><option value="2">Juni – Deltävling 2</option><option value="3">⭐ Juni – Major 1</option><option value="4">Juli – Deltävling 3</option><option value="5">Augusti – Deltävling 4</option><option value="6">September – Deltävling 5</option><option value="7">⭐ September – Finalmajor</option></select>
     </div>
 
     <!-- Hole difficulty -->
@@ -1633,7 +1895,7 @@
 <div class="page" id="page-players">
   <div class="hero" style="padding-bottom:2rem;">
     <div class="hero-badge">Säsong 2026</div>
-    <h1 style="font-size:clamp(2rem,5vw,3.5rem);">Dela<span>garna</span></h1>
+    <h1 style="font-size:clamp(2rem,5vw,3.5rem);">Spelar<span>kort</span></h1>
     <div class="hero-divider"></div>
   </div>
   <div class="section">
@@ -1763,6 +2025,83 @@
       <div class="player-card-name">Zimon Karlsson</div>
       <div class="player-card-hcp">Hooks Golfklubb</div>
     </div></div>
+  </div>
+</div>
+
+<!-- ==================== HALL OF FAME PAGE ==================== -->
+<div class="page" id="page-halloffame">
+  <div class="hero" style="padding-bottom:2rem;">
+    <div class="hero-badge">Ärofulla pristagare</div>
+    <h1>Hall of <span>Fame</span></h1>
+    <div class="hero-divider"></div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Seriesegrare</div>
+    <div id="hof-champions" class="hof-grid"></div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Majorvinnare</div>
+    <div id="hof-majors" class="hof-major-list"></div>
+  </div>
+</div>
+
+<!-- ==================== HISTORISKA SÄSONGER PAGE ==================== -->
+<div class="page" id="page-history">
+  <div class="hero" style="padding-bottom:2rem;">
+    <div class="hero-badge">Tidigare år</div>
+    <h1>Historiska <span>säsonger</span></h1>
+    <div class="hero-divider"></div>
+  </div>
+
+  <div id="history-seasons" class="history-grid"></div>
+</div>
+
+<!-- ==================== MARATONTABELL PAGE ==================== -->
+<div class="page" id="page-marathon">
+  <div class="hero" style="padding-bottom:2rem;">
+    <div class="hero-badge">All-time</div>
+    <h1>Marathon<span>tabell</span></h1>
+    <div class="hero-divider"></div>
+  </div>
+
+  <div class="section">
+    <div class="marathon-grid">
+      <div>
+        <div class="section-title">Marathontabell</div>
+        <div style="color:var(--text-muted);font-size:0.85rem;margin:-0.5rem 0 1.2rem;">
+          Totala poäng från Sommarseriens start 2023 fram till idag.
+        </div>
+        <table class="leaderboard-table">
+          <thead>
+            <tr>
+              <th style="width:52px;">#</th>
+              <th class="player-col">Spelare</th>
+              <th>Säsonger</th>
+              <th>Total poäng</th>
+            </tr>
+          </thead>
+          <tbody id="marathon-body"></tbody>
+        </table>
+      </div>
+      <div>
+        <div class="section-title">Money league</div>
+        <div style="color:var(--text-muted);font-size:0.85rem;margin:-0.5rem 0 1.2rem;">
+          Totalt inspelad cash 2023→idag.
+        </div>
+        <table class="leaderboard-table">
+          <thead>
+            <tr>
+              <th style="width:52px;">#</th>
+              <th class="player-col">Spelare</th>
+              <th>Cash</th>
+            </tr>
+          </thead>
+          <tbody id="money-body"></tbody>
+        </table>
+      </div>
+    </div>
   </div>
 </div>
 
@@ -2086,7 +2425,7 @@ const rounds = [
       "id": 7,
       "type": "major",
       "month": "September",
-      "name": "Final Major",
+      "name": "Finalmajor",
       "course": "Parkbanan",
       "date": "26 september",
       "topPrize": 700,
@@ -2096,6 +2435,27 @@ const rounds = [
   ];
 
 // ===================== RENDER LEADERBOARD =====================
+// Hämta historiska seriesegrar + major-vinster för en spelare
+function achievementStars(name) {
+  if (typeof historicalSeasons === 'undefined') return '';
+  const seriesYears = historicalSeasons
+    .filter(s => s.leaderboard[0] && s.leaderboard[0].name === name)
+    .map(s => s.year);
+  const majorTitles = [];
+  for (const s of historicalSeasons) {
+    if (s.majors['Major 1'] && s.majors['Major 1'].name === name) majorTitles.push(s.year + ' Major 1');
+    if (s.majors['Finalmajor'] && s.majors['Finalmajor'].name === name) majorTitles.push(s.year + ' Finalmajor');
+  }
+  let html = '';
+  if (seriesYears.length > 0) {
+    html += ` <span class="ach-star ach-series" title="Seriesegrare: ${seriesYears.join(', ')}">★</span>`;
+  }
+  if (majorTitles.length > 0) {
+    html += ` <span class="ach-star ach-major" title="Major-vinst: ${majorTitles.join(' · ')}">☆</span>`;
+  }
+  return html;
+}
+
 function renderLeaderboard() {
   const tbody = document.getElementById('leaderboard-body');
   tbody.innerHTML = players.map(p => {
@@ -2109,7 +2469,7 @@ function renderLeaderboard() {
       : `<span class="no-points">–</span>`;
     return `<tr class="${rankClass}">
       <td><span class="rank-badge">${p.rank}</span></td>
-      <td class="player-col"><span class="${nameClass}">${p.name}</span></td>
+      <td class="player-col"><span class="${nameClass}">${p.name}</span>${achievementStars(p.name)}</td>
       <td>${ptsCell}</td>
       <td>${cashCell}</td>
     </tr>`;
@@ -2237,6 +2597,14 @@ function showPage(id, btn) {
   document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
   document.getElementById('page-' + id).classList.add('active');
   btn.classList.add('active');
+  closeMobileNav();
+}
+
+function toggleMobileNav() {
+  document.getElementById('nav-tabs').classList.toggle('open');
+}
+function closeMobileNav() {
+  document.getElementById('nav-tabs').classList.remove('open');
 }
 
 
@@ -2267,7 +2635,7 @@ const scoreData = {
   4: { course: "Skogsbanan",  scores: [] },
   5: { course: "Parkbanan",   scores: [] },
   6: { course: "Skogsbanan",  scores: [] },
-  7: { course: "Parkbanan",   scores: [] }, // Final Major
+  7: { course: "Parkbanan",   scores: [] }, // Finalmajor
 };
 
 function buildStatsSelect() {
@@ -2426,35 +2794,56 @@ function renderFrequency() {
 
 
 // ===================== PLAYERS =====================
-// Fyll i spelardata här – hcp med decimaler, age = ålder, club = hemklubb, fb = Facebook-URL
+// Fyll i spelardata här – gid = Golf-ID (t.ex. "850315-001"), club = hemmaklubb, fb = Facebook-URL
+// Åldern beräknas automatiskt från personnumret i Golf-ID.
 const playerProfiles = [
-  { name: "Anton Edman",        age: null, club: "Hooks Golfklubb", hcp: null, hand: "Höger", fb: null, history: [{ year: 2025, pos: 1 }] },
-  { name: "Daniel Lindh",       age: null, club: "Hooks Golfklubb", hcp: null, hand: "Höger", fb: null, history: [{ year: 2023, pos: 2 }, { year: 2024, pos: 3 }, { year: 2025, pos: 12 }] },
-  { name: "David Ärleskog",     age: null, club: "Hooks Golfklubb", hcp: null, hand: "Höger", fb: null, history: [] },
-  { name: "Dennis Berg",        age: null, club: "Hooks Golfklubb", hcp: null, hand: "Vänster", fb: null, history: [{ year: 2023, pos: 7 }, { year: 2024, pos: 6 }, { year: 2025, pos: 4 }] },
-  { name: "Felix Björklind",    age: null, club: "Hooks Golfklubb", hcp: null, hand: "Höger", fb: null, history: [{ year: 2023, pos: 18 }, { year: 2024, pos: 28 }, { year: 2025, pos: 28 }] },
-  { name: "Henrik Jönsson",     age: null, club: "Hooks Golfklubb", hcp: null, hand: "Höger", fb: null, history: [] },
-  { name: "Jacob Andersson",    age: null, club: "Hooks Golfklubb", hcp: null, hand: "Höger", fb: null, history: [] },
-  { name: "Jens Williamsson",   age: null, club: "Hooks Golfklubb", hcp: null, hand: "Höger", fb: null, history: [{ year: 2023, pos: 1 }, { year: 2024, pos: 15 }, { year: 2025, pos: 8 }] },
-  { name: "Jesper Williamsson", age: null, club: "Hooks Golfklubb", hcp: null, hand: "Vänster", fb: null, history: [{ year: 2023, pos: 15 }, { year: 2024, pos: 5 }, { year: 2025, pos: 20 }] },
-  { name: "Joacim Lovén",       age: null, club: "Hooks Golfklubb", hcp: null, hand: "Höger", fb: null, history: [{ year: 2025, pos: 21 }] },
-  { name: "Joel Ström",         age: null, club: "Hooks Golfklubb", hcp: null, hand: "Vänster", fb: null, history: [{ year: 2023, pos: 6 }, { year: 2024, pos: 7 }, { year: 2025, pos: 14 }] },
-  { name: "John Falk",          age: null, club: "Hooks Golfklubb", hcp: null, hand: "Höger", fb: null, history: [{ year: 2024, pos: 8 }, { year: 2025, pos: 22 }] },
-  { name: "Marcus Göth",        age: null, club: "Hooks Golfklubb", hcp: null, hand: "Höger", fb: null, history: [] },
-  { name: "Markus Nyberg",      age: null, club: "Hooks Golfklubb", hcp: null, hand: "Höger", fb: null, history: [{ year: 2024, pos: 16 }, { year: 2025, pos: 15 }] },
-  { name: "Martin Jönsson",     age: null, club: "Hooks Golfklubb", hcp: null, hand: "Höger", fb: null, history: [] },
-  { name: "Martin Svensson",    age: null, club: "Hooks Golfklubb", hcp: null, hand: "Höger", fb: null, history: [{ year: 2023, pos: 9 }, { year: 2024, pos: 25 }, { year: 2025, pos: 23 }] },
-  { name: "Oliver Ekbladh",     age: null, club: "Hooks Golfklubb", hcp: null, hand: "Vänster", fb: null, history: [] },
-  { name: "Oliver Gustavsson",  age: null, club: "Hooks Golfklubb", hcp: null, hand: "Höger", fb: null, history: [{ year: 2023, pos: 5 }, { year: 2024, pos: 22 }, { year: 2025, pos: 3 }] },
-  { name: "Oscar Wareborn",     age: null, club: "Hooks Golfklubb", hcp: null, hand: "Höger", fb: null, history: [{ year: 2023, pos: 3 }, { year: 2024, pos: 10 }, { year: 2025, pos: 2 }] },
-  { name: "Petter Johansson",   age: null, club: "Hooks Golfklubb", hcp: null, hand: "Höger", fb: null, history: [{ year: 2023, pos: 10 }, { year: 2024, pos: 12 }, { year: 2025, pos: 9 }] },
-  { name: "Robin Lindholm",     age: null, club: "Hooks Golfklubb", hcp: null, hand: "Höger", fb: null, history: [{ year: 2023, pos: 8 }, { year: 2024, pos: 24 }, { year: 2025, pos: 10 }] },
-  { name: "Sebastian Tiderman", age: null, club: "Hooks Golfklubb", hcp: null, hand: "Höger", fb: null, history: [{ year: 2023, pos: 19 }, { year: 2024, pos: 27 }, { year: 2025, pos: 25 }] },
-  { name: "Simon Wermelin",     age: null, club: "Hooks Golfklubb", hcp: null, hand: "Höger", fb: null, history: [{ year: 2024, pos: 13 }, { year: 2025, pos: 17 }] },
-  { name: "Victor Strand",      age: null, club: "Hooks Golfklubb", hcp: null, hand: "Höger", fb: null, history: [{ year: 2023, pos: 4 }, { year: 2024, pos: 4 }, { year: 2025, pos: 6 }] },
-  { name: "Zimon Karlsson",     age: null, club: "Hooks Golfklubb", hcp: null, hand: "Höger", fb: null, history: [{ year: 2023, pos: 12 }, { year: 2024, pos: 23 }, { year: 2025, pos: 11 }] },
+  { name: "Anton Edman",        gid: null, club: "Hooks Golfklubb", hand: "Höger",   fb: null, history: [{ year: 2025, pos: 1 }] },
+  { name: "Daniel Lindh",       gid: null, club: "Hooks Golfklubb", hand: "Höger",   fb: null, history: [{ year: 2023, pos: 2 }, { year: 2024, pos: 3 }, { year: 2025, pos: 12 }] },
+  { name: "David Ärleskog",     gid: null, club: "Hooks Golfklubb", hand: "Höger",   fb: null, history: [] },
+  { name: "Dennis Berg",        gid: null, club: "Hooks Golfklubb", hand: "Vänster", fb: null, history: [{ year: 2023, pos: 7 }, { year: 2024, pos: 6 }, { year: 2025, pos: 4 }] },
+  { name: "Felix Björklind",    gid: null, club: "Hooks Golfklubb", hand: "Höger",   fb: null, history: [{ year: 2023, pos: 18 }, { year: 2024, pos: 28 }, { year: 2025, pos: 28 }] },
+  { name: "Henrik Jönsson",     gid: null, club: "Hooks Golfklubb", hand: "Höger",   fb: null, history: [] },
+  { name: "Jacob Andersson",    gid: null, club: "Hooks Golfklubb", hand: "Höger",   fb: null, history: [] },
+  { name: "Jens Williamsson",   gid: null, club: "Hooks Golfklubb", hand: "Höger",   fb: null, history: [{ year: 2023, pos: 1 }, { year: 2024, pos: 15 }, { year: 2025, pos: 8 }] },
+  { name: "Jesper Williamsson", gid: null, club: "Hooks Golfklubb", hand: "Vänster", fb: null, history: [{ year: 2023, pos: 15 }, { year: 2024, pos: 5 }, { year: 2025, pos: 20 }] },
+  { name: "Joacim Lovén",       gid: null, club: "Hooks Golfklubb", hand: "Höger",   fb: null, history: [{ year: 2025, pos: 21 }] },
+  { name: "Joel Ström",         gid: null, club: "Hooks Golfklubb", hand: "Vänster", fb: null, history: [{ year: 2023, pos: 6 }, { year: 2024, pos: 7 }, { year: 2025, pos: 14 }] },
+  { name: "John Falk",          gid: null, club: "Hooks Golfklubb", hand: "Höger",   fb: null, history: [{ year: 2024, pos: 8 }, { year: 2025, pos: 22 }] },
+  { name: "Marcus Göth",        gid: null, club: "Hooks Golfklubb", hand: "Höger",   fb: null, history: [] },
+  { name: "Markus Nyberg",      gid: null, club: "Hooks Golfklubb", hand: "Höger",   fb: null, history: [{ year: 2024, pos: 16 }, { year: 2025, pos: 15 }] },
+  { name: "Martin Jönsson",     gid: null, club: "Hooks Golfklubb", hand: "Höger",   fb: null, history: [] },
+  { name: "Martin Svensson",    gid: null, club: "Hooks Golfklubb", hand: "Höger",   fb: null, history: [{ year: 2023, pos: 9 }, { year: 2024, pos: 25 }, { year: 2025, pos: 23 }] },
+  { name: "Oliver Ekbladh",     gid: null, club: "Hooks Golfklubb", hand: "Vänster", fb: null, history: [] },
+  { name: "Oliver Gustavsson",  gid: null, club: "Hooks Golfklubb", hand: "Höger",   fb: null, history: [{ year: 2023, pos: 5 }, { year: 2024, pos: 22 }, { year: 2025, pos: 3 }] },
+  { name: "Oscar Wareborn",     gid: null, club: "Hooks Golfklubb", hand: "Höger",   fb: null, history: [{ year: 2023, pos: 3 }, { year: 2024, pos: 10 }, { year: 2025, pos: 2 }] },
+  { name: "Petter Johansson",   gid: null, club: "Hooks Golfklubb", hand: "Höger",   fb: null, history: [{ year: 2023, pos: 10 }, { year: 2024, pos: 12 }, { year: 2025, pos: 9 }] },
+  { name: "Robin Lindholm",     gid: null, club: "Hooks Golfklubb", hand: "Höger",   fb: null, history: [{ year: 2023, pos: 8 }, { year: 2024, pos: 24 }, { year: 2025, pos: 10 }] },
+  { name: "Sebastian Tiderman", gid: null, club: "Hooks Golfklubb", hand: "Höger",   fb: null, history: [{ year: 2023, pos: 19 }, { year: 2024, pos: 27 }, { year: 2025, pos: 25 }] },
+  { name: "Simon Wermelin",     gid: null, club: "Hooks Golfklubb", hand: "Höger",   fb: null, history: [{ year: 2024, pos: 13 }, { year: 2025, pos: 17 }] },
+  { name: "Victor Strand",      gid: null, club: "Hooks Golfklubb", hand: "Höger",   fb: null, history: [{ year: 2023, pos: 4 }, { year: 2024, pos: 4 }, { year: 2025, pos: 6 }] },
+  { name: "Zimon Karlsson",     gid: null, club: "Hooks Golfklubb", hand: "Höger",   fb: null, history: [{ year: 2023, pos: 12 }, { year: 2024, pos: 23 }, { year: 2025, pos: 11 }] },
   // history exempel: [{ year: 2023, pos: 3 }, { year: 2024, pos: 1 }]
+  // Golf-ID exempel: "850315-001"  (personnummer-delen används för åldersberäkning)
 ];
+
+// Beräkna ålder från Golf-ID (personnumret = de första 6 siffrorna YYMMDD).
+function ageFromGid(gid) {
+  if (!gid) return null;
+  const m = String(gid).match(/^(\d{2})(\d{2})(\d{2})/);
+  if (!m) return null;
+  const yy = parseInt(m[1], 10);
+  const mm = parseInt(m[2], 10);
+  const dd = parseInt(m[3], 10);
+  const today = new Date();
+  // Anta 1900-talet om yy är större än dagens YY, annars 2000-talet
+  const cy = today.getFullYear() % 100;
+  const fullYear = yy > cy ? 1900 + yy : 2000 + yy;
+  let age = today.getFullYear() - fullYear;
+  const mNow = today.getMonth() + 1;
+  const dNow = today.getDate();
+  if (mNow < mm || (mNow === mm && dNow < dd)) age--;
+  return age >= 0 && age < 120 ? age : null;
+}
 
 function getInitials(name) {
   return name.split(' ').map(n => n[0]).join('').slice(0, 2).toUpperCase();
@@ -2466,9 +2855,7 @@ function renderPlayersGrid() {
   grid.innerHTML = playerProfiles.map((p, i) => {
     const player = players.find(x => x.name === p.name);
     const rank = player && player.points != null ? `#${player.rank}` : '';
-    const hcpStr = p.hcp != null ? `HCP ${p.hcp.toFixed(1)}` : '';
-    const clubStr = p.club || '';
-    const sub = hcpStr || clubStr || '&nbsp;';
+    const sub = p.club || '&nbsp;';
     return `<div class="player-card" onclick="openPlayerModal(${i})">
       <div class="player-card-rank">${rank}</div>
       <div class="player-avatar">${getInitials(p.name)}</div>
@@ -2514,34 +2901,41 @@ function openPlayerModal(idx) {
         <span class="player-modal-stat-value">–</span>
       </div>`;
 
+  const age = ageFromGid(p.gid);
+  const seasons = (p.history ? p.history.length : 0) + 1; // +1 för innevarande säsong 2026
+
   document.getElementById('player-modal-stats').innerHTML = `
     <div class="player-modal-stat">
+      <span class="player-modal-stat-label">Golf-ID</span>
+      <span class="player-modal-stat-value">${val(p.gid)}</span>
+    </div>
+    <div class="player-modal-stat">
       <span class="player-modal-stat-label">Ålder</span>
-      <span class="player-modal-stat-value">${p.age != null ? p.age + ' år' : '–'}</span>
-    </div>
-    <div class="player-modal-stat">
-      <span class="player-modal-stat-label">Hemklubb</span>
-      <span class="player-modal-stat-value">${val(p.club)}</span>
-    </div>
-    <div class="player-modal-stat">
-      <span class="player-modal-stat-label">HCP</span>
-      <span class="player-modal-stat-value">${p.hcp != null ? p.hcp.toFixed(1) : '–'}</span>
+      <span class="player-modal-stat-value">${age != null ? age + ' år' : '–'}</span>
     </div>
     <div class="player-modal-stat">
       <span class="player-modal-stat-label">Fattning</span>
       <span class="player-modal-stat-value">${val(p.hand)}</span>
     </div>
     <div class="player-modal-stat">
-      <span class="player-modal-stat-label">Serieplacering 2026</span>
+      <span class="player-modal-stat-label">Hemmaklubb</span>
+      <span class="player-modal-stat-value">${val(p.club)}</span>
+    </div>
+    <div class="player-modal-stat">
+      <span class="player-modal-stat-label">Aktuell placering</span>
       <span class="player-modal-stat-value">${rank}</span>
     </div>
     <div class="player-modal-stat">
-      <span class="player-modal-stat-label">Seriepoäng 2026</span>
+      <span class="player-modal-stat-label">Aktuella poäng</span>
       <span class="player-modal-stat-value">${points}</span>
     </div>
     <div class="player-modal-stat">
       <span class="player-modal-stat-label">Spelade tävlingar</span>
       <span class="player-modal-stat-value">${played}</span>
+    </div>
+    <div class="player-modal-stat">
+      <span class="player-modal-stat-label">Antal gjorda säsonger</span>
+      <span class="player-modal-stat-value">${seasons}</span>
     </div>
     ${historyHtml}`;
 
@@ -2561,12 +2955,287 @@ function closePlayerModalBtn() {
   document.body.style.overflow = '';
 }
 
+// ===================== HISTORISKA SÄSONGER =====================
+const historicalSeasons = [
+  {
+    year: 2023,
+    majors: { "Major 1": { name: "Joel Ström", course: "Parkbanan" }, "Finalmajor": { name: "Jens Williamsson", course: "Skogsbanan" } },
+    leaderboard: [
+      { pos: 1, name: "Jens Williamsson", points: 1870, cash: 6000 },
+      { pos: 2, name: "Daniel Lindh", points: 1750, cash: 3000 },
+      { pos: 3, name: "Oscar Wareborn", points: 1405, cash: 1000 },
+      { pos: 4, name: "Victor Strand", points: 1310, cash: 0 },
+      { pos: 5, name: "Oliver Gustavsson", points: 1250, cash: 0 },
+      { pos: 6, name: "Joel Ström", points: 1120, cash: 1000 },
+      { pos: 7, name: "Dennis Berg", points: 930, cash: 0 },
+      { pos: 8, name: "Robin Lindholm", points: 655, cash: 0 },
+      { pos: 9, name: "Martin Svensson", points: 630, cash: 0 },
+      { pos: 10, name: "Petter Johansson", points: 600, cash: 0 },
+      { pos: 11, name: "Isak Carlsson", points: 490, cash: 0 },
+      { pos: 12, name: "Zimon Karlsson", points: 490, cash: 0 },
+      { pos: 13, name: "Linus Bergström", points: 485, cash: 0 },
+      { pos: 14, name: "Tim Wretmo", points: 460, cash: 0 },
+      { pos: 15, name: "Jesper Williamsson", points: 400, cash: 0 },
+      { pos: 16, name: "Jack Lindholm", points: 390, cash: 0 },
+      { pos: 17, name: "Linus Frängqvist", points: 390, cash: 0 },
+      { pos: 18, name: "Felix Björklind", points: 380, cash: 0 },
+      { pos: 19, name: "Sebastian Tiderman", points: 330, cash: 0 },
+      { pos: 20, name: "Viktor Huss", points: 320, cash: 0 },
+      { pos: 21, name: "Filip Petersén", points: 310, cash: 0 },
+      { pos: 22, name: "Oskar Davidsson", points: 110, cash: 0 },
+    ]
+  },
+  {
+    year: 2024,
+    majors: { "Major 1": { name: "Tim Wretmo", course: "Parkbanan" }, "Finalmajor": { name: "Victor Strand", course: "Skogsbanan" } },
+    leaderboard: [
+      { pos: 1, name: "Philip Holm", points: 2350, cash: 3000 },
+      { pos: 2, name: "Johan Berggren", points: 1720, cash: 3250 },
+      { pos: 3, name: "Daniel Lindh", points: 1540, cash: 1250 },
+      { pos: 4, name: "Victor Strand", points: 1390, cash: 2500 },
+      { pos: 5, name: "Jesper Williamsson", points: 1310, cash: 1500 },
+      { pos: 6, name: "Dennis Berg", points: 1105, cash: 500 },
+      { pos: 7, name: "Joel Ström", points: 1035, cash: 0 },
+      { pos: 8, name: "John Falk", points: 1030, cash: 0 },
+      { pos: 9, name: "Lucas Bergstrand", points: 1020, cash: 0 },
+      { pos: 10, name: "Oscar Wareborn", points: 1005, cash: 0 },
+      { pos: 11, name: "Eric Berggren", points: 865, cash: 0 },
+      { pos: 12, name: "Petter Johansson", points: 815, cash: 0 },
+      { pos: 13, name: "Simon Wermelin", points: 780, cash: 0 },
+      { pos: 14, name: "Tim Wretmo", points: 720, cash: 1500 },
+      { pos: 15, name: "Jens Williamsson", points: 510, cash: 0 },
+      { pos: 16, name: "Markus Nyberg", points: 480, cash: 0 },
+      { pos: 17, name: "Kevin Kali", points: 470, cash: 0 },
+      { pos: 18, name: "Tim Antikainen", points: 450, cash: 500 },
+      { pos: 19, name: "Philip Jonsson", points: 420, cash: 0 },
+      { pos: 20, name: "Julius Tegnér", points: 350, cash: 0 },
+      { pos: 21, name: "Jonathan Engberg", points: 300, cash: 0 },
+      { pos: 22, name: "Oliver Gustavsson", points: 270, cash: 0 },
+      { pos: 23, name: "Zimon Karlsson", points: 260, cash: 0 },
+      { pos: 24, name: "Robin Lindholm", points: 220, cash: 0 },
+      { pos: 25, name: "Martin Svensson", points: 210, cash: 0 },
+      { pos: 26, name: "Casper Andersson", points: 200, cash: 0 },
+      { pos: 27, name: "Sebastian Tiderman", points: 65, cash: 0 },
+      { pos: 28, name: "Felix Björklind", points: 40, cash: 0 },
+      { pos: 29, name: "Oskar Davidsson", points: 5, cash: 0 },
+    ]
+  },
+  {
+    year: 2025,
+    majors: { "Major 1": { name: "Dennis Berg", course: "Parkbanan" }, "Finalmajor": { name: "Oliver Gustavsson", course: "Skogsbanan" } },
+    leaderboard: [
+      { pos: 1, name: "Anton Edman", points: 1610, cash: 4000 },
+      { pos: 2, name: "Oscar Wareborn", points: 1475, cash: 2250 },
+      { pos: 3, name: "Oliver Gustavsson", points: 1365, cash: 2750 },
+      { pos: 4, name: "Dennis Berg", points: 1297.5, cash: 2500 },
+      { pos: 5, name: "Eric Berggren", points: 1260, cash: 750 },
+      { pos: 6, name: "Victor Strand", points: 1240, cash: 1750 },
+      { pos: 7, name: "Julius Tegnér", points: 1195, cash: 0 },
+      { pos: 8, name: "Jens Williamsson", points: 1117.5, cash: 0 },
+      { pos: 9, name: "Petter Johansson", points: 1080, cash: 0 },
+      { pos: 10, name: "Robin Lindholm", points: 1060, cash: 0 },
+      { pos: 11, name: "Zimon Karlsson", points: 955, cash: 0 },
+      { pos: 12, name: "Daniel Lindh", points: 910, cash: 0 },
+      { pos: 13, name: "Kevin Kali", points: 770, cash: 0 },
+      { pos: 14, name: "Joel Ström", points: 710, cash: 0 },
+      { pos: 15, name: "Markus Nyberg", points: 690, cash: 0 },
+      { pos: 16, name: "Ludvig Claesson", points: 560, cash: 500 },
+      { pos: 17, name: "Simon Wermelin", points: 505, cash: 0 },
+      { pos: 18, name: "Casper Andersson", points: 490, cash: 0 },
+      { pos: 19, name: "Johan Berggren", points: 475, cash: 0 },
+      { pos: 20, name: "Jesper Williamsson", points: 460, cash: 0 },
+      { pos: 21, name: "Joacim Lovén", points: 430, cash: 0 },
+      { pos: 22, name: "John Falk", points: 330, cash: 0 },
+      { pos: 23, name: "Martin Svensson", points: 200, cash: 0 },
+      { pos: 24, name: "Jonathan Engberg", points: 190, cash: 0 },
+      { pos: 25, name: "Sebastian Tiderman", points: 190, cash: 0 },
+      { pos: 26, name: "Lucas Bergstrand", points: 150, cash: 0 },
+      { pos: 27, name: "Oskar Davidsson", points: 120, cash: 0 },
+      { pos: 28, name: "Felix Björklind", points: 70, cash: 0 },
+    ]
+  },
+];
+
+// Hjälpfunktioner för historik-rendering
+function rankRowClass(pos) {
+  if (pos === 1) return 'rank-1';
+  if (pos === 2) return 'rank-2';
+  if (pos === 3) return 'rank-3';
+  if (pos <= 5) return 'rank-' + pos;
+  return 'rank-other';
+}
+function nameClass(pos) {
+  if (pos <= 3) return 'player-name top-3';
+  if (pos <= 5) return 'player-name top-5';
+  return 'player-name';
+}
+function fmtPoints(p) {
+  if (p == null) return '–';
+  return p.toLocaleString('sv-SE');
+}
+function fmtCash(c) {
+  if (!c) return '<span class="no-points">–</span>';
+  return c.toLocaleString('sv-SE');
+}
+
+function renderHistorySeasons() {
+  const wrap = document.getElementById('history-seasons');
+  if (!wrap) return;
+  // Kronologisk ordning – 2023 längst åt vänster
+  const sorted = [...historicalSeasons].sort((a,b) => a.year - b.year);
+  wrap.innerHTML = sorted.map(s => {
+    const rows = s.leaderboard.map(e => `
+      <tr class="${rankRowClass(e.pos)}">
+        <td><span class="rank-badge">${e.pos}</span></td>
+        <td class="player-col"><span class="${nameClass(e.pos)}">${e.name}</span></td>
+        <td>${fmtPoints(e.points)}</td>
+        <td>${fmtCash(e.cash)}</td>
+      </tr>`).join('');
+    return `
+    <div class="section">
+      <div class="history-season-header">
+        <div class="history-season-year">Säsong ${s.year}</div>
+      </div>
+      <div class="history-season-champ" style="margin-bottom:0.8rem;">🏆 <b>${s.leaderboard[0].name}</b></div>
+      <table class="leaderboard-table">
+        <thead>
+          <tr>
+            <th style="width:42px;">#</th>
+            <th class="player-col">Spelare</th>
+            <th>Poäng</th>
+            <th>Cash</th>
+          </tr>
+        </thead>
+        <tbody>${rows}</tbody>
+      </table>
+    </div>`;
+  }).join('');
+}
+
+function renderMarathon() {
+  const body = document.getElementById('marathon-body');
+  if (!body) return;
+  const tally = new Map(); // name -> { name, total, years:Set }
+
+  // 2023-2025 historik
+  for (const s of historicalSeasons) {
+    for (const e of s.leaderboard) {
+      const t = tally.get(e.name) || { name: e.name, total: 0, years: new Set() };
+      t.total += e.points || 0;
+      t.years.add(s.year);
+      tally.set(e.name, t);
+    }
+  }
+  // 2026 live (från nuvarande players-array)
+  if (typeof players !== 'undefined') {
+    for (const p of players) {
+      if (p.points != null && p.points > 0) {
+        const t = tally.get(p.name) || { name: p.name, total: 0, years: new Set() };
+        t.total += p.points;
+        t.years.add(2026);
+        tally.set(p.name, t);
+      }
+    }
+  }
+
+  const list = [...tally.values()].sort((a,b) => b.total - a.total || a.name.localeCompare(b.name, 'sv'));
+  body.innerHTML = list.map((m, i) => {
+    const pos = i + 1;
+    return `
+      <tr class="${rankRowClass(pos)}">
+        <td><span class="rank-badge">${pos}</span></td>
+        <td class="player-col"><span class="${nameClass(pos)}">${m.name}</span></td>
+        <td style="font-size:0.85rem;color:var(--text-muted);">${[...m.years].sort().join(', ')}</td>
+        <td>${fmtPoints(m.total)}</td>
+      </tr>`;
+  }).join('');
+}
+
+function renderMoneyLeague() {
+  const body = document.getElementById('money-body');
+  if (!body) return;
+  const tally = new Map();
+  for (const s of historicalSeasons) {
+    for (const e of s.leaderboard) {
+      const t = tally.get(e.name) || { name: e.name, cash: 0 };
+      t.cash += e.cash || 0;
+      tally.set(e.name, t);
+    }
+  }
+  if (typeof players !== 'undefined') {
+    for (const p of players) {
+      if (p.cash != null && p.cash > 0) {
+        const t = tally.get(p.name) || { name: p.name, cash: 0 };
+        t.cash += p.cash;
+        tally.set(p.name, t);
+      }
+    }
+  }
+  const list = [...tally.values()]
+    .filter(m => m.cash > 0)
+    .sort((a,b) => b.cash - a.cash || a.name.localeCompare(b.name, 'sv'));
+  body.innerHTML = list.map((m, i) => {
+    const pos = i + 1;
+    return `
+      <tr class="${rankRowClass(pos)}">
+        <td><span class="rank-badge">${pos}</span></td>
+        <td class="player-col"><span class="${nameClass(pos)}">${m.name}</span></td>
+        <td>${m.cash.toLocaleString('sv-SE')} kr</td>
+      </tr>`;
+  }).join('');
+}
+
+function renderHallOfFame() {
+  // Seriesegrare – kronologisk ordning, 2023 längst åt vänster
+  const champEl = document.getElementById('hof-champions');
+  if (champEl) {
+    const sorted = [...historicalSeasons].sort((a,b) => a.year - b.year);
+    champEl.innerHTML = sorted.map(s => `
+      <div class="hof-champion-card">
+        <div class="hof-champion-year">${s.year}</div>
+        <div class="hof-champion-trophy">🏆</div>
+        <div class="hof-champion-name">${s.leaderboard[0].name}</div>
+        <div class="hof-champion-label">Seriesegrare</div>
+      </div>
+    `).join('');
+  }
+  // Majorvinnare – kronologisk ordning, med bana, ⭐ på båda majors
+  const majEl = document.getElementById('hof-majors');
+  if (majEl) {
+    const sorted = [...historicalSeasons].sort((a,b) => a.year - b.year);
+    const majTpl = (label, info) => {
+      if (!info) return `
+        <div class="hof-major-tournament">
+          <span class="hof-major-tournament-label">${label}</span>
+          <span class="hof-major-winner">–</span>
+        </div>`;
+      return `
+        <div class="hof-major-tournament">
+          <span class="hof-major-tournament-label">${label}</span>
+          <span class="hof-major-winner">${info.name}</span>
+          <span class="hof-major-course">⛳ ${info.course}</span>
+        </div>`;
+    };
+    majEl.innerHTML = sorted.map(s => `
+      <div class="hof-major-row">
+        <div class="hof-major-year">${s.year}</div>
+        ${majTpl('⭐ Major 1', s.majors["Major 1"])}
+        ${majTpl('⭐ Finalmajor', s.majors["Finalmajor"])}
+      </div>
+    `).join('');
+  }
+}
+
 // ===================== INIT =====================
 renderLeaderboard();
 renderRounds();
 renderMajorPrizes();
 buildStatsSelect();
 renderPlayersGrid();
+renderHistorySeasons();
+renderMarathon();
+renderMoneyLeague();
+renderHallOfFame();
 
 // ===================== ADMIN =====================
 const ADMIN_PASSWORD = "hook2026"; // Byt till valfritt lösenord
@@ -2721,10 +3390,11 @@ function renderMajorPrizes() {
     const tbody = document.getElementById(tbodyId);
     if (!tbody) return;
     if (!r || r.status !== 'done' || !r.results || r.results.length === 0) {
+      const placeNames = ['Förstaplats','Andraplats','Tredjeplats'];
       tbody.innerHTML = PRIZE_LABELS.map((pos, i) => `
         <tr>
           <td class="prize-pos">${pos}</td>
-          <td style="color:var(--text-muted);font-style:italic;">${i === 0 ? 'Vinnaren' : ''}</td>
+          <td style="color:var(--text-muted);font-style:italic;">${placeNames[i] || ''}</td>
           <td>${PRIZE_AMOUNTS[i]}</td>
         </tr>`).join('');
       return;
@@ -2884,7 +3554,11 @@ function showToast(msg) {
 }
 
 document.addEventListener('keydown', e => {
-  if (e.key === 'Escape') closeAdmin();
+  if (e.key === 'Escape') { closeAdmin(); closeMobileNav(); }
+});
+document.addEventListener('click', e => {
+  const nav = document.querySelector('nav');
+  if (nav && !nav.contains(e.target)) closeMobileNav();
 });
 
 </script>
