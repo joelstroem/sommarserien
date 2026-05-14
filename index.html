@@ -1771,48 +1771,16 @@
   <div class="result-panel" id="player-panel" style="max-width:400px;">
     <div class="result-panel-header">
       <div style="display:flex;align-items:center;gap:1rem;">
-        <div class="player-modal-avatar" id="player-modal-avatar">FB</div>
+        <div class="player-modal-avatar" id="player-modal-avatar"></div>
         <div>
-          <div class="result-panel-title" id="player-modal-name">Felix Björklind</div>
-          <div class="result-panel-sub" id="player-modal-club">Hooks Golfklubb</div>
+          <div class="result-panel-title" id="player-modal-name"></div>
+          <div class="result-panel-sub" id="player-modal-club"></div>
         </div>
       </div>
       <button class="result-close" onclick="closePlayerModalBtn()">✕</button>
     </div>
     <div class="result-panel-body">
-      <div id="player-modal-stats">
-    <div class="player-modal-stat">
-      <span class="player-modal-stat-label">Ålder</span>
-      <span class="player-modal-stat-value">–</span>
-    </div>
-    <div class="player-modal-stat">
-      <span class="player-modal-stat-label">Hemklubb</span>
-      <span class="player-modal-stat-value">Hooks Golfklubb</span>
-    </div>
-    <div class="player-modal-stat">
-      <span class="player-modal-stat-label">HCP</span>
-      <span class="player-modal-stat-value">–</span>
-    </div>
-    <div class="player-modal-stat">
-      <span class="player-modal-stat-label">Fattning</span>
-      <span class="player-modal-stat-value">Höger</span>
-    </div>
-    <div class="player-modal-stat">
-      <span class="player-modal-stat-label">Serieplacering 2026</span>
-      <span class="player-modal-stat-value">–</span>
-    </div>
-    <div class="player-modal-stat">
-      <span class="player-modal-stat-label">Seriepoäng 2026</span>
-      <span class="player-modal-stat-value">–</span>
-    </div>
-    <div class="player-modal-stat">
-      <span class="player-modal-stat-label">Spelade tävlingar</span>
-      <span class="player-modal-stat-value">0</span>
-    </div>
-    <div class="player-modal-stat">
-        <span class="player-modal-stat-label">Tidigare placeringar</span>
-        <span class="player-modal-stat-value">–</span>
-      </div></div>
+      <div id="player-modal-stats"></div>
       <div id="player-modal-fb"></div>
     </div>
   </div>
@@ -2878,7 +2846,7 @@ function exportSite() {
   );
   // Reset active page to leaderboard
   html = html.replace(/class="page" id="page-(?!leaderboard)[^"]*"/g, (m) => m.replace('page active', 'page'));
-  html = html.replace('class="page" id="page-leaderboard"', 'class="page active" id="page-leaderboard"');
+  html = html.replace('class="page active" id="page-leaderboard"', 'class="page active" id="page-leaderboard"');
   // Reset active nav tab to leaderboard
   html = html.replace(/class="nav-tab active" onclick="showPage\('(?!leaderboard)[^']*'/g, (m) => m.replace('nav-tab active', 'nav-tab'));
   html = html.replace("class=\"nav-tab\" onclick=\"showPage('leaderboard'", "class=\"nav-tab active\" onclick=\"showPage('leaderboard'");
