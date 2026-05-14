@@ -609,6 +609,66 @@
   .status-active { background: rgba(201,168,76,0.15); color: var(--gold); }
   .status-upcoming { background: rgba(255,255,255,0.07); color: var(--text-muted); }
 
+
+  /* STATS PAGE */
+  .stats-section { margin-bottom: 2.5rem; }
+  .stats-card {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 1.4rem 1.5rem;
+    margin-bottom: 1rem;
+  }
+  .stats-card-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--gold);
+    margin-bottom: 1.2rem;
+    padding-bottom: 0.6rem;
+    border-bottom: 1px solid var(--border);
+  }
+  /* Hole difficulty bar chart */
+  .hole-bars { display: flex; align-items: flex-end; gap: 6px; height: 120px; margin-bottom: 0.5rem; }
+  .hole-bar-wrap { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 4px; }
+  .hole-bar {
+    width: 100%;
+    border-radius: 4px 4px 0 0;
+    min-height: 4px;
+    transition: height 0.4s ease;
+    position: relative;
+  }
+  .hole-bar.easy  { background: linear-gradient(180deg, #4caf74, #2d6a35); }
+  .hole-bar.hard  { background: linear-gradient(180deg, #c97a4c, #8b3a1a); }
+  .hole-bar.par   { background: linear-gradient(180deg, #8a9e8d, #5a7a5d); }
+  .hole-bar-label { font-size: 0.6rem; color: var(--text-muted); }
+  .hole-bar-val   { font-size: 0.62rem; font-weight: 600; color: var(--cream); }
+  .hole-bar-num   { font-size: 0.65rem; color: var(--text-muted); margin-top: 2px; }
+  /* Par comparison bars */
+  .par-split-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+  @media(max-width:500px) { .par-split-grid { grid-template-columns: 1fr; } }
+  .par-split-card {
+    background: rgba(255,255,255,0.03);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 1rem 1.2rem;
+    text-align: center;
+  }
+  .par-split-label { font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--text-muted); margin-bottom: 0.4rem; }
+  .par-split-value { font-family: 'Playfair Display', serif; font-size: 2rem; font-weight: 700; }
+  .par-split-value.over  { color: #e07070; }
+  .par-split-value.under { color: #6dba7f; }
+  .par-split-value.even  { color: var(--gold-light); }
+  .par-split-sub { font-size: 0.72rem; color: var(--text-muted); margin-top: 0.2rem; }
+  /* Frequency */
+  .freq-bar-row { display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.5rem; }
+  .freq-name { font-size: 0.82rem; width: 140px; flex-shrink: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .freq-bar-bg { flex: 1; background: rgba(255,255,255,0.06); border-radius: 100px; height: 8px; overflow: hidden; }
+  .freq-bar-fill { height: 100%; border-radius: 100px; background: linear-gradient(90deg, var(--green-bright), var(--gold)); transition: width 0.5s ease; }
+  .freq-count { font-size: 0.75rem; color: var(--text-muted); width: 30px; text-align: right; }
+  .stats-round-select { margin-bottom: 1.5rem; }
+  .no-data-msg { color: var(--text-muted); font-size: 0.85rem; font-style: italic; text-align: center; padding: 1.5rem 0; }
+
   /* FOOTER */
   footer {
     position: relative;
@@ -622,7 +682,7 @@
   }
 </style>
 </head>
-<body style="overflow: hidden;">
+<body>
 
 <nav>
   <div class="nav-logo">⛳ Sommarserien 2026</div>
@@ -630,6 +690,7 @@
     <button class="nav-tab" onclick="showPage('leaderboard', this)">Ledartavla</button>
     <button class="nav-tab active" onclick="showPage('rounds', this)">Tävlingar</button>
     <button class="nav-tab" onclick="showPage('prizes', this)">Priser &amp; Poäng</button>
+    <button class="nav-tab" onclick="showPage('stats', this)">Statistik</button>
   </div>
   <button class="admin-btn" onclick="openAdmin()">⚙ Admin</button>
 </nav>
@@ -918,20 +979,42 @@
           <div class="prize-title">⭐ Major 1 – 27 juni</div>
           <table class="prize-table">
             <tbody id="major1-prizes">
-              <tr><td class="prize-pos">1:a</td><td>Vinnaren</td><td>1 500 kr</td></tr>
-              <tr><td class="prize-pos">2:a</td><td></td><td>750 kr</td></tr>
-              <tr><td class="prize-pos">3:a</td><td></td><td>500 kr</td></tr>
-            </tbody>
+        <tr>
+          <td class="prize-pos">1:a</td>
+          <td style="color:var(--text-muted);font-style:italic;">Vinnaren</td>
+          <td>1 500 kr</td>
+        </tr>
+        <tr>
+          <td class="prize-pos">2:a</td>
+          <td style="color:var(--text-muted);font-style:italic;"></td>
+          <td>750 kr</td>
+        </tr>
+        <tr>
+          <td class="prize-pos">3:a</td>
+          <td style="color:var(--text-muted);font-style:italic;"></td>
+          <td>500 kr</td>
+        </tr></tbody>
           </table>
         </div>
         <div class="prize-section" style="margin-top:1.5rem;">
           <div class="prize-title">⭐ Finalmajor – 26 september</div>
           <table class="prize-table">
             <tbody id="major2-prizes">
-              <tr><td class="prize-pos">1:a</td><td>Vinnaren</td><td>1 500 kr</td></tr>
-              <tr><td class="prize-pos">2:a</td><td></td><td>750 kr</td></tr>
-              <tr><td class="prize-pos">3:a</td><td></td><td>500 kr</td></tr>
-            </tbody>
+        <tr>
+          <td class="prize-pos">1:a</td>
+          <td style="color:var(--text-muted);font-style:italic;">Vinnaren</td>
+          <td>1 500 kr</td>
+        </tr>
+        <tr>
+          <td class="prize-pos">2:a</td>
+          <td style="color:var(--text-muted);font-style:italic;"></td>
+          <td>750 kr</td>
+        </tr>
+        <tr>
+          <td class="prize-pos">3:a</td>
+          <td style="color:var(--text-muted);font-style:italic;"></td>
+          <td>500 kr</td>
+        </tr></tbody>
           </table>
         </div>
       </div>
@@ -989,7 +1072,7 @@
 
 
 <!-- ==================== ADMIN OVERLAY ==================== -->
-<div class="admin-overlay open" id="admin-overlay">
+<div class="admin-overlay" id="admin-overlay">
   <div class="admin-panel">
     <div class="admin-panel-header">
       <div class="admin-panel-title" id="admin-title">⚙ Admin – Sommarserien 2026</div>
@@ -1122,9 +1205,322 @@
       </div>
     </div>
   </div>
-</div>
 
-<div class="admin-toast" id="admin-toast">✓ Resultat sparat för Maj – Deltävling 1</div>
+
+<div class="admin-toast" id="admin-toast">✓ Fil exporterad – ladda upp till GitHub!</div>
+
+
+<!-- ==================== STATS PAGE ==================== -->
+<div class="page" id="page-stats">
+  <div class="hero" style="padding-bottom:2rem;">
+    <div class="hero-badge">Säsongsstatistik</div>
+    <h1 style="font-size:clamp(2rem,5vw,3.5rem);">Statistik<span>sidan</span></h1>
+    <div class="hero-divider"></div>
+  </div>
+  <div class="section">
+
+    <!-- Round selector -->
+    <div class="stats-round-select">
+      <label class="admin-label">Välj tävling</label>
+      <select class="admin-select" id="stats-round-select" onchange="renderStats()" style="max-width:320px;"><option value="1">Maj – Deltävling 1</option><option value="2">Juni – Deltävling 2</option><option value="3">⭐ Juni – Major 1</option><option value="4">Juli – Deltävling 3</option><option value="5">Augusti – Deltävling 4</option><option value="6">September – Deltävling 5</option><option value="7">⭐ September – Final Major</option></select>
+    </div>
+
+    <!-- Hole difficulty -->
+    <div class="stats-section">
+      <div class="section-title">Svåraste &amp; lättaste hålen</div>
+      <div class="stats-card">
+        <div class="stats-card-title" id="stats-difficulty-title">Snittslag vs par – Maj Deltävling 1 (Skogsbanan)</div>
+        <div id="stats-hole-chart"><div class="hole-bars"><div class="hole-bar-wrap">
+      <span class="hole-bar-val">-0.3</span>
+      <div class="hole-bar easy" style="height:13px;"></div>
+      <span class="hole-bar-num">1</span>
+    </div><div class="hole-bar-wrap">
+      <span class="hole-bar-val">+1.0</span>
+      <div class="hole-bar hard" style="height:50px;"></div>
+      <span class="hole-bar-num">2</span>
+    </div><div class="hole-bar-wrap">
+      <span class="hole-bar-val">-0.5</span>
+      <div class="hole-bar easy" style="height:25px;"></div>
+      <span class="hole-bar-num">3</span>
+    </div><div class="hole-bar-wrap">
+      <span class="hole-bar-val">+0.3</span>
+      <div class="hole-bar hard" style="height:13px;"></div>
+      <span class="hole-bar-num">4</span>
+    </div><div class="hole-bar-wrap">
+      <span class="hole-bar-val">-0.3</span>
+      <div class="hole-bar easy" style="height:13px;"></div>
+      <span class="hole-bar-num">5</span>
+    </div><div class="hole-bar-wrap">
+      <span class="hole-bar-val">+0.5</span>
+      <div class="hole-bar hard" style="height:25px;"></div>
+      <span class="hole-bar-num">6</span>
+    </div><div class="hole-bar-wrap">
+      <span class="hole-bar-val">+1.3</span>
+      <div class="hole-bar hard" style="height:63px;"></div>
+      <span class="hole-bar-num">7</span>
+    </div><div class="hole-bar-wrap">
+      <span class="hole-bar-val">0.0</span>
+      <div class="hole-bar par" style="height:4px;"></div>
+      <span class="hole-bar-num">8</span>
+    </div><div class="hole-bar-wrap">
+      <span class="hole-bar-val">+0.8</span>
+      <div class="hole-bar hard" style="height:38px;"></div>
+      <span class="hole-bar-num">9</span>
+    </div><div class="hole-bar-wrap">
+      <span class="hole-bar-val">+0.3</span>
+      <div class="hole-bar hard" style="height:13px;"></div>
+      <span class="hole-bar-num">10</span>
+    </div><div class="hole-bar-wrap">
+      <span class="hole-bar-val">0.0</span>
+      <div class="hole-bar par" style="height:4px;"></div>
+      <span class="hole-bar-num">11</span>
+    </div><div class="hole-bar-wrap">
+      <span class="hole-bar-val">+0.3</span>
+      <div class="hole-bar hard" style="height:13px;"></div>
+      <span class="hole-bar-num">12</span>
+    </div><div class="hole-bar-wrap">
+      <span class="hole-bar-val">0.0</span>
+      <div class="hole-bar par" style="height:4px;"></div>
+      <span class="hole-bar-num">13</span>
+    </div><div class="hole-bar-wrap">
+      <span class="hole-bar-val">+0.3</span>
+      <div class="hole-bar hard" style="height:13px;"></div>
+      <span class="hole-bar-num">14</span>
+    </div><div class="hole-bar-wrap">
+      <span class="hole-bar-val">+0.8</span>
+      <div class="hole-bar hard" style="height:38px;"></div>
+      <span class="hole-bar-num">15</span>
+    </div><div class="hole-bar-wrap">
+      <span class="hole-bar-val">-0.3</span>
+      <div class="hole-bar easy" style="height:13px;"></div>
+      <span class="hole-bar-num">16</span>
+    </div><div class="hole-bar-wrap">
+      <span class="hole-bar-val">+2.0</span>
+      <div class="hole-bar hard" style="height:100px;"></div>
+      <span class="hole-bar-num">17</span>
+    </div><div class="hole-bar-wrap">
+      <span class="hole-bar-val">0.0</span>
+      <div class="hole-bar par" style="height:4px;"></div>
+      <span class="hole-bar-num">18</span>
+    </div></div></div>
+        <div style="display:flex;gap:1.5rem;margin-top:0.75rem;flex-wrap:wrap;">
+          <span style="font-size:0.72rem;display:flex;align-items:center;gap:0.4rem;"><span style="display:inline-block;width:10px;height:10px;border-radius:2px;background:#4caf74;"></span>Under par</span>
+          <span style="font-size:0.72rem;display:flex;align-items:center;gap:0.4rem;"><span style="display:inline-block;width:10px;height:10px;border-radius:2px;background:#8a9e8d;"></span>Par</span>
+          <span style="font-size:0.72rem;display:flex;align-items:center;gap:0.4rem;"><span style="display:inline-block;width:10px;height:10px;border-radius:2px;background:#c97a4c;"></span>Över par</span>
+        </div>
+      </div>
+      <div id="stats-hole-ranking" style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-top:1rem;">
+    <div class="stats-card">
+      <div class="stats-card-title" style="color:#6dba7f;">🟢 Lättaste hålen</div>
+      
+        <div style="display:flex;justify-content:space-between;align-items:center;padding:0.5rem 0;border-bottom:1px solid rgba(201,168,76,0.07);">
+          <span style="font-size:0.88rem;">Hål 3 &nbsp;<span style="color:var(--text-muted);font-size:0.75rem;">Par 4</span></span>
+          <span style="font-size:0.88rem;font-weight:600;color:#6dba7f;">-0.50 slag</span>
+        </div>
+        <div style="display:flex;justify-content:space-between;align-items:center;padding:0.5rem 0;border-bottom:1px solid rgba(201,168,76,0.07);">
+          <span style="font-size:0.88rem;">Hål 1 &nbsp;<span style="color:var(--text-muted);font-size:0.75rem;">Par 5</span></span>
+          <span style="font-size:0.88rem;font-weight:600;color:#6dba7f;">-0.25 slag</span>
+        </div>
+        <div style="display:flex;justify-content:space-between;align-items:center;padding:0.5rem 0;border-bottom:1px solid rgba(201,168,76,0.07);">
+          <span style="font-size:0.88rem;">Hål 5 &nbsp;<span style="color:var(--text-muted);font-size:0.75rem;">Par 5</span></span>
+          <span style="font-size:0.88rem;font-weight:600;color:#6dba7f;">-0.25 slag</span>
+        </div>
+    </div>
+    <div class="stats-card">
+      <div class="stats-card-title" style="color:#e07070;">🔴 Svåraste hålen</div>
+      
+        <div style="display:flex;justify-content:space-between;align-items:center;padding:0.5rem 0;border-bottom:1px solid rgba(201,168,76,0.07);">
+          <span style="font-size:0.88rem;">Hål 17 &nbsp;<span style="color:var(--text-muted);font-size:0.75rem;">Par 3</span></span>
+          <span style="font-size:0.88rem;font-weight:600;color:#e07070;">+2.00 slag</span>
+        </div>
+        <div style="display:flex;justify-content:space-between;align-items:center;padding:0.5rem 0;border-bottom:1px solid rgba(201,168,76,0.07);">
+          <span style="font-size:0.88rem;">Hål 7 &nbsp;<span style="color:var(--text-muted);font-size:0.75rem;">Par 3</span></span>
+          <span style="font-size:0.88rem;font-weight:600;color:#e07070;">+1.25 slag</span>
+        </div>
+        <div style="display:flex;justify-content:space-between;align-items:center;padding:0.5rem 0;border-bottom:1px solid rgba(201,168,76,0.07);">
+          <span style="font-size:0.88rem;">Hål 2 &nbsp;<span style="color:var(--text-muted);font-size:0.75rem;">Par 4</span></span>
+          <span style="font-size:0.88rem;font-weight:600;color:#e07070;">+1.00 slag</span>
+        </div>
+    </div></div>
+    </div>
+
+    <!-- Ut/In vs par -->
+    <div class="stats-section">
+      <div class="section-title">Över / Under par</div>
+      <div class="par-split-grid" id="stats-par-split">
+    <div class="par-split-card">
+      <div class="par-split-label">Ut (hål 1–9) &nbsp;·&nbsp; Par 36</div>
+      <div class="par-split-value over">+2.8</div>
+      <div class="par-split-sub">snitt per runda</div>
+    </div>
+    <div class="par-split-card">
+      <div class="par-split-label">In (hål 10–18) &nbsp;·&nbsp; Par 36</div>
+      <div class="par-split-value over">+3.3</div>
+      <div class="par-split-sub">snitt per runda</div>
+    </div></div>
+    </div>
+
+    <!-- Deltagarfrekvens -->
+    <div class="stats-section">
+      <div class="section-title">Deltagarfrekvens</div>
+      <div class="stats-card">
+        <div class="stats-card-title">Antal spelade deltävlingar per spelare</div>
+        <div id="stats-frequency"><div class="freq-bar-row">
+      <span class="freq-name">Daniel Lindh</span>
+      <div class="freq-bar-bg">
+        <div class="freq-bar-fill" style="width:100%;"></div>
+      </div>
+      <span class="freq-count">1/1</span>
+    </div><div class="freq-bar-row">
+      <span class="freq-name">Joacim Lovén</span>
+      <div class="freq-bar-bg">
+        <div class="freq-bar-fill" style="width:100%;"></div>
+      </div>
+      <span class="freq-count">1/1</span>
+    </div><div class="freq-bar-row">
+      <span class="freq-name">Oscar Wareborn</span>
+      <div class="freq-bar-bg">
+        <div class="freq-bar-fill" style="width:100%;"></div>
+      </div>
+      <span class="freq-count">1/1</span>
+    </div><div class="freq-bar-row">
+      <span class="freq-name">Victor Strand</span>
+      <div class="freq-bar-bg">
+        <div class="freq-bar-fill" style="width:100%;"></div>
+      </div>
+      <span class="freq-count">1/1</span>
+    </div><div class="freq-bar-row">
+      <span class="freq-name">Anton Edman</span>
+      <div class="freq-bar-bg">
+        <div class="freq-bar-fill" style="width:0%;"></div>
+      </div>
+      <span class="freq-count">0/1</span>
+    </div><div class="freq-bar-row">
+      <span class="freq-name">David Ärleskog</span>
+      <div class="freq-bar-bg">
+        <div class="freq-bar-fill" style="width:0%;"></div>
+      </div>
+      <span class="freq-count">0/1</span>
+    </div><div class="freq-bar-row">
+      <span class="freq-name">Dennis Berg</span>
+      <div class="freq-bar-bg">
+        <div class="freq-bar-fill" style="width:0%;"></div>
+      </div>
+      <span class="freq-count">0/1</span>
+    </div><div class="freq-bar-row">
+      <span class="freq-name">Felix Björklind</span>
+      <div class="freq-bar-bg">
+        <div class="freq-bar-fill" style="width:0%;"></div>
+      </div>
+      <span class="freq-count">0/1</span>
+    </div><div class="freq-bar-row">
+      <span class="freq-name">Henrik Jönsson</span>
+      <div class="freq-bar-bg">
+        <div class="freq-bar-fill" style="width:0%;"></div>
+      </div>
+      <span class="freq-count">0/1</span>
+    </div><div class="freq-bar-row">
+      <span class="freq-name">Jacob Andersson</span>
+      <div class="freq-bar-bg">
+        <div class="freq-bar-fill" style="width:0%;"></div>
+      </div>
+      <span class="freq-count">0/1</span>
+    </div><div class="freq-bar-row">
+      <span class="freq-name">Jens Williamsson</span>
+      <div class="freq-bar-bg">
+        <div class="freq-bar-fill" style="width:0%;"></div>
+      </div>
+      <span class="freq-count">0/1</span>
+    </div><div class="freq-bar-row">
+      <span class="freq-name">Jesper Williamsson</span>
+      <div class="freq-bar-bg">
+        <div class="freq-bar-fill" style="width:0%;"></div>
+      </div>
+      <span class="freq-count">0/1</span>
+    </div><div class="freq-bar-row">
+      <span class="freq-name">Joel Ström</span>
+      <div class="freq-bar-bg">
+        <div class="freq-bar-fill" style="width:0%;"></div>
+      </div>
+      <span class="freq-count">0/1</span>
+    </div><div class="freq-bar-row">
+      <span class="freq-name">John Falk</span>
+      <div class="freq-bar-bg">
+        <div class="freq-bar-fill" style="width:0%;"></div>
+      </div>
+      <span class="freq-count">0/1</span>
+    </div><div class="freq-bar-row">
+      <span class="freq-name">Marcus Göth</span>
+      <div class="freq-bar-bg">
+        <div class="freq-bar-fill" style="width:0%;"></div>
+      </div>
+      <span class="freq-count">0/1</span>
+    </div><div class="freq-bar-row">
+      <span class="freq-name">Markus Nyberg</span>
+      <div class="freq-bar-bg">
+        <div class="freq-bar-fill" style="width:0%;"></div>
+      </div>
+      <span class="freq-count">0/1</span>
+    </div><div class="freq-bar-row">
+      <span class="freq-name">Martin Jönsson</span>
+      <div class="freq-bar-bg">
+        <div class="freq-bar-fill" style="width:0%;"></div>
+      </div>
+      <span class="freq-count">0/1</span>
+    </div><div class="freq-bar-row">
+      <span class="freq-name">Martin Svensson</span>
+      <div class="freq-bar-bg">
+        <div class="freq-bar-fill" style="width:0%;"></div>
+      </div>
+      <span class="freq-count">0/1</span>
+    </div><div class="freq-bar-row">
+      <span class="freq-name">Oliver Ekbladh</span>
+      <div class="freq-bar-bg">
+        <div class="freq-bar-fill" style="width:0%;"></div>
+      </div>
+      <span class="freq-count">0/1</span>
+    </div><div class="freq-bar-row">
+      <span class="freq-name">Oliver Gustavsson</span>
+      <div class="freq-bar-bg">
+        <div class="freq-bar-fill" style="width:0%;"></div>
+      </div>
+      <span class="freq-count">0/1</span>
+    </div><div class="freq-bar-row">
+      <span class="freq-name">Petter Johansson</span>
+      <div class="freq-bar-bg">
+        <div class="freq-bar-fill" style="width:0%;"></div>
+      </div>
+      <span class="freq-count">0/1</span>
+    </div><div class="freq-bar-row">
+      <span class="freq-name">Robin Lindholm</span>
+      <div class="freq-bar-bg">
+        <div class="freq-bar-fill" style="width:0%;"></div>
+      </div>
+      <span class="freq-count">0/1</span>
+    </div><div class="freq-bar-row">
+      <span class="freq-name">Sebastian Tiderman</span>
+      <div class="freq-bar-bg">
+        <div class="freq-bar-fill" style="width:0%;"></div>
+      </div>
+      <span class="freq-count">0/1</span>
+    </div><div class="freq-bar-row">
+      <span class="freq-name">Simon Wermelin</span>
+      <div class="freq-bar-bg">
+        <div class="freq-bar-fill" style="width:0%;"></div>
+      </div>
+      <span class="freq-count">0/1</span>
+    </div><div class="freq-bar-row">
+      <span class="freq-name">Zimon Karlsson</span>
+      <div class="freq-bar-bg">
+        <div class="freq-bar-fill" style="width:0%;"></div>
+      </div>
+      <span class="freq-count">0/1</span>
+    </div></div>
+      </div>
+    </div>
+
+  </div>
+</div>
 
 <!-- RESULT OVERLAY -->
 <div class="result-overlay" id="result-overlay" onclick="closeResult(event)">
@@ -1579,10 +1975,196 @@ function showPage(id, btn) {
   btn.classList.add('active');
 }
 
+
+// ===================== STATISTICS =====================
+
+// Par per hål för banorna
+const COURSE_PAR = {
+  "Skogsbanan": [5,4,4,3,5,4,3,4,4,  4,4,5,3,4,4,4,3,5],
+  "Parkbanan":  [4,4,3,5,4,3,3,4,4,  5,4,4,3,4,5,4,5,4]
+};
+
+// Scorekort-data per tävling.
+// Varje spelare: { name, strokes: [18 slag] }
+// Fyll på via Cowork
+const scoreData = {
+  1: { // Maj – Deltävling 1 – Skogsbanan
+    course: "Skogsbanan",
+    scores: [
+      { name: "Daniel Lindh",  strokes: [4,4,4,3,4,4,4,4,5, 4,3,6,4,4,6,3,4,6] },
+      { name: "Victor Strand",  strokes: [5,5,3,3,5,4,4,3,5, 5,4,4,3,4,5,5,4,4] },
+      { name: "Oscar Wareborn", strokes: [4,5,3,3,5,5,4,5,4, 4,4,6,2,5,3,3,7,5] },
+      { name: "Joacim Lovén",   strokes: [6,6,4,4,5,5,5,4,5, 4,5,5,3,4,5,4,5,5] },
+      // Övriga spelare läggs till här via Cowork
+    ]
+  },
+  2: { course: "Parkbanan",   scores: [] },
+  3: { course: "Skogsbanan",  scores: [] }, // Major 1
+  4: { course: "Skogsbanan",  scores: [] },
+  5: { course: "Parkbanan",   scores: [] },
+  6: { course: "Skogsbanan",  scores: [] },
+  7: { course: "Parkbanan",   scores: [] }, // Final Major
+};
+
+function buildStatsSelect() {
+  const sel = document.getElementById('stats-round-select');
+  if (!sel) return;
+  sel.innerHTML = rounds.map(r => {
+    const tag = r.type === 'major' ? '⭐ ' : '';
+    return `<option value="${r.id}">${tag}${r.month} – ${r.name}</option>`;
+  }).join('');
+  renderStats();
+}
+
+function renderStats() {
+  const sel = document.getElementById('stats-round-select');
+  if (!sel) return;
+  const id = parseInt(sel.value);
+  const data = scoreData[id];
+  const round = rounds.find(r => r.id === id);
+  if (!data || !round) return;
+
+  const par = COURSE_PAR[data.course] || [];
+  const scores = data.scores;
+
+  renderHoleChart(scores, par, round);
+  renderParSplit(scores, par);
+  renderFrequency();
+}
+
+function renderHoleChart(scores, par, round) {
+  const container = document.getElementById('stats-hole-chart');
+  document.getElementById('stats-difficulty-title').textContent =
+    `Snittslag vs par – ${round.month} ${round.name} (${round.course})`;
+
+  if (!scores || scores.length === 0) {
+    container.innerHTML = '<p class="no-data-msg">Inga scorekort inlagda ännu</p>';
+    document.getElementById('stats-hole-ranking').innerHTML = '';
+    return;
+  }
+
+  // Calc avg strokes per hole
+  const avgs = par.map((p, i) => {
+    const total = scores.reduce((sum, s) => sum + (s.strokes[i] || 0), 0);
+    return +(total / scores.length).toFixed(2);
+  });
+
+  // Diff from par
+  const diffs = avgs.map((avg, i) => +(avg - par[i]).toFixed(2));
+
+  // Max abs diff for scaling
+  const maxAbs = Math.max(...diffs.map(Math.abs), 0.5);
+
+  const barHeight = 100; // px total chart height
+
+  const bars = avgs.map((avg, i) => {
+    const diff = diffs[i];
+    const pct = Math.abs(diff) / maxAbs;
+    const h = Math.max(Math.round(pct * barHeight), 4);
+    const cls = diff < -0.05 ? 'easy' : diff > 0.05 ? 'hard' : 'par';
+    const sign = diff > 0 ? '+' : '';
+    return `<div class="hole-bar-wrap">
+      <span class="hole-bar-val">${sign}${diff.toFixed(1)}</span>
+      <div class="hole-bar ${cls}" style="height:${h}px;"></div>
+      <span class="hole-bar-num">${i+1}</span>
+    </div>`;
+  });
+
+  container.innerHTML = `<div class="hole-bars">${bars.join('')}</div>`;
+
+  // Easiest / hardest ranking
+  const ranked = diffs.map((d,i) => ({ hole: i+1, diff: d, par: par[i], avg: avgs[i] }))
+    .sort((a,b) => a.diff - b.diff);
+
+  const easiest = ranked.slice(0, 3);
+  const hardest = ranked.slice(-3).reverse();
+
+  const rankCard = (title, color, list) => `
+    <div class="stats-card">
+      <div class="stats-card-title" style="color:${color};">${title}</div>
+      ${list.map((h, i) => `
+        <div style="display:flex;justify-content:space-between;align-items:center;padding:0.5rem 0;border-bottom:1px solid rgba(201,168,76,0.07);">
+          <span style="font-size:0.88rem;">Hål ${h.hole} &nbsp;<span style="color:var(--text-muted);font-size:0.75rem;">Par ${h.par}</span></span>
+          <span style="font-size:0.88rem;font-weight:600;color:${color};">${h.diff > 0 ? '+' : ''}${h.diff.toFixed(2)} slag</span>
+        </div>`).join('')}
+    </div>`;
+
+  document.getElementById('stats-hole-ranking').innerHTML =
+    rankCard('🟢 Lättaste hålen', '#6dba7f', easiest) +
+    rankCard('🔴 Svåraste hålen', '#e07070', hardest);
+}
+
+function renderParSplit(scores, par) {
+  const container = document.getElementById('stats-par-split');
+  if (!scores || scores.length === 0) {
+    container.innerHTML = '<p class="no-data-msg">Inga scorekort inlagda ännu</p>';
+    return;
+  }
+
+  const parUt = par.slice(0,9).reduce((a,b)=>a+b,0);
+  const parIn = par.slice(9).reduce((a,b)=>a+b,0);
+
+  let totalDiffUt = 0, totalDiffIn = 0;
+  scores.forEach(s => {
+    const sUt = s.strokes.slice(0,9).reduce((a,b)=>a+b,0);
+    const sIn = s.strokes.slice(9).reduce((a,b)=>a+b,0);
+    totalDiffUt += sUt - parUt;
+    totalDiffIn += sIn - parIn;
+  });
+
+  const avgUt = +(totalDiffUt / scores.length).toFixed(1);
+  const avgIn = +(totalDiffIn / scores.length).toFixed(1);
+
+  const formatDiff = (d) => d > 0 ? `+${d}` : `${d}`;
+  const cls = (d) => d < 0 ? 'under' : d > 0 ? 'over' : 'even';
+
+  container.innerHTML = `
+    <div class="par-split-card">
+      <div class="par-split-label">Ut (hål 1–9) &nbsp;·&nbsp; Par ${parUt}</div>
+      <div class="par-split-value ${cls(avgUt)}">${formatDiff(avgUt)}</div>
+      <div class="par-split-sub">snitt per runda</div>
+    </div>
+    <div class="par-split-card">
+      <div class="par-split-label">In (hål 10–18) &nbsp;·&nbsp; Par ${parIn}</div>
+      <div class="par-split-value ${cls(avgIn)}">${formatDiff(avgIn)}</div>
+      <div class="par-split-sub">snitt per runda</div>
+    </div>`;
+}
+
+function renderFrequency() {
+  const container = document.getElementById('stats-frequency');
+  const totalRounds = rounds.filter(r => r.type === 'deltavling' && r.status === 'done').length;
+  const maxRounds = Math.max(totalRounds, 1);
+
+  // Count appearances per player across all scoreData
+  const counts = {};
+  players.forEach(p => counts[p.name] = 0);
+  Object.values(scoreData).forEach(data => {
+    data.scores.forEach(s => {
+      if (counts[s.name] != null) counts[s.name]++;
+    });
+  });
+
+  // Sort by count desc
+  const sorted = Object.entries(counts).sort((a,b) => b[1]-a[1]);
+
+  container.innerHTML = sorted.map(([name, count]) => {
+    const pct = count > 0 ? Math.round((count / maxRounds) * 100) : 0;
+    return `<div class="freq-bar-row">
+      <span class="freq-name">${name}</span>
+      <div class="freq-bar-bg">
+        <div class="freq-bar-fill" style="width:${pct}%;"></div>
+      </div>
+      <span class="freq-count">${count}/${maxRounds}</span>
+    </div>`;
+  }).join('');
+}
+
 // ===================== INIT =====================
 renderLeaderboard();
 renderRounds();
 renderMajorPrizes();
+buildStatsSelect();
 
 // ===================== ADMIN =====================
 const ADMIN_PASSWORD = "hook2026"; // Byt till valfritt lösenord
@@ -1836,8 +2418,15 @@ function exportSite() {
   const roundsJson = JSON.stringify(rounds, null, 2)
     .replace(/\n/g, '\n  ');
 
-  // Get the current HTML
+  // Get the current HTML – but first close admin and reset body so export is clean
+  document.getElementById('admin-overlay').classList.remove('open');
+  document.body.style.overflow = '';
+
   let html = document.documentElement.outerHTML;
+
+  // Always export with admin closed and body clean
+  html = html.replace(/class="admin-overlay"/g, 'class="admin-overlay"');
+  html = html.replace(/<body[^>]*>/,  '<body>');
 
   // Replace the players array in the source
   html = html.replace(
