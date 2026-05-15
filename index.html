@@ -80,6 +80,24 @@
   .nav-tab:hover { color: var(--cream); background: rgba(255,255,255,0.06); }
   .nav-tab.active { color: var(--gold); background: rgba(201,168,76,0.12); }
 
+  /* Guldhakar runt nav-grupperna (desktop) */
+  .nav-tab-group {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+  }
+  .nav-bracket {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.8rem;
+    font-weight: 400;
+    color: var(--gold);
+    line-height: 1;
+    padding: 0 4px 4px;
+    user-select: none;
+  }
+  .nav-bracket-left { padding-right: 6px; }
+  .nav-bracket-right { padding-left: 6px; }
+
   .nav-burger {
     display: none;
     background: none;
@@ -129,6 +147,9 @@
       border-top: 1px solid var(--border);
       color: var(--gold);
     }
+    /* Mobil: gruppwrapper "försvinner" och hakar göms */
+    .nav-tab-group { display: contents; }
+    .nav-bracket { display: none; }
   }
 
   /* PAGES */
@@ -1119,14 +1140,22 @@
   <div class="nav-logo" onclick="showPage('leaderboard')" style="cursor:pointer;">⛳ Sommarserien 2026</div>
   <button class="nav-burger" onclick="toggleMobileNav()" aria-label="Meny">☰</button>
   <div class="nav-tabs" id="nav-tabs">
-    <button class="nav-tab active" onclick="showPage('leaderboard', this)">Ledartavla</button>
-    <button class="nav-tab" onclick="showPage('rounds', this)">Tävlingar</button>
-    <button class="nav-tab" onclick="showPage('prizes', this)">Priser &amp; Poäng</button>
-    <button class="nav-tab" onclick="showPage('stats', this)">Statistik</button>
-    <button class="nav-tab" onclick="showPage('players', this)">Spelare</button>
-    <button class="nav-tab" onclick="showPage('halloffame', this)">Hall of Fame</button>
-    <button class="nav-tab" onclick="showPage('history', this)">Historiska säsonger</button>
-    <button class="nav-tab" onclick="showPage('marathon', this)">Marathontabell</button>
+    <div class="nav-tab-group">
+      <span class="nav-bracket nav-bracket-left">[</span>
+      <button class="nav-tab active" onclick="showPage('leaderboard', this)">Ledartavla</button>
+      <button class="nav-tab" onclick="showPage('rounds', this)">Tävlingar</button>
+      <button class="nav-tab" onclick="showPage('prizes', this)">Priser &amp; Poäng</button>
+      <button class="nav-tab" onclick="showPage('stats', this)">Statistik</button>
+      <button class="nav-tab" onclick="showPage('players', this)">Spelare</button>
+      <span class="nav-bracket nav-bracket-right">]</span>
+    </div>
+    <div class="nav-tab-group">
+      <span class="nav-bracket nav-bracket-left">[</span>
+      <button class="nav-tab" onclick="showPage('halloffame', this)">Hall of Fame</button>
+      <button class="nav-tab" onclick="showPage('history', this)">Historiska säsonger</button>
+      <button class="nav-tab" onclick="showPage('marathon', this)">Marathontabell</button>
+      <span class="nav-bracket nav-bracket-right">]</span>
+    </div>
     <button class="nav-tab admin-mobile" onclick="closeMobileNav();openAdmin()">⚙ Admin</button>
   </div>
   <button class="admin-btn" onclick="openAdmin()">⚙ Admin</button>
