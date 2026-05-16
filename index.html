@@ -958,6 +958,226 @@
     .freq-count { font-size: 0.7rem; }
   }
 
+  /* SCOREKORT MODAL (template-baserad) */
+  #scorecard-overlay .sc-modal {
+    background: #0f2714;
+    border: 1px solid rgba(201,168,76,0.25);
+    border-radius: 16px;
+    width: 100%;
+    max-width: 860px;
+    max-height: calc(100vh - 2rem);
+    overflow-y: auto;
+    color: #f5f0e8;
+    box-shadow: 0 32px 80px rgba(0,0,0,0.6);
+  }
+  #scorecard-overlay .sc-modal-header {
+    padding: 1.2rem 1.4rem 1rem;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  #scorecard-overlay .sc-modal-header h2 {
+    font-size: 1rem; font-weight: 600; letter-spacing: 0.04em;
+    color: #f5f0e8; font-family: 'DM Sans', sans-serif;
+  }
+  #scorecard-overlay .sc-close-btn {
+    width: 28px; height: 28px; border-radius: 50%;
+    background: rgba(255,255,255,0.08); border: none;
+    color: #8a9e8d; font-size: 1rem; cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    transition: background 0.2s;
+  }
+  #scorecard-overlay .sc-close-btn:hover { background: rgba(255,255,255,0.15); color: #f5f0e8; }
+
+  #scorecard-overlay .sc-player-row {
+    padding: 1rem 1.4rem;
+    display: flex; align-items: center; justify-content: space-between;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+    gap: 1rem;
+  }
+  #scorecard-overlay .sc-player-left { display: flex; align-items: center; gap: 1rem; min-width: 0; }
+  #scorecard-overlay .sc-avatar-lg {
+    width: 56px; height: 56px; border-radius: 50%;
+    background: #2d6a35;
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 700; font-size: 1.05rem; color: #f5f0e8;
+    flex-shrink: 0;
+  }
+  #scorecard-overlay .sc-name {
+    font-size: 1.55rem; font-weight: 700;
+    font-family: 'Playfair Display', serif; color: #f5f0e8; line-height: 1.1;
+    overflow: hidden; text-overflow: ellipsis;
+  }
+  #scorecard-overlay .sc-meta {
+    font-size: 0.78rem; color: #8a9e8d; margin-top: 0.25rem;
+    display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap;
+  }
+  #scorecard-overlay .sc-meta .sc-dot { color: #2d6a35; }
+  #scorecard-overlay .sc-score-block { text-align: right; flex-shrink: 0; }
+  #scorecard-overlay .sc-total-score {
+    font-family: 'Playfair Display', serif; font-size: 2rem; font-weight: 700;
+    color: var(--gold); line-height: 1;
+  }
+  #scorecard-overlay .sc-score-label {
+    font-size: 0.62rem; color: #8a9e8d; letter-spacing: 0.1em;
+    text-transform: uppercase; margin-top: 0.2rem;
+  }
+
+  #scorecard-overlay .sc-section { padding: 1rem 1.2rem 0.5rem; }
+  #scorecard-overlay .sc-halves { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+  #scorecard-overlay .sc-half-label {
+    font-size: 0.62rem; letter-spacing: 0.12em; text-transform: uppercase;
+    color: #c9a84c; margin-bottom: 0.5rem; padding-left: 0.2rem;
+  }
+  #scorecard-overlay .sc-table { display: grid; width: 100%; }
+  #scorecard-overlay .sc-row {
+    display: grid;
+    grid-template-columns: 48px repeat(9, 1fr) 36px;
+    align-items: center; min-height: 28px;
+  }
+  #scorecard-overlay .sc-row-header { min-height: 22px; }
+  #scorecard-overlay .sc-cell {
+    text-align: center; font-size: 0.72rem; color: #8a9e8d;
+    padding: 4px 0; line-height: 1;
+  }
+  #scorecard-overlay .sc-cell.sc-label {
+    text-align: left; font-size: 0.62rem; letter-spacing: 0.1em;
+    text-transform: uppercase; color: #8a9e8d; padding-left: 0;
+  }
+  #scorecard-overlay .sc-cell.sc-total {
+    font-size: 0.78rem; font-weight: 600; color: #c9a84c;
+  }
+  #scorecard-overlay .sc-cell.sc-stroke {
+    position: relative; font-size: 0.78rem; font-weight: 600; color: #f5f0e8;
+  }
+  #scorecard-overlay .sc-stroke-inner {
+    display: inline-flex; align-items: center; justify-content: center;
+    width: 22px; height: 22px; border-radius: 2px;
+    font-size: 0.78rem; font-weight: 700;
+  }
+  /* Eagle: dubbla guld-ringar */
+  #scorecard-overlay .sc-stroke.eagle .sc-stroke-inner {
+    border: 2px solid #c9a84c; border-radius: 50%;
+    outline: 2px solid #c9a84c; outline-offset: 2px;
+    background: transparent; color: #f5f0e8;
+  }
+  /* Birdie: röd cirkel */
+  #scorecard-overlay .sc-stroke.birdie .sc-stroke-inner {
+    border: 2px solid #e07070; border-radius: 50%; color: #f5f0e8;
+  }
+  /* Par: vit ifylld kvadrat */
+  #scorecard-overlay .sc-stroke.par-score .sc-stroke-inner {
+    background: rgba(255,255,255,0.15); color: #f5f0e8;
+  }
+  /* Bogey: blå fyrkant */
+  #scorecard-overlay .sc-stroke.bogey .sc-stroke-inner {
+    border: 1.5px solid #6a9fd8; color: #f5f0e8;
+  }
+  /* Dubbelbogey: dubbel blå fyrkant */
+  #scorecard-overlay .sc-stroke.double .sc-stroke-inner {
+    border: 2.5px solid #6a9fd8; outline: 1.5px solid #6a9fd8; outline-offset: 2px;
+    color: #f5f0e8;
+  }
+  /* Övrigt (trippelbogey+): mörkblå ifylld */
+  #scorecard-overlay .sc-stroke.other .sc-stroke-inner {
+    background: #2d4a7a; color: #b8c8e0;
+  }
+  #scorecard-overlay .sc-cell.sc-points {
+    font-size: 0.76rem; font-weight: 600; color: #f5f0e8;
+  }
+  #scorecard-overlay .sc-cell.sc-points.sc-total { color: #c9a84c; }
+
+  #scorecard-overlay .sc-summary-bar {
+    margin: 0.75rem 1.2rem 1rem;
+    background: rgba(255,255,255,0.04);
+    border-radius: 10px;
+    display: grid; grid-template-columns: repeat(4, 1fr);
+    overflow: hidden;
+    border: 1px solid rgba(255,255,255,0.06);
+  }
+  #scorecard-overlay .sc-summary-item {
+    padding: 0.75rem 0.4rem; text-align: center;
+    border-right: 1px solid rgba(255,255,255,0.06);
+  }
+  #scorecard-overlay .sc-summary-item:last-child { border-right: none; }
+  #scorecard-overlay .sc-summary-label {
+    font-size: 0.6rem; letter-spacing: 0.1em; text-transform: uppercase;
+    color: #8a9e8d; margin-bottom: 0.3rem;
+  }
+  #scorecard-overlay .sc-summary-value {
+    font-family: 'Playfair Display', serif; font-size: 1.4rem; font-weight: 700;
+    color: #f5f0e8; line-height: 1;
+  }
+  #scorecard-overlay .sc-summary-value.gold { color: #c9a84c; }
+
+  #scorecard-overlay .sc-legend {
+    padding: 0.7rem 1.4rem 1rem;
+    border-top: 1px solid rgba(255,255,255,0.06);
+    display: flex; align-items: center; justify-content: center;
+    gap: 1rem; flex-wrap: wrap;
+  }
+  #scorecard-overlay .sc-legend-item {
+    display: flex; align-items: center; gap: 0.4rem;
+    font-size: 0.66rem; color: #8a9e8d;
+  }
+  #scorecard-overlay .sc-legend-eagle {
+    width: 12px; height: 12px;
+    border: 1.5px solid #c9a84c; border-radius: 50%;
+    outline: 1.5px solid #c9a84c; outline-offset: 1.5px;
+    display: inline-block;
+  }
+  #scorecard-overlay .sc-legend-birdie {
+    width: 12px; height: 12px;
+    border: 1.5px solid #e07070; border-radius: 50%; display: inline-block;
+  }
+  #scorecard-overlay .sc-legend-par {
+    width: 12px; height: 12px;
+    background: rgba(255,255,255,0.15); display: inline-block;
+  }
+  #scorecard-overlay .sc-legend-bogey {
+    width: 12px; height: 12px;
+    border: 1.5px solid #6a9fd8; display: inline-block;
+  }
+  #scorecard-overlay .sc-legend-double {
+    width: 12px; height: 12px;
+    border: 2px solid #6a9fd8;
+    outline: 1px solid #6a9fd8; outline-offset: 1.5px;
+    display: inline-block;
+  }
+  #scorecard-overlay .sc-legend-other {
+    width: 12px; height: 12px;
+    background: #2d4a7a; display: inline-block;
+  }
+
+  #scorecard-overlay .sc-nodata {
+    color: #8a9e8d; font-style: italic; text-align: center; padding: 2rem 1rem;
+  }
+
+  /* Klickbart spelarnamn i tävlingstabellen */
+  .sc-clickable {
+    cursor: pointer;
+    text-decoration: underline;
+    text-decoration-color: rgba(201,168,76,0.3);
+    text-underline-offset: 3px;
+    transition: color 0.15s;
+  }
+  .sc-clickable:hover { color: var(--gold-light); text-decoration-color: var(--gold); }
+
+  @media (max-width: 720px) {
+    #scorecard-overlay .sc-modal { max-width: calc(100vw - 1rem); }
+    #scorecard-overlay .sc-halves { grid-template-columns: 1fr; gap: 1.2rem; }
+    #scorecard-overlay .sc-name { font-size: 1.2rem; }
+    #scorecard-overlay .sc-total-score { font-size: 1.5rem; }
+    #scorecard-overlay .sc-summary-value { font-size: 1.1rem; }
+    #scorecard-overlay .sc-row { grid-template-columns: 44px repeat(9, 1fr) 32px; }
+    #scorecard-overlay .sc-cell { font-size: 0.66rem; }
+    #scorecard-overlay .sc-stroke-inner { width: 20px; height: 20px; font-size: 0.7rem; }
+    #scorecard-overlay .sc-player-row { padding: 0.85rem 1rem; }
+    #scorecard-overlay .sc-section { padding: 0.85rem 0.85rem 0.4rem; }
+    #scorecard-overlay .sc-summary-bar { margin: 0.5rem 0.85rem 0.75rem; }
+    #scorecard-overlay .sc-summary-item { padding: 0.6rem 0.3rem; }
+    #scorecard-overlay .sc-legend { padding: 0.6rem 0.85rem; gap: 0.7rem; }
+  }
+
   /* HALL OF FAME */
   .hof-grid {
     display: grid;
@@ -1701,76 +1921,76 @@
       <div class="stats-card">
         <div class="stats-card-title" id="stats-difficulty-title">Snittslag vs par – Maj Deltävling 1 (Skogsbanan)</div>
         <div id="stats-hole-chart"><div class="hole-bars"><div class="hole-bar-wrap">
-      <span class="hole-bar-val">-0.3</span>
-      <div class="hole-bar easy" style="height:13px;"></div>
+      <span class="hole-bar-val">-0.2</span>
+      <div class="hole-bar easy" style="height:10px;"></div>
       <span class="hole-bar-num">1</span>
+    </div><div class="hole-bar-wrap">
+      <span class="hole-bar-val">+1.2</span>
+      <div class="hole-bar hard" style="height:60px;"></div>
+      <span class="hole-bar-num">2</span>
+    </div><div class="hole-bar-wrap">
+      <span class="hole-bar-val">-0.4</span>
+      <div class="hole-bar easy" style="height:20px;"></div>
+      <span class="hole-bar-num">3</span>
+    </div><div class="hole-bar-wrap">
+      <span class="hole-bar-val">+0.2</span>
+      <div class="hole-bar hard" style="height:10px;"></div>
+      <span class="hole-bar-num">4</span>
+    </div><div class="hole-bar-wrap">
+      <span class="hole-bar-val">-0.2</span>
+      <div class="hole-bar easy" style="height:10px;"></div>
+      <span class="hole-bar-num">5</span>
+    </div><div class="hole-bar-wrap">
+      <span class="hole-bar-val">+0.8</span>
+      <div class="hole-bar hard" style="height:40px;"></div>
+      <span class="hole-bar-num">6</span>
     </div><div class="hole-bar-wrap">
       <span class="hole-bar-val">+1.0</span>
       <div class="hole-bar hard" style="height:50px;"></div>
-      <span class="hole-bar-num">2</span>
-    </div><div class="hole-bar-wrap">
-      <span class="hole-bar-val">-0.5</span>
-      <div class="hole-bar easy" style="height:25px;"></div>
-      <span class="hole-bar-num">3</span>
-    </div><div class="hole-bar-wrap">
-      <span class="hole-bar-val">+0.3</span>
-      <div class="hole-bar hard" style="height:13px;"></div>
-      <span class="hole-bar-num">4</span>
-    </div><div class="hole-bar-wrap">
-      <span class="hole-bar-val">-0.3</span>
-      <div class="hole-bar easy" style="height:13px;"></div>
-      <span class="hole-bar-num">5</span>
-    </div><div class="hole-bar-wrap">
-      <span class="hole-bar-val">+0.5</span>
-      <div class="hole-bar hard" style="height:25px;"></div>
-      <span class="hole-bar-num">6</span>
-    </div><div class="hole-bar-wrap">
-      <span class="hole-bar-val">+1.3</span>
-      <div class="hole-bar hard" style="height:63px;"></div>
       <span class="hole-bar-num">7</span>
     </div><div class="hole-bar-wrap">
       <span class="hole-bar-val">0.0</span>
       <div class="hole-bar par" style="height:4px;"></div>
       <span class="hole-bar-num">8</span>
     </div><div class="hole-bar-wrap">
-      <span class="hole-bar-val">+0.8</span>
-      <div class="hole-bar hard" style="height:38px;"></div>
+      <span class="hole-bar-val">+0.6</span>
+      <div class="hole-bar hard" style="height:30px;"></div>
       <span class="hole-bar-num">9</span>
     </div><div class="hole-bar-wrap">
-      <span class="hole-bar-val">+0.3</span>
-      <div class="hole-bar hard" style="height:13px;"></div>
+      <span class="hole-bar-val">+0.2</span>
+      <div class="hole-bar hard" style="height:10px;"></div>
       <span class="hole-bar-num">10</span>
     </div><div class="hole-bar-wrap">
-      <span class="hole-bar-val">0.0</span>
-      <div class="hole-bar par" style="height:4px;"></div>
+      <span class="hole-bar-val">+0.2</span>
+      <div class="hole-bar hard" style="height:10px;"></div>
       <span class="hole-bar-num">11</span>
     </div><div class="hole-bar-wrap">
-      <span class="hole-bar-val">+0.3</span>
-      <div class="hole-bar hard" style="height:13px;"></div>
+      <span class="hole-bar-val">+0.2</span>
+      <div class="hole-bar hard" style="height:10px;"></div>
       <span class="hole-bar-num">12</span>
     </div><div class="hole-bar-wrap">
       <span class="hole-bar-val">0.0</span>
       <div class="hole-bar par" style="height:4px;"></div>
       <span class="hole-bar-num">13</span>
     </div><div class="hole-bar-wrap">
-      <span class="hole-bar-val">+0.3</span>
-      <div class="hole-bar hard" style="height:13px;"></div>
+      <span class="hole-bar-val">+0.4</span>
+      <div class="hole-bar hard" style="height:20px;"></div>
       <span class="hole-bar-num">14</span>
     </div><div class="hole-bar-wrap">
-      <span class="hole-bar-val">+0.8</span>
-      <div class="hole-bar hard" style="height:38px;"></div>
+      <span class="hole-bar-val">+0.6</span>
+      <div class="hole-bar hard" style="height:30px;"></div>
       <span class="hole-bar-num">15</span>
     </div><div class="hole-bar-wrap">
-      <span class="hole-bar-val">-0.3</span>
-      <div class="hole-bar easy" style="height:13px;"></div>
+      <span class="hole-bar-val">-0.4</span>
+      <div class="hole-bar easy" style="height:20px;"></div>
       <span class="hole-bar-num">16</span>
     </div><div class="hole-bar-wrap">
       <span class="hole-bar-val">+2.0</span>
       <div class="hole-bar hard" style="height:100px;"></div>
       <span class="hole-bar-num">17</span>
     </div><div class="hole-bar-wrap">
-      <span class="hole-bar-val">0.0</span>
-      <div class="hole-bar par" style="height:4px;"></div>
+      <span class="hole-bar-val">+1.0</span>
+      <div class="hole-bar hard" style="height:50px;"></div>
       <span class="hole-bar-num">18</span>
     </div></div></div>
         <div style="display:flex;gap:1.5rem;margin-top:0.75rem;flex-wrap:wrap;">
@@ -1782,33 +2002,33 @@
       <div id="stats-hole-ranking" style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-top:1rem;">
     <div class="stats-card">
       <div class="stats-card-title" style="color:#6dba7f;">🟢 Lättaste hålen</div>
-      
+
         <div style="display:flex;justify-content:space-between;align-items:center;padding:0.5rem 0;border-bottom:1px solid rgba(201,168,76,0.07);">
           <span style="font-size:0.88rem;">Hål 3 &nbsp;<span style="color:var(--text-muted);font-size:0.75rem;">Par 4</span></span>
-          <span style="font-size:0.88rem;font-weight:600;color:#6dba7f;">-0.50 slag</span>
+          <span style="font-size:0.88rem;font-weight:600;color:#6dba7f;">-0.40 slag</span>
+        </div>
+        <div style="display:flex;justify-content:space-between;align-items:center;padding:0.5rem 0;border-bottom:1px solid rgba(201,168,76,0.07);">
+          <span style="font-size:0.88rem;">Hål 16 &nbsp;<span style="color:var(--text-muted);font-size:0.75rem;">Par 4</span></span>
+          <span style="font-size:0.88rem;font-weight:600;color:#6dba7f;">-0.40 slag</span>
         </div>
         <div style="display:flex;justify-content:space-between;align-items:center;padding:0.5rem 0;border-bottom:1px solid rgba(201,168,76,0.07);">
           <span style="font-size:0.88rem;">Hål 1 &nbsp;<span style="color:var(--text-muted);font-size:0.75rem;">Par 5</span></span>
-          <span style="font-size:0.88rem;font-weight:600;color:#6dba7f;">-0.25 slag</span>
-        </div>
-        <div style="display:flex;justify-content:space-between;align-items:center;padding:0.5rem 0;border-bottom:1px solid rgba(201,168,76,0.07);">
-          <span style="font-size:0.88rem;">Hål 5 &nbsp;<span style="color:var(--text-muted);font-size:0.75rem;">Par 5</span></span>
-          <span style="font-size:0.88rem;font-weight:600;color:#6dba7f;">-0.25 slag</span>
+          <span style="font-size:0.88rem;font-weight:600;color:#6dba7f;">-0.20 slag</span>
         </div>
     </div>
     <div class="stats-card">
       <div class="stats-card-title" style="color:#e07070;">🔴 Svåraste hålen</div>
-      
+
         <div style="display:flex;justify-content:space-between;align-items:center;padding:0.5rem 0;border-bottom:1px solid rgba(201,168,76,0.07);">
           <span style="font-size:0.88rem;">Hål 17 &nbsp;<span style="color:var(--text-muted);font-size:0.75rem;">Par 3</span></span>
           <span style="font-size:0.88rem;font-weight:600;color:#e07070;">+2.00 slag</span>
         </div>
         <div style="display:flex;justify-content:space-between;align-items:center;padding:0.5rem 0;border-bottom:1px solid rgba(201,168,76,0.07);">
-          <span style="font-size:0.88rem;">Hål 7 &nbsp;<span style="color:var(--text-muted);font-size:0.75rem;">Par 3</span></span>
-          <span style="font-size:0.88rem;font-weight:600;color:#e07070;">+1.25 slag</span>
+          <span style="font-size:0.88rem;">Hål 2 &nbsp;<span style="color:var(--text-muted);font-size:0.75rem;">Par 4</span></span>
+          <span style="font-size:0.88rem;font-weight:600;color:#e07070;">+1.20 slag</span>
         </div>
         <div style="display:flex;justify-content:space-between;align-items:center;padding:0.5rem 0;border-bottom:1px solid rgba(201,168,76,0.07);">
-          <span style="font-size:0.88rem;">Hål 2 &nbsp;<span style="color:var(--text-muted);font-size:0.75rem;">Par 4</span></span>
+          <span style="font-size:0.88rem;">Hål 18 &nbsp;<span style="color:var(--text-muted);font-size:0.75rem;">Par 5</span></span>
           <span style="font-size:0.88rem;font-weight:600;color:#e07070;">+1.00 slag</span>
         </div>
     </div></div>
@@ -1820,12 +2040,12 @@
       <div class="par-split-grid" id="stats-par-split">
     <div class="par-split-card">
       <div class="par-split-label">Ut (hål 1–9) &nbsp;·&nbsp; Par 36</div>
-      <div class="par-split-value over">+2.8</div>
+      <div class="par-split-value over">+3.0</div>
       <div class="par-split-sub">snitt per runda</div>
     </div>
     <div class="par-split-card">
       <div class="par-split-label">In (hål 10–18) &nbsp;·&nbsp; Par 36</div>
-      <div class="par-split-value over">+3.3</div>
+      <div class="par-split-value over">+4.2</div>
       <div class="par-split-sub">snitt per runda</div>
     </div></div>
     </div>
@@ -1849,6 +2069,12 @@
       <span class="freq-count">1/1</span>
     </div><div class="freq-bar-row">
       <span class="freq-name">Oscar Wareborn</span>
+      <div class="freq-bar-bg">
+        <div class="freq-bar-fill" style="width:100%;"></div>
+      </div>
+      <span class="freq-count">1/1</span>
+    </div><div class="freq-bar-row">
+      <span class="freq-name">Petter Johansson</span>
       <div class="freq-bar-bg">
         <div class="freq-bar-fill" style="width:100%;"></div>
       </div>
@@ -1951,12 +2177,6 @@
       <span class="freq-count">0/1</span>
     </div><div class="freq-bar-row">
       <span class="freq-name">Oliver Gustavsson</span>
-      <div class="freq-bar-bg">
-        <div class="freq-bar-fill" style="width:0%;"></div>
-      </div>
-      <span class="freq-count">0/1</span>
-    </div><div class="freq-bar-row">
-      <span class="freq-name">Petter Johansson</span>
       <div class="freq-bar-bg">
         <div class="freq-bar-fill" style="width:0%;"></div>
       </div>
@@ -2226,6 +2446,17 @@
 </div>
 
 <!-- RESULT OVERLAY -->
+<!-- SCOREKORT MODAL -->
+<div class="result-overlay" id="scorecard-overlay" onclick="closeScorecard(event)">
+  <div class="sc-modal" id="scorecard-modal">
+    <div class="sc-modal-header">
+      <h2>Scorekort</h2>
+      <button class="sc-close-btn" onclick="closeScorecardBtn()">✕</button>
+    </div>
+    <div id="scorecard-body"></div>
+  </div>
+</div>
+
 <div class="result-overlay" id="result-overlay" onclick="closeResult(event)">
   <div class="result-panel" id="result-panel">
     <div class="result-panel-header">
@@ -2467,6 +2698,11 @@ const rounds = [
           "name": "Joacim Lovén",
           "hcp": 6,
           "score": 30
+        },
+        {
+          "name": "Petter Johansson",
+          "hcp": 6,
+          "score": 32
         }
       ]
     },
@@ -2629,6 +2865,7 @@ const PRIZE_AMOUNTS = ['1 500 kr','750 kr','500 kr'];
 function openResult(id) {
   const r = rounds.find(x => x.id === id);
   if (!r) return;
+  window._lastResultId = id;
 
   document.getElementById('result-title').textContent = `${r.month} – ${r.name}`;
   document.getElementById('result-sub').textContent = `⛳ ${r.course}`;
@@ -2668,7 +2905,7 @@ function openResult(id) {
       const roundPts = row[sk] != null ? (ptTable[i] ?? 0) : '–';
       return `<tr>
         <td class="result-rank ${rankCls}">${pos}</td>
-        <td style="text-align:left;font-weight:500;">${row.name}</td>
+        <td style="text-align:left;font-weight:500;"><span class="sc-clickable" onclick="openScorecard(window._lastResultId, '${row.name.replace(/'/g, "\\'")}')">${row.name}</span></td>
         <td class="result-hcp">${row.hcp ?? '–'}</td>
         <td class="result-score">${scoreVal}</td>
         <td class="result-pts">${roundPts}</td>
@@ -2689,7 +2926,7 @@ function closeResultBtn() {
   document.getElementById('result-overlay').classList.remove('open');
   document.body.style.overflow = '';
 }
-document.addEventListener('keydown', e => { if (e.key === 'Escape') closeResultBtn(); });
+document.addEventListener('keydown', e => { if (e.key === 'Escape') { closeResultBtn(); closeScorecardBtn(); } });
 
 // ===================== NAV =====================
 function showPage(id, btn) {
@@ -2721,6 +2958,13 @@ const COURSE_PAR = {
   "Parkbanan":  [4,4,3,5,4,3,3,4,4,  5,4,4,3,4,5,4,5,4]
 };
 
+// Hcp-index per hål (1 = svåraste, 18 = lättaste).
+// Skogsbanan från scorekorten; Parkbanan TBD när scorekort kommer in.
+const COURSE_HCP_INDEX = {
+  "Skogsbanan": [15,3,5,13,7,1,17,11,9,  10,4,12,18,14,8,16,2,6],
+  "Parkbanan":  null
+};
+
 // Scorekort-data per tävling.
 // Varje spelare: { name, strokes: [18 slag] }
 // Fyll på via Cowork
@@ -2728,10 +2972,11 @@ const scoreData = {
   1: { // Maj – Deltävling 1 – Skogsbanan
     course: "Skogsbanan",
     scores: [
-      { name: "Daniel Lindh",  strokes: [4,4,4,3,4,4,4,4,5, 4,3,6,4,4,6,3,4,6] },
-      { name: "Victor Strand",  strokes: [5,5,3,3,5,4,4,3,5, 5,4,4,3,4,5,5,4,4] },
-      { name: "Oscar Wareborn", strokes: [4,5,3,3,5,5,4,5,4, 4,4,6,2,5,3,3,7,5] },
-      { name: "Joacim Lovén",   strokes: [6,6,4,4,5,5,5,4,5, 4,5,5,3,4,5,4,5,5] },
+      { name: "Daniel Lindh",   shc: 3, strokes: [4,4,4,3,4,4,4,4,5, 4,3,6,4,4,6,3,4,6] },
+      { name: "Victor Strand",  shc: 5, strokes: [5,5,3,3,5,4,4,3,5, 5,4,4,3,4,5,5,4,4] },
+      { name: "Oscar Wareborn", shc: 2, strokes: [4,5,3,3,5,5,4,5,4, 4,4,6,2,5,3,3,7,5] },
+      { name: "Joacim Lovén",   shc: 6, strokes: [6,6,4,4,5,5,5,4,5, 4,5,5,3,4,5,4,5,5] },
+      { name: "Petter Johansson", shc: 6, strokes: [5,6,4,3,5,6,3,4,4, 4,5,5,3,5,4,3,5,10] },
       // Övriga spelare läggs till här via Cowork
     ]
   },
@@ -2742,6 +2987,254 @@ const scoreData = {
   6: { course: "Skogsbanan",  scores: [] },
   7: { course: "Parkbanan",   scores: [] }, // Finalmajor
 };
+
+// ===================== SCOREKORT =====================
+
+// Extra slag på ett hål utifrån SHC + hålets hcp-index
+function extraStrokesOnHole(shc, holeIdx) {
+  if (!shc || !holeIdx) return 0;
+  let extra = 0;
+  if (shc >= holeIdx) extra += 1;
+  if (shc > 18 && (shc - 18) >= holeIdx) extra += 1;
+  if (shc > 36 && (shc - 36) >= holeIdx) extra += 1;
+  return extra;
+}
+
+// Stableford-poäng för ett hål
+function stablefordPoints(strokes, par, holeIdx, shc) {
+  if (strokes == null) return 0;
+  const personalPar = par + extraStrokesOnHole(shc, holeIdx);
+  const diff = strokes - personalPar;
+  if (diff >= 2) return 0;
+  if (diff === 1) return 1;
+  if (diff === 0) return 2;
+  if (diff === -1) return 3;
+  if (diff === -2) return 4;
+  return 5;
+}
+
+// Visuell markör för strokes vs PAR
+function scStrokeClass(strokes, par) {
+  if (strokes == null) return '';
+  const diff = strokes - par;
+  if (diff <= -2) return 'eagle';
+  if (diff === -1) return 'birdie';
+  if (diff === 0) return 'par-score';
+  if (diff === 1) return 'bogey';
+  if (diff === 2) return 'double';
+  return 'other';
+}
+
+function openScorecard(roundId, playerName) {
+  const round = rounds.find(r => r.id === roundId);
+  const data = scoreData[roundId];
+  const body = document.getElementById('scorecard-body');
+  if (!round || !body) return;
+
+  document.getElementById('result-overlay').classList.remove('open');
+
+  const playerScores = data && data.scores ? data.scores.find(s => s.name === playerName) : null;
+  const course = round.course;
+  const par = COURSE_PAR[course];
+  const hcpIdx = COURSE_HCP_INDEX[course];
+  const isMajor = round.type === 'major';
+
+  if (!playerScores || !par) {
+    body.innerHTML = `
+      <div class="sc-player-row">
+        <div class="sc-player-left">
+          <div class="sc-avatar-lg">${getInitials(playerName)}</div>
+          <div>
+            <div class="sc-name">${playerName}</div>
+            <div class="sc-meta">${round.month} <span class="sc-dot">—</span> ${round.name} <span class="sc-dot">·</span> ⛳ ${course}</div>
+          </div>
+        </div>
+      </div>
+      <p class="sc-nodata">Inget scorekort inlagt för denna spelare ännu.</p>`;
+    document.getElementById('scorecard-overlay').classList.add('open');
+    document.body.style.overflow = 'hidden';
+    return;
+  }
+
+  const strokes = playerScores.strokes;
+  const shc = playerScores.shc || 0;
+  const totalStrokes = strokes.reduce((a,b) => a + (b||0), 0);
+  const totalPar = par.reduce((a,b) => a + b, 0);
+  const nettoSlag = totalStrokes - shc;
+  const tillPar = nettoSlag - totalPar; // för major
+  const points = hcpIdx ? strokes.map((s,i) => stablefordPoints(s, par[i], hcpIdx[i], shc)) : null;
+  const totalPoints = points ? points.reduce((a,b) => a + b, 0) : null;
+
+  // Färgkod till par
+  function tpColor(val) { return val < 0 ? '#e07070' : val > 0 ? '#6a9fd8' : '#8a9e8d'; }
+  function tpText(val) { return val < 0 ? String(val) : val > 0 ? '+' + val : 'E'; }
+
+  // Bygg en halva (UT eller IN)
+  function renderHalf(startIdx, endIdx, label, totalLabel) {
+    let html = `
+      <div>
+        <div class="sc-half-label">${label} · Hål ${startIdx+1}–${endIdx}</div>
+        <div class="sc-table">`;
+
+    // HÅL-rad
+    html += `<div class="sc-row sc-row-header"><div class="sc-cell sc-label">HÅL</div>`;
+    for (let i = startIdx; i < endIdx; i++) html += `<div class="sc-cell">${i+1}</div>`;
+    html += `<div class="sc-cell sc-total" style="font-size:0.62rem;letter-spacing:0.08em;">${totalLabel}</div></div>`;
+
+    // HCP-rad (hålindex)
+    if (hcpIdx) {
+      html += `<div class="sc-row"><div class="sc-cell sc-label">HCP</div>`;
+      for (let i = startIdx; i < endIdx; i++) html += `<div class="sc-cell">${hcpIdx[i]}</div>`;
+      html += `<div class="sc-cell"></div></div>`;
+    }
+
+    // PAR-rad
+    let parSum = 0;
+    html += `<div class="sc-row"><div class="sc-cell sc-label">PAR</div>`;
+    for (let i = startIdx; i < endIdx; i++) { html += `<div class="sc-cell">${par[i]}</div>`; parSum += par[i]; }
+    html += `<div class="sc-cell sc-total">${parSum}</div></div>`;
+
+    // SLAG-rad
+    let slagSum = 0;
+    html += `<div class="sc-row"><div class="sc-cell sc-label">SLAG</div>`;
+    for (let i = startIdx; i < endIdx; i++) {
+      const s = strokes[i];
+      slagSum += s || 0;
+      const cls = scStrokeClass(s, par[i]);
+      html += `<div class="sc-cell sc-stroke ${cls}"><span class="sc-stroke-inner">${s != null ? s : '–'}</span></div>`;
+    }
+    html += `<div class="sc-cell sc-total">${slagSum}</div></div>`;
+
+    if (isMajor && hcpIdx) {
+      // SCORE-rad: per hål, slag - netto-par
+      let scoreSum = 0;
+      html += `<div class="sc-row"><div class="sc-cell sc-label">SCORE</div>`;
+      for (let i = startIdx; i < endIdx; i++) {
+        const personalPar = par[i] + extraStrokesOnHole(shc, hcpIdx[i]);
+        const diff = strokes[i] - personalPar;
+        scoreSum += diff;
+        const color = tpColor(diff);
+        html += `<div class="sc-cell sc-points" style="color:${color};font-weight:700;">${tpText(diff)}</div>`;
+      }
+      const totalColor = tpColor(scoreSum);
+      html += `<div class="sc-cell sc-points sc-total" style="color:${totalColor};">${tpText(scoreSum)}</div></div>`;
+    } else if (points) {
+      // POÄNG-rad
+      let ptSum = 0;
+      html += `<div class="sc-row"><div class="sc-cell sc-label">POÄNG</div>`;
+      for (let i = startIdx; i < endIdx; i++) { html += `<div class="sc-cell sc-points">${points[i]}</div>`; ptSum += points[i]; }
+      html += `<div class="sc-cell sc-points sc-total">${ptSum}</div></div>`;
+    }
+
+    html += `</div></div>`;
+    return html;
+  }
+
+  // Top-höger värde
+  let topRight, topRightLabel;
+  if (isMajor) {
+    topRight = `<span style="color:${tpColor(tillPar)};">${tpText(tillPar)}</span>`;
+    topRightLabel = 'Till par';
+  } else if (points) {
+    topRight = totalPoints;
+    topRightLabel = 'Poäng';
+  } else {
+    topRight = totalStrokes;
+    topRightLabel = 'Slag';
+  }
+
+  // Summary
+  let summary;
+  if (isMajor) {
+    summary = `
+      <div class="sc-summary-bar">
+        <div class="sc-summary-item">
+          <div class="sc-summary-label">Score</div>
+          <div class="sc-summary-value" style="color:${tpColor(tillPar)};">${tpText(tillPar)}</div>
+        </div>
+        <div class="sc-summary-item">
+          <div class="sc-summary-label">SHC</div>
+          <div class="sc-summary-value">${shc}</div>
+        </div>
+        <div class="sc-summary-item">
+          <div class="sc-summary-label">Brutto</div>
+          <div class="sc-summary-value">${totalStrokes}</div>
+        </div>
+        <div class="sc-summary-item">
+          <div class="sc-summary-label">Netto</div>
+          <div class="sc-summary-value">${nettoSlag}</div>
+        </div>
+      </div>`;
+  } else {
+    summary = `
+      <div class="sc-summary-bar">
+        <div class="sc-summary-item">
+          <div class="sc-summary-label">Poäng</div>
+          <div class="sc-summary-value gold">${totalPoints != null ? totalPoints : '–'}</div>
+        </div>
+        <div class="sc-summary-item">
+          <div class="sc-summary-label">SHC</div>
+          <div class="sc-summary-value">${shc}</div>
+        </div>
+        <div class="sc-summary-item">
+          <div class="sc-summary-label">Brutto</div>
+          <div class="sc-summary-value">${totalStrokes}</div>
+        </div>
+        <div class="sc-summary-item">
+          <div class="sc-summary-label">Netto</div>
+          <div class="sc-summary-value">${nettoSlag}</div>
+        </div>
+      </div>`;
+  }
+
+  body.innerHTML = `
+    <div class="sc-player-row">
+      <div class="sc-player-left">
+        <div class="sc-avatar-lg">${getInitials(playerName)}</div>
+        <div>
+          <div class="sc-name">${playerName}</div>
+          <div class="sc-meta">${round.month} <span class="sc-dot">—</span> ${round.name} <span class="sc-dot">·</span> ⛳ ${course}</div>
+        </div>
+      </div>
+      <div class="sc-score-block">
+        <div class="sc-total-score">${topRight}</div>
+        <div class="sc-score-label">${topRightLabel}</div>
+      </div>
+    </div>
+
+    <div class="sc-section">
+      <div class="sc-halves">
+        ${renderHalf(0, 9, 'Ut', 'UT')}
+        ${renderHalf(9, 18, 'In', 'IN')}
+      </div>
+    </div>
+
+    ${summary}
+
+    <div class="sc-legend">
+      <div class="sc-legend-item"><span class="sc-legend-eagle"></span>Eagle</div>
+      <div class="sc-legend-item"><span class="sc-legend-birdie"></span>Birdie</div>
+      <div class="sc-legend-item"><span class="sc-legend-par"></span>Par</div>
+      <div class="sc-legend-item"><span class="sc-legend-bogey"></span>Bogey</div>
+      <div class="sc-legend-item"><span class="sc-legend-double"></span>Dubbelbogey</div>
+      <div class="sc-legend-item"><span class="sc-legend-other"></span>Övrigt</div>
+    </div>`;
+
+  document.getElementById('scorecard-overlay').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeScorecard(e) {
+  if (e.target === document.getElementById('scorecard-overlay')) closeScorecardBtn();
+}
+function closeScorecardBtn() {
+  document.getElementById('scorecard-overlay').classList.remove('open');
+  if (window._lastResultId) {
+    document.getElementById('result-overlay').classList.add('open');
+  } else {
+    document.body.style.overflow = '';
+  }
+}
 
 function buildStatsSelect() {
   const sel = document.getElementById('stats-round-select');
