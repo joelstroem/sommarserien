@@ -2954,14 +2954,14 @@ function closeMobileNav() {
 
 // Par per hål för banorna
 const COURSE_PAR = {
-  "Skogsbanan": [5,4,4,3,5,4,3,4,4,  4,4,5,3,4,4,4,3,5],
+  "Skogsbanan": [5,4,4,3,5,4,3,4,4,  4,4,5,3,4,4,3,4,5],
   "Parkbanan":  [4,4,3,5,4,3,3,4,4,  5,4,4,3,4,5,4,5,4]
 };
 
 // Hcp-index per hål (1 = svåraste, 18 = lättaste).
 // Skogsbanan från scorekorten; Parkbanan TBD när scorekort kommer in.
 const COURSE_HCP_INDEX = {
-  "Skogsbanan": [15,3,5,13,7,1,17,11,9,  10,4,12,18,14,8,16,2,6],
+  "Skogsbanan": [15,3,5,13,7,1,17,11,9,  10,4,12,14,18,8,16,2,6],
   "Parkbanan":  null
 };
 
@@ -3265,7 +3265,7 @@ function renderStats() {
 function renderHoleChart(scores, par, round) {
   const container = document.getElementById('stats-hole-chart');
   document.getElementById('stats-difficulty-title').textContent =
-    `Snittslag vs par – ${round.month} ${round.name} (${round.course})`;
+    `Snitt brutto vs par – ${round.month} ${round.name} (${round.course})`;
 
   if (!scores || scores.length === 0) {
     container.innerHTML = '<p class="no-data-msg">Inga scorekort inlagda ännu</p>';
@@ -3273,22 +3273,18 @@ function renderHoleChart(scores, par, round) {
     return;
   }
 
-  // Calc avg strokes per hole
-  const avgs = par.map((p, i) => {
-    const total = scores.reduce((sum, s) => sum + (s.strokes[i] || 0), 0);
+  // Snitt-brutto-diff vs par per hål (genomsnittlig avvikelse per spelare)
+  const diffs = par.map((p, i) => {
+    const total = scores.reduce((sum, s) => sum + ((s.strokes[i] || 0) - p), 0);
     return +(total / scores.length).toFixed(2);
   });
-
-  // Diff from par
-  const diffs = avgs.map((avg, i) => +(avg - par[i]).toFixed(2));
 
   // Max abs diff for scaling
   const maxAbs = Math.max(...diffs.map(Math.abs), 0.5);
 
   const barHeight = 100; // px total chart height
 
-  const bars = avgs.map((avg, i) => {
-    const diff = diffs[i];
+  const bars = diffs.map((diff, i) => {
     const pct = Math.abs(diff) / maxAbs;
     const h = Math.max(Math.round(pct * barHeight), 4);
     const cls = diff < -0.05 ? 'easy' : diff > 0.05 ? 'hard' : 'par';
@@ -3303,7 +3299,7 @@ function renderHoleChart(scores, par, round) {
   container.innerHTML = `<div class="hole-bars">${bars.join('')}</div>`;
 
   // Easiest / hardest ranking
-  const ranked = diffs.map((d,i) => ({ hole: i+1, diff: d, par: par[i], avg: avgs[i] }))
+  const ranked = diffs.map((d,i) => ({ hole: i+1, diff: d, par: par[i] }))
     .sort((a,b) => a.diff - b.diff);
 
   const easiest = ranked.slice(0, 3);
@@ -3354,12 +3350,12 @@ function renderParSplit(scores, par) {
     <div class="par-split-card">
       <div class="par-split-label">Ut (hål 1–9) &nbsp;·&nbsp; Par ${parUt}</div>
       <div class="par-split-value ${cls(avgUt)}">${formatDiff(avgUt)}</div>
-      <div class="par-split-sub">snitt per runda</div>
+      <div class="par-split-sub">snitt brutto per runda</div>
     </div>
     <div class="par-split-card">
       <div class="par-split-label">In (hål 10–18) &nbsp;·&nbsp; Par ${parIn}</div>
       <div class="par-split-value ${cls(avgIn)}">${formatDiff(avgIn)}</div>
-      <div class="par-split-sub">snitt per runda</div>
+      <div class="par-split-sub">snitt brutto per runda</div>
     </div>`;
 }
 
