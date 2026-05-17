@@ -782,6 +782,14 @@
     font-weight: 700;
     color: var(--gold-light);
     margin: 0 auto 0.75rem;
+    overflow: hidden;
+  }
+  .player-avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center 18%;
+    display: block;
   }
   .player-card-name {
     font-size: 0.85rem;
@@ -809,8 +817,8 @@
 
   /* PLAYER MODAL */
   .player-modal-avatar {
-    width: 72px;
-    height: 72px;
+    width: 104px;
+    height: 104px;
     border-radius: 50%;
     background: linear-gradient(135deg, var(--green-bright), var(--green-mid));
     border: 2px solid var(--border);
@@ -818,11 +826,72 @@
     align-items: center;
     justify-content: center;
     font-family: 'Playfair Display', serif;
-    font-size: 1.6rem;
+    font-size: 2rem;
     font-weight: 700;
     color: var(--gold-light);
     flex-shrink: 0;
+    overflow: hidden;
   }
+  .player-modal-avatar.has-photo {
+    cursor: zoom-in;
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+  }
+  .player-modal-avatar.has-photo:hover {
+    transform: scale(1.04);
+    box-shadow: 0 6px 18px rgba(0,0,0,0.45);
+  }
+  .player-modal-avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center 18%;
+    display: block;
+  }
+
+  /* PHOTO LIGHTBOX */
+  .photo-lightbox {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.88);
+    z-index: 400;
+    backdrop-filter: blur(6px);
+    animation: fadeIn 0.18s ease;
+    cursor: zoom-out;
+  }
+  .photo-lightbox.open {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+  }
+  .photo-lightbox img {
+    max-width: min(92vw, 720px);
+    max-height: 88vh;
+    width: auto;
+    height: auto;
+    border-radius: 12px;
+    border: 1px solid rgba(201,168,76,0.35);
+    box-shadow: 0 30px 80px rgba(0,0,0,0.7);
+    animation: slideUp 0.22s ease;
+  }
+  .photo-lightbox-close {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: rgba(15,40,19,0.85);
+    border: 1px solid rgba(201,168,76,0.35);
+    color: var(--cream);
+    font-size: 1.1rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .photo-lightbox-close:hover { background: rgba(15,40,19,1); }
   .player-modal-stat {
     display: flex;
     justify-content: space-between;
@@ -2238,7 +2307,7 @@
       <div class="player-card-hcp">Hooks Golfklubb</div>
     </div><div class="player-card" onclick="openPlayerModal(3)">
       <div class="player-card-rank"></div>
-      <div class="player-avatar">DB</div>
+      <div class="player-avatar"><img src="../Spelarkort/Bilder/Dennis%20Berg_thumb.jpg" alt="Dennis Berg" onerror="this.parentNode.textContent='DB';"></div>
       <div class="player-card-name">Dennis Berg</div>
       <div class="player-card-hcp">Hooks Golfklubb</div>
     </div><div class="player-card" onclick="openPlayerModal(4)">
@@ -2258,7 +2327,7 @@
       <div class="player-card-hcp">Hooks Golfklubb</div>
     </div><div class="player-card" onclick="openPlayerModal(7)">
       <div class="player-card-rank"></div>
-      <div class="player-avatar">JW</div>
+      <div class="player-avatar"><img src="../Spelarkort/Bilder/Jens%20Williamsson_thumb.jpg" alt="Jens Williamsson" onerror="this.parentNode.textContent='JW';"></div>
       <div class="player-card-name">Jens Williamsson</div>
       <div class="player-card-hcp">Hooks Golfklubb</div>
     </div><div class="player-card" onclick="openPlayerModal(8)">
@@ -2273,7 +2342,7 @@
       <div class="player-card-hcp">Hooks Golfklubb</div>
     </div><div class="player-card" onclick="openPlayerModal(10)">
       <div class="player-card-rank"></div>
-      <div class="player-avatar">JS</div>
+      <div class="player-avatar"><img src="../Spelarkort/Bilder/Joel%20Str%C3%B6m_thumb.jpg" alt="Joel Ström" onerror="this.parentNode.textContent='JS';"></div>
       <div class="player-card-name">Joel Ström</div>
       <div class="player-card-hcp">Hooks Golfklubb</div>
     </div><div class="player-card" onclick="openPlayerModal(11)">
@@ -2298,7 +2367,7 @@
       <div class="player-card-hcp">Hooks Golfklubb</div>
     </div><div class="player-card" onclick="openPlayerModal(15)">
       <div class="player-card-rank"></div>
-      <div class="player-avatar">MS</div>
+      <div class="player-avatar"><img src="../Spelarkort/Bilder/Martin%20Svensson_thumb.jpg" alt="Martin Svensson" onerror="this.parentNode.textContent='MS';"></div>
       <div class="player-card-name">Martin Svensson</div>
       <div class="player-card-hcp">Hooks Golfklubb</div>
     </div><div class="player-card" onclick="openPlayerModal(16)">
@@ -2423,6 +2492,12 @@
       <tbody id="money-body"></tbody>
     </table>
   </div>
+</div>
+
+<!-- PHOTO LIGHTBOX -->
+<div class="photo-lightbox" id="photo-lightbox" onclick="closePhotoLightbox(event)">
+  <button class="photo-lightbox-close" onclick="closePhotoLightboxBtn()" aria-label="Stäng">✕</button>
+  <img id="photo-lightbox-img" src="" alt="">
 </div>
 
 <!-- PLAYER MODAL -->
@@ -3396,19 +3471,19 @@ const playerProfiles = [
   { name: "Anton Edman",        gid: "940208-034", club: "Hooks Golfklubb", hand: "Höger",   fb: null, history: [{ year: 2025, pos: 1 }] },
   { name: "Daniel Lindh",       gid: "850310-006", club: "Hooks Golfklubb", hand: "Höger",   fb: null, history: [{ year: 2023, pos: 2 }, { year: 2024, pos: 3 }, { year: 2025, pos: 12 }] },
   { name: "David Ärleskog",     gid: "950818-032", club: "Hooks Golfklubb", hand: "Höger",   fb: null, history: [] },
-  { name: "Dennis Berg",        gid: "920103-049", club: "Hooks Golfklubb", hand: "Vänster", fb: null, history: [{ year: 2023, pos: 7 }, { year: 2024, pos: 6 }, { year: 2025, pos: 4 }] },
+  { name: "Dennis Berg",        gid: "920103-049", club: "Hooks Golfklubb", hand: "Vänster", fb: null, photo: "../Spelarkort/Bilder/Dennis%20Berg_thumb.jpg", photoFull: "../Spelarkort/Bilder/Dennis%20Berg.jpg", history: [{ year: 2023, pos: 7 }, { year: 2024, pos: 6 }, { year: 2025, pos: 4 }] },
   { name: "Felix Björklind",    gid: "940401-065", club: "Hooks Golfklubb", hand: "Höger",   fb: null, history: [{ year: 2023, pos: 18 }, { year: 2024, pos: 28 }, { year: 2025, pos: 28 }] },
   { name: "Henrik Jönsson",     gid: "950429-029", club: "Nässjö Golfklubb", hand: "Höger",   fb: null, history: [] },
   { name: "Jacob Andersson",    gid: "990828-035", club: "Hooks Golfklubb", hand: "Höger",   fb: null, history: [] },
-  { name: "Jens Williamsson",   gid: "930816-035", club: "Hooks Golfklubb", hand: "Höger",   fb: null, history: [{ year: 2023, pos: 1 }, { year: 2024, pos: 15 }, { year: 2025, pos: 8 }] },
+  { name: "Jens Williamsson",   gid: "930816-035", club: "Hooks Golfklubb", hand: "Höger",   fb: null, photo: "../Spelarkort/Bilder/Jens%20Williamsson_thumb.jpg", photoFull: "../Spelarkort/Bilder/Jens%20Williamsson.jpg", history: [{ year: 2023, pos: 1 }, { year: 2024, pos: 15 }, { year: 2025, pos: 8 }] },
   { name: "Jesper Williamsson", gid: "900423-038", club: "Hooks Golfklubb", hand: "Vänster", fb: null, history: [{ year: 2023, pos: 15 }, { year: 2024, pos: 5 }, { year: 2025, pos: 20 }] },
   { name: "Joacim Lovén",       gid: "930615-004", club: "Hooks Golfklubb", hand: "Höger",   fb: null, history: [{ year: 2025, pos: 21 }] },
-  { name: "Joel Ström",         gid: "920127-046", club: "Hooks Golfklubb", hand: "Vänster", fb: null, history: [{ year: 2023, pos: 6 }, { year: 2024, pos: 7 }, { year: 2025, pos: 14 }] },
+  { name: "Joel Ström",         gid: "920127-046", club: "Hooks Golfklubb", hand: "Vänster", fb: null, photo: "../Spelarkort/Bilder/Joel%20Str%C3%B6m_thumb.jpg", photoFull: "../Spelarkort/Bilder/Joel%20Str%C3%B6m.jpg", history: [{ year: 2023, pos: 6 }, { year: 2024, pos: 7 }, { year: 2025, pos: 14 }] },
   { name: "John Falk",          gid: "950109-001", club: "Hooks Golfklubb", hand: "Höger",   fb: null, history: [{ year: 2024, pos: 8 }, { year: 2025, pos: 22 }] },
   { name: "Marcus Göth",        gid: "930706-045", club: "Hooks Golfklubb", hand: "Höger",   fb: null, history: [] },
   { name: "Markus Nyberg",      gid: "970421-024", club: "Hooks Golfklubb", hand: "Höger",   fb: null, history: [{ year: 2024, pos: 16 }, { year: 2025, pos: 15 }] },
   { name: "Martin Jönsson",     gid: "980204-017", club: "Hooks Golfklubb", hand: "Höger",   fb: null, history: [] },
-  { name: "Martin Svensson",    gid: "920309-003", club: "Hooks Golfklubb", hand: "Höger",   fb: null, history: [{ year: 2023, pos: 9 }, { year: 2024, pos: 25 }, { year: 2025, pos: 23 }] },
+  { name: "Martin Svensson",    gid: "920309-003", club: "Hooks Golfklubb", hand: "Höger",   fb: null, photo: "../Spelarkort/Bilder/Martin%20Svensson_thumb.jpg", photoFull: "../Spelarkort/Bilder/Martin%20Svensson.jpg", history: [{ year: 2023, pos: 9 }, { year: 2024, pos: 25 }, { year: 2025, pos: 23 }] },
   { name: "Oliver Ekbladh",     gid: "940331-046", club: "Delsjö GK", hand: "Vänster", fb: null, history: [] },
   { name: "Oliver Gustavsson",  gid: "950722-012", club: "Hooks Golfklubb", hand: "Höger",   fb: null, history: [{ year: 2023, pos: 5 }, { year: 2024, pos: 22 }, { year: 2025, pos: 3 }] },
   { name: "Oscar Wareborn",     gid: "890921-010", club: "Hooks Golfklubb", hand: "Höger",   fb: null, history: [{ year: 2023, pos: 3 }, { year: 2024, pos: 10 }, { year: 2025, pos: 2 }] },
@@ -3452,9 +3527,12 @@ function renderPlayersGrid() {
     const player = players.find(x => x.name === p.name);
     const rank = player && player.points != null ? `#${player.rank}` : '';
     const sub = p.club || '&nbsp;';
+    const avatarInner = p.photo
+      ? `<img src="${p.photo}" alt="${p.name}" onerror="this.parentNode.textContent='${getInitials(p.name)}';">`
+      : getInitials(p.name);
     return `<div class="player-card" onclick="openPlayerModal(${i})">
       <div class="player-card-rank">${rank}</div>
-      <div class="player-avatar">${getInitials(p.name)}</div>
+      <div class="player-avatar">${avatarInner}</div>
       <div class="player-card-name">${p.name}</div>
       <div class="player-card-hcp">${sub}</div>
     </div>`;
@@ -3465,7 +3543,16 @@ function openPlayerModal(idx) {
   const p = playerProfiles[idx];
   const player = players.find(x => x.name === p.name);
 
-  document.getElementById('player-modal-avatar').textContent = getInitials(p.name);
+  const modalAvatar = document.getElementById('player-modal-avatar');
+  if (p.photo) {
+    modalAvatar.innerHTML = `<img src="${p.photo}" alt="${p.name}" onerror="this.parentNode.textContent='${getInitials(p.name)}'; this.parentNode.classList.remove('has-photo'); this.parentNode.onclick=null;">`;
+    modalAvatar.classList.add('has-photo');
+    modalAvatar.onclick = function(ev) { ev.stopPropagation(); openPhotoLightbox(p.photoFull || p.photo, p.name); };
+  } else {
+    modalAvatar.textContent = getInitials(p.name);
+    modalAvatar.classList.remove('has-photo');
+    modalAvatar.onclick = null;
+  }
   document.getElementById('player-modal-name').textContent = p.name;
   document.getElementById('player-modal-club').textContent = p.club || '–';
 
@@ -3550,6 +3637,34 @@ function closePlayerModalBtn() {
   document.getElementById('player-overlay').classList.remove('open');
   document.body.style.overflow = '';
 }
+
+// ===================== PHOTO LIGHTBOX =====================
+function openPhotoLightbox(src, alt) {
+  const lb = document.getElementById('photo-lightbox');
+  const img = document.getElementById('photo-lightbox-img');
+  img.src = src;
+  img.alt = alt || '';
+  lb.classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closePhotoLightbox(e) {
+  if (e.target === document.getElementById('photo-lightbox') || e.target === document.getElementById('photo-lightbox-img')) {
+    closePhotoLightboxBtn();
+  }
+}
+function closePhotoLightboxBtn() {
+  const lb = document.getElementById('photo-lightbox');
+  lb.classList.remove('open');
+  // Återställ scroll bara om spelarmodalen inte är öppen
+  if (!document.getElementById('player-overlay').classList.contains('open')) {
+    document.body.style.overflow = '';
+  }
+}
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'Escape' && document.getElementById('photo-lightbox').classList.contains('open')) {
+    closePhotoLightboxBtn();
+  }
+});
 
 // ===================== HISTORISKA SÄSONGER =====================
 const historicalSeasons = [
