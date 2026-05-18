@@ -447,6 +447,158 @@
   }
   .round-card.no-results:hover { transform: none; box-shadow: none; border-color: var(--border); }
   .round-card.no-results:hover::before { opacity: 0; }
+  .round-date {
+    font-size: 0.78rem;
+    color: var(--text-muted);
+    margin-bottom: 0.4rem;
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    letter-spacing: 0.03em;
+  }
+  .round-date b {
+    color: var(--gold-light);
+    font-weight: 600;
+    letter-spacing: 0.02em;
+  }
+
+  /* TÄVLING TABS (Tävlingar-sidan) */
+  .taevling-tab-group-label {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-bottom: 0.7rem;
+  }
+  .taevling-tabs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+  }
+  .taevling-tab {
+    background: none;
+    border: 1px solid var(--border);
+    color: var(--text-muted);
+    font-family: 'Playfair Display', serif;
+    font-size: 0.82rem;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    padding: 0.4rem 0.7rem;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.18s;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    white-space: nowrap;
+  }
+  .taevling-tab .taevling-tab-month {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.58rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+  }
+  .taevling-tab.major { border-color: rgba(201,168,76,0.35); }
+  .taevling-tab.major .taevling-tab-month { color: var(--gold); }
+  .taevling-tab:not(.disabled):hover {
+    color: var(--cream);
+    border-color: rgba(201,168,76,0.45);
+  }
+  .taevling-tab.active {
+    color: var(--gold);
+    background: rgba(201,168,76,0.12);
+    border-color: rgba(201,168,76,0.5);
+  }
+  .taevling-tab.active .taevling-tab-month {
+    color: var(--gold);
+  }
+  .taevling-tab.disabled {
+    opacity: 0.35;
+    cursor: not-allowed;
+  }
+  .taevling-tab.disabled:hover {
+    color: var(--text-muted);
+    border-color: var(--border);
+  }
+  .taevling-tab-status {
+    font-size: 0.5rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 0.1rem 0.4rem;
+    border-radius: 100px;
+    background: rgba(255,255,255,0.05);
+    color: var(--text-muted);
+    border: 1px solid var(--border);
+    font-family: 'DM Sans', sans-serif;
+  }
+  .taevling-tab-status.active-round {
+    background: rgba(201,168,76,0.18);
+    color: var(--gold);
+    border-color: rgba(201,168,76,0.45);
+  }
+  .taevling-tab-status.done {
+    background: rgba(109,186,127,0.12);
+    color: #6dba7f;
+    border-color: rgba(109,186,127,0.25);
+  }
+
+  /* TÄVLING RESULTAT-PANEL (inline på Tävlingar-sidan) */
+  .taevling-result-card {
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    background: var(--card-bg);
+    overflow: hidden;
+  }
+  .taevling-result-header {
+    padding: 1.1rem 1.4rem 0.9rem;
+    border-bottom: 1px solid var(--border);
+    background: rgba(201,168,76,0.04);
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: flex-end;
+    gap: 0.8rem;
+  }
+  .taevling-result-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: var(--cream);
+    line-height: 1.15;
+  }
+  .taevling-result-sub {
+    font-size: 0.78rem;
+    color: var(--text-muted);
+    margin-top: 0.2rem;
+    letter-spacing: 0.03em;
+  }
+  .taevling-result-meta {
+    text-align: right;
+    font-size: 0.72rem;
+    color: var(--text-muted);
+    letter-spacing: 0.05em;
+  }
+  .taevling-result-meta b {
+    display: block;
+    color: var(--gold-light);
+    font-family: 'Playfair Display', serif;
+    font-size: 1rem;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+  }
+  .taevling-result-empty {
+    padding: 2.4rem 1rem;
+    text-align: center;
+    color: var(--text-muted);
+    font-size: 0.9rem;
+    font-style: italic;
+  }
+  .taevling-result-table-wrap { padding: 0.4rem 0 0; }
 
   /* RESULT PANEL */
   .result-overlay {
@@ -1440,6 +1592,7 @@
       <span class="nav-bracket nav-bracket-left">[</span>
       <button class="nav-tab active" onclick="showPage('leaderboard', this)">Ledartavla</button>
       <button class="nav-tab" onclick="showPage('rounds', this)">Tävlingar</button>
+      <button class="nav-tab" onclick="showPage('calendar', this)">Kalender</button>
       <button class="nav-tab" onclick="showPage('prizes', this)">Priser &amp; Poäng</button>
       <button class="nav-tab" onclick="showPage('stats', this)">Statistik</button>
       <button class="nav-tab" onclick="showPage('players', this)">Spelare</button>
@@ -1471,11 +1624,11 @@
       <span class="stat-value">25</span>
       <span class="stat-label">Deltagare</span>
     </div>
-    <div class="stat-item stat-clickable" onclick="showPage('rounds')">
+    <div class="stat-item stat-clickable" onclick="showPage('calendar')">
       <span class="stat-value">5</span>
       <span class="stat-label">Deltävlingar</span>
     </div>
-    <div class="stat-item stat-clickable" onclick="showPage('rounds')">
+    <div class="stat-item stat-clickable" onclick="showPage('calendar')">
       <span class="stat-value">2</span>
       <span class="stat-label">Majors</span>
     </div>
@@ -1627,8 +1780,25 @@
   </div>
 </div>
 
-<!-- ==================== ROUNDS PAGE ==================== -->
+<!-- ==================== ROUNDS PAGE (Tävlingar) ==================== -->
 <div class="page" id="page-rounds">
+  <div class="hero" style="padding-bottom:2rem;">
+    <div class="hero-badge">Resultat per tävling</div>
+    <h1 style="font-size:clamp(2rem,5vw,3.5rem);"><span>Tävlingar</span></h1>
+    <div class="hero-divider"></div>
+  </div>
+
+  <div class="section">
+    <div class="taevling-tab-group-label">Deltävlingar</div>
+    <div class="taevling-tabs" id="taevling-tabs-deltavling"></div>
+    <div class="taevling-tab-group-label" style="margin-top:1.4rem;">Majortävlingar</div>
+    <div class="taevling-tabs" id="taevling-tabs-major"></div>
+    <div id="taevling-result-wrap" style="margin-top:2rem;"></div>
+  </div>
+</div>
+
+<!-- ==================== CALENDAR PAGE ==================== -->
+<div class="page" id="page-calendar">
   <div class="hero" style="padding-bottom:2rem;">
     <div class="hero-badge">Tävlingsschema</div>
     <h1 style="font-size:clamp(2rem,5vw,3.5rem);">Tävlings<span>kalender</span></h1>
@@ -1637,87 +1807,10 @@
 
   <div class="section">
     <div class="section-title">Deltävlingar</div>
-    <div class="rounds-grid" id="rounds-deltavling"><div class="round-card active-card" onclick="openResult(1)">
-      <span class="round-tag deltavling">Deltävling</span>
-      <div class="round-name">Maj – Deltävling 1</div>
-      <div class="round-course">⛳ Skogsbanan</div>
-      <div class="round-points-info">
-        <div>
-          <div class="round-top-prize-label">1:a plats</div>
-          <div class="round-top-prize">500 p</div>
-        </div>
-        <span class="round-status-pill active-round">● Pågår nu</span>
-      </div>
-    </div><div class="round-card no-results" style="cursor:default">
-      <span class="round-tag deltavling">Deltävling</span>
-      <div class="round-name">Juni – Deltävling 2</div>
-      <div class="round-course">⛳ Parkbanan</div>
-      <div class="round-points-info">
-        <div>
-          <div class="round-top-prize-label">1:a plats</div>
-          <div class="round-top-prize">500 p</div>
-        </div>
-        <span class="round-status-pill upcoming">Kommande</span>
-      </div>
-    </div><div class="round-card no-results" style="cursor:default">
-      <span class="round-tag deltavling">Deltävling</span>
-      <div class="round-name">Juli – Deltävling 3</div>
-      <div class="round-course">⛳ Skogsbanan</div>
-      <div class="round-points-info">
-        <div>
-          <div class="round-top-prize-label">1:a plats</div>
-          <div class="round-top-prize">500 p</div>
-        </div>
-        <span class="round-status-pill upcoming">Kommande</span>
-      </div>
-    </div><div class="round-card no-results" style="cursor:default">
-      <span class="round-tag deltavling">Deltävling</span>
-      <div class="round-name">Augusti – Deltävling 4</div>
-      <div class="round-course">⛳ Parkbanan</div>
-      <div class="round-points-info">
-        <div>
-          <div class="round-top-prize-label">1:a plats</div>
-          <div class="round-top-prize">500 p</div>
-        </div>
-        <span class="round-status-pill upcoming">Kommande</span>
-      </div>
-    </div><div class="round-card no-results" style="cursor:default">
-      <span class="round-tag deltavling">Deltävling</span>
-      <div class="round-name">September – Deltävling 5</div>
-      <div class="round-course">⛳ Skogsbanan</div>
-      <div class="round-points-info">
-        <div>
-          <div class="round-top-prize-label">1:a plats</div>
-          <div class="round-top-prize">500 p</div>
-        </div>
-        <span class="round-status-pill upcoming">Kommande</span>
-      </div>
-    </div></div>
+    <div class="rounds-grid" id="rounds-deltavling"></div>
 
     <div class="section-title" style="margin-top:2.5rem;">Majortävlingar</div>
-    <div class="rounds-grid" id="rounds-major"><div class="round-card major no-results" style="cursor:default">
-      <span class="round-tag major">Major</span>
-      <div class="round-name">Juni – Major 1</div>
-      <div class="round-course">⛳ Skogsbanan&nbsp;&nbsp;·&nbsp;&nbsp;📅 27 juni</div>
-      <div class="round-points-info">
-        <div>
-          <div class="round-top-prize-label">1:a plats</div>
-          <div class="round-top-prize">700 p</div>
-        </div>
-        <span class="round-status-pill upcoming">Kommande</span>
-      </div>
-    </div><div class="round-card major no-results" style="cursor:default">
-      <span class="round-tag major">Major</span>
-      <div class="round-name">September – Finalmajor</div>
-      <div class="round-course">⛳ Parkbanan&nbsp;&nbsp;·&nbsp;&nbsp;📅 26 september</div>
-      <div class="round-points-info">
-        <div>
-          <div class="round-top-prize-label">1:a plats</div>
-          <div class="round-top-prize">700 p</div>
-        </div>
-        <span class="round-status-pill upcoming">Kommande</span>
-      </div>
-    </div></div>
+    <div class="rounds-grid" id="rounds-major"></div>
   </div>
 </div>
 
@@ -2895,7 +2988,24 @@ function renderLeaderboard() {
 }
 
 // ===================== RENDER ROUNDS =====================
+const SEASON_YEAR = 2026;
+const MONTH_DAYS = { 'Januari':31, 'Februari':28, 'Mars':31, 'April':30, 'Maj':31, 'Juni':30, 'Juli':31, 'Augusti':31, 'September':30, 'Oktober':31, 'November':30, 'December':31 };
+
+// Datumlabel för en tävling – majors visar specifikt datum, deltävlingar månadsintervall
+function roundDateLabel(r) {
+  if (r.date) return `${r.date} ${SEASON_YEAR}`;
+  const days = MONTH_DAYS[r.month];
+  if (days) return `1–${days} ${r.month.toLowerCase()} ${SEASON_YEAR}`;
+  return `${r.month} ${SEASON_YEAR}`;
+}
+
 function renderRounds() {
+  renderCalendar();
+  renderTaevlingar();
+}
+
+// --- Kalender-fliken (kort-grid) ---
+function renderCalendar() {
   const deltavlingar = rounds.filter(r => r.type === 'deltavling');
   const majors = rounds.filter(r => r.type === 'major');
 
@@ -2920,7 +3030,8 @@ function renderRounds() {
     return `<div class="${cardClass}" ${clickAttr} ${cursorStyle}>
       <span class="round-tag ${r.type === 'major' ? 'major' : 'deltavling'}">${r.type === 'major' ? 'Major' : 'Deltävling'}</span>
       <div class="round-name">${r.month} – ${r.name}</div>
-      <div class="round-course">⛳ ${r.course}${r.date ? `&nbsp;&nbsp;·&nbsp;&nbsp;📅 ${r.date}` : ''}</div>
+      <div class="round-date">📅 <b>${roundDateLabel(r)}</b></div>
+      <div class="round-course">⛳ ${r.course}</div>
       <div class="round-points-info">
         <div>
           <div class="round-top-prize-label">1:a plats</div>
@@ -2931,8 +3042,143 @@ function renderRounds() {
     </div>`;
   };
 
-  document.getElementById('rounds-deltavling').innerHTML = deltavlingar.map(makeCard).join('');
-  document.getElementById('rounds-major').innerHTML = majors.map(makeCard).join('');
+  const dEl = document.getElementById('rounds-deltavling');
+  const mEl = document.getElementById('rounds-major');
+  if (dEl) dEl.innerHTML = deltavlingar.map(makeCard).join('');
+  if (mEl) mEl.innerHTML = majors.map(makeCard).join('');
+}
+
+// --- Tävlingar-fliken (history-style: tabs + inline tabell) ---
+let _activeTaevlingId = null;
+
+function renderTaevlingar() {
+  const deltavlingar = rounds.filter(r => r.type === 'deltavling');
+  const majors = rounds.filter(r => r.type === 'major');
+
+  const makeTab = r => {
+    const hasResults = r.results && r.results.length > 0;
+    const isActive = r.status === 'active';
+    const enabled = hasResults || isActive;
+
+    let statusHtml = '';
+    if (isActive) statusHtml = `<span class="taevling-tab-status active-round">● Pågår</span>`;
+    else if (r.status === 'done' && hasResults) statusHtml = `<span class="taevling-tab-status done">Spelad</span>`;
+
+    const cls = `taevling-tab${r.type === 'major' ? ' major' : ''}${enabled ? '' : ' disabled'}${_activeTaevlingId === r.id ? ' active' : ''}`;
+    const clickAttr = enabled ? `onclick="selectTaevling(${r.id}, this)"` : '';
+    return `<button class="${cls}" data-round-id="${r.id}" ${clickAttr}>
+      <span class="taevling-tab-month">${r.month}</span>
+      <span>${r.name}</span>
+      ${statusHtml}
+    </button>`;
+  };
+
+  const dTabs = document.getElementById('taevling-tabs-deltavling');
+  const mTabs = document.getElementById('taevling-tabs-major');
+  if (dTabs) dTabs.innerHTML = deltavlingar.map(makeTab).join('');
+  if (mTabs) mTabs.innerHTML = majors.map(makeTab).join('');
+
+  // Välj första klickbara tävling som default
+  if (_activeTaevlingId == null) {
+    const firstClickable = rounds.find(r => (r.results && r.results.length > 0) || r.status === 'active');
+    if (firstClickable) _activeTaevlingId = firstClickable.id;
+  } else {
+    const r = rounds.find(x => x.id === _activeTaevlingId);
+    if (!r || (!(r.results && r.results.length > 0) && r.status !== 'active')) {
+      _activeTaevlingId = null;
+      const firstClickable = rounds.find(r => (r.results && r.results.length > 0) || r.status === 'active');
+      if (firstClickable) _activeTaevlingId = firstClickable.id;
+    }
+  }
+
+  document.querySelectorAll('.taevling-tab').forEach(b => {
+    b.classList.toggle('active', Number(b.dataset.roundId) === _activeTaevlingId);
+  });
+
+  renderTaevlingResult();
+}
+
+function selectTaevling(id, btn) {
+  _activeTaevlingId = id;
+  document.querySelectorAll('.taevling-tab').forEach(b => b.classList.remove('active'));
+  if (btn) btn.classList.add('active');
+  renderTaevlingResult();
+}
+
+function renderTaevlingResult() {
+  const wrap = document.getElementById('taevling-result-wrap');
+  if (!wrap) return;
+  if (_activeTaevlingId == null) {
+    wrap.innerHTML = `<div class="taevling-result-card"><div class="taevling-result-empty">Inga registrerade resultat ännu. Välj en tävling när den har spelats.</div></div>`;
+    return;
+  }
+  const r = rounds.find(x => x.id === _activeTaevlingId);
+  if (!r) { wrap.innerHTML = ''; return; }
+
+  const isMajor = r.type === 'major';
+  const hasResults = r.results && r.results.length > 0;
+
+  let bodyHtml;
+  if (!hasResults) {
+    bodyHtml = `<div class="taevling-result-empty">Inga resultat inlagda än för denna tävling.</div>`;
+  } else {
+    const sk = isMajor ? 'netto' : 'score';
+    const ptTable = isMajor ? MAJOR_POINTS : DELTA_POINTS;
+    const sorted = [...r.results].sort((a, b) => {
+      const sa = a[sk] ?? -Infinity, sb = b[sk] ?? -Infinity;
+      if (sb !== sa) return sb - sa;
+      return (a.hcp ?? 999) - (b.hcp ?? 999);
+    });
+    const scoreHeader = isMajor ? 'Slag (Netto)' : 'Poäng';
+
+    const rows = sorted.map((row, i) => {
+      const pos = i + 1;
+      const rankCls = pos === 1 ? 'rank-1' : pos === 2 ? 'rank-2' : pos === 3 ? 'rank-3' : pos === 4 ? 'rank-4' : pos === 5 ? 'rank-5' : 'rank-other';
+      const nameCls = pos <= 3 ? 'player-name top-3' : pos <= 5 ? 'player-name top-5' : 'player-name';
+      const scoreVal = isMajor ? (row.netto ?? '–') : (row.score ?? '–');
+      const roundPts = row[sk] != null ? (ptTable[i] ?? 0) : '–';
+      const safeName = row.name.replace(/'/g, "\\'");
+      return `<tr class="${rankCls}">
+        <td><span class="rank-badge">${pos}</span></td>
+        <td class="player-col"><span class="sc-clickable ${nameCls}" onclick="openScorecardInline(${r.id}, '${safeName}')">${row.name}</span></td>
+        <td>${row.hcp ?? '–'}</td>
+        <td>${scoreVal}</td>
+        <td><span class="points-value">${roundPts}</span></td>
+      </tr>`;
+    }).join('');
+
+    bodyHtml = `<div class="taevling-result-table-wrap">
+      <table class="leaderboard-table" style="border:none;border-radius:0;">
+        <thead>
+          <tr>
+            <th style="width:52px;">#</th>
+            <th class="player-col">Spelare</th>
+            <th>SHC</th>
+            <th>${scoreHeader}</th>
+            <th>Poäng</th>
+          </tr>
+        </thead>
+        <tbody>${rows}</tbody>
+      </table>
+    </div>`;
+  }
+
+  const dateLabel = roundDateLabel(r);
+  const typeLabel = isMajor ? 'Major' : 'Deltävling';
+
+  wrap.innerHTML = `<div class="taevling-result-card">
+    <div class="taevling-result-header">
+      <div>
+        <div class="taevling-result-title">${r.month} – ${r.name}</div>
+        <div class="taevling-result-sub">⛳ ${r.course}&nbsp;&nbsp;·&nbsp;&nbsp;📅 ${dateLabel}</div>
+      </div>
+      <div class="taevling-result-meta">
+        <span>${typeLabel} · 1:a plats</span>
+        <b>${r.topPrize} p</b>
+      </div>
+    </div>
+    ${bodyHtml}
+  </div>`;
 }
 
 // ===================== RESULT OVERLAY =====================
@@ -3105,6 +3351,12 @@ function scStrokeClass(strokes, par) {
   if (diff === 1) return 'bogey';
   if (diff === 2) return 'double';
   return 'other';
+}
+
+// Öppna scorekort från inline-tabellen på Tävlingar-sidan (utan att återöppna modal vid stängning)
+function openScorecardInline(roundId, playerName) {
+  window._lastResultId = null;
+  openScorecard(roundId, playerName);
 }
 
 function openScorecard(roundId, playerName) {
